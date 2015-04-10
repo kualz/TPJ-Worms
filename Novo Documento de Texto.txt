@@ -1,0 +1,33 @@
+tema/genero/publico alvo
+
+personagens
+
+historia - Previa(como o mundo chegou ao inicio da historia) - Contada(durante o jogo)
+
+interaçao(o que é suposto fazer no jogo)
+
+
+Classes
+
+. Characters
+. Characters handler
+. Weapons
+. Weapons handler
+. Maps
+. Maps Handler
+. Colissions Handler
+
+Clever things to do: 
+
+. Diferent characters with their own special weapon, unlocked at some point.
+. 
+. CONTENT HANDLER IMPORTANTE!!!!!!!!!!!!!
+. Menu
+	.Play
+		.Players Selection
+			.Character Selection
+				.Map Selection
+	.Options
+		.Music Volume
+		.SFX Volume
+	.Exit
