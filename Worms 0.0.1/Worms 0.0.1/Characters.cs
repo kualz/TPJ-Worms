@@ -34,6 +34,7 @@ namespace Worms_0._0._1
         {
 
         }
+
         public void Update(GameTime gameTime)
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -58,6 +59,12 @@ namespace Worms_0._0._1
         {
 
         }
+
+        public Vector2 CharacterPosition()
+        {
+            return CharacterPos;
+        }
+
         public void UnlockSpecialWeapon()
         {
             SpecialWeapon = true;
