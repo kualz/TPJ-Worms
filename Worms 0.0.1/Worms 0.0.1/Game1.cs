@@ -10,9 +10,6 @@ using Microsoft.Xna.Framework.Storage;
 
 namespace Worms_0._0._1
 {
-    /// <summary>
-    /// This is the main type for your game
-    /// </summary>
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
@@ -25,8 +22,8 @@ namespace Worms_0._0._1
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferHeight = 1280;
-            graphics.PreferredBackBufferWidth = 720;
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = 1280;
             Content.RootDirectory = "Content";
 
         }
@@ -68,7 +65,9 @@ namespace Worms_0._0._1
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
+            
             spriteBatch.Begin();
+
             weapon.Draw(spriteBatch);
             spriteBatch.End();
 
