@@ -53,7 +53,6 @@ namespace Worms_0._0._1
             {
                 nextPosition = new Vector2(CharacterPos.X - speed * deltaTime, CharacterPos.Y);
             }
-
         }
         public void Draw(GameTime gameTime)
         {
