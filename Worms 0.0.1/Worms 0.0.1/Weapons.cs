@@ -20,7 +20,6 @@ namespace Worms_0._0._1
         protected int Magazine;
         protected float range;
         protected Vector2 PositionRelativeToCharacter;
-        protected MouseState mouse;
         protected float rotation;
         protected Texture2D textura;
         private Rectangle rec;
@@ -30,6 +29,11 @@ namespace Worms_0._0._1
         /// </summary>
         protected int TextureWidth = 10, TextureWheight = 15;
         //==================================================
+
+        public Weapons()
+        {
+
+        }
 
         public Weapons(string name, Characters Char)
         {
@@ -54,10 +58,10 @@ namespace Worms_0._0._1
             //x y rato
             Point mousePos = mState.Position;
 
-            float y = (float)Math.Abs(mousePos.Y - PositionRelativeToCharacter.Y);
-            float x = (float)Math.Abs(mousePos.X - PositionRelativeToCharacter.X);
-            float rot = (float)Math.Atan2(x, y);
-            rot += (float)Math.PI/1f;
+            float y = (float)mousePos.Y - PositionRelativeToCharacter.Y;
+            float x = (float)PositionRelativeToCharacter.X - mousePos.X;
+            float rot = (float)Math.Atan2(x,y);
+            rot += (float)Math.PI;
             rotation = rot;
 
             //rever

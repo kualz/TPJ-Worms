@@ -42,7 +42,8 @@ namespace Worms_0._0._1
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             activeChar = new Characters(new Vector2(150, 150));
-            weapon = new Weapons("Killerino", activeChar);
+            WeaponsHandler.InitList(activeChar, Content);
+            weapon = WeaponsHandler.GetWeapon(0);
             weapon.Load(Content, "WeaponRifle");
         }
 
