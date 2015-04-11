@@ -23,7 +23,6 @@ namespace Worms_0._0._1
         protected MouseState mouse;
         protected float rotation;
         protected Texture2D textura;
-        private Point mousePos;
         private Rectangle rec;
         //MUDAR ISTO RELATIVAMENTE AS TEXTURAS!
         /// <summary>
@@ -47,22 +46,20 @@ namespace Worms_0._0._1
         public void Update(GameTime gameTime, Characters Char)
         {
 
-            MouseState mState = Mouse.GetState();
-
             Vector2 nextPosition = PositionRelativeToCharacter;
-            nextPosition = new Vector2(PositionRelativeToCharacter.X -  mousePos.X, PositionRelativeToCharacter.Y - mousePos.Y);
+            nextPosition = new Vector2(PositionRelativeToCharacter.X, PositionRelativeToCharacter.Y);
 
             //rever
+            MouseState mState = Mouse.GetState();
             //x y rato
-            mousePos = mState.Position;
+            Point mousePos = mState.Position;
 
-            double x = Math.Abs(mousePos.X - PositionRelativeToCharacter.X);
-            double y = Math.Abs(PositionRelativeToCharacter.Y - mousePos.Y);
+            float y = (float)Math.Abs(mousePos.Y - PositionRelativeToCharacter.Y);
+            float x = (float)Math.Abs(mousePos.X - PositionRelativeToCharacter.X);
+            float rot = (float)Math.Atan2(x, y);
+            rot += (float)Math.PI/1f;
+            rotation = rot;
 
-            //double hypo = Math.Pow(mousePos.X, 2) + Math.Pow(y, 2);
-            //double result = Math.Sqrt(hypo);
-
-            rotation = (float)(Math.Atan(y/x) * 180 / Math.PI);
             //rever
             rec = new Rectangle((int)PositionRelativeToCharacter.X, (int)PositionRelativeToCharacter.Y, 10, 15);
         }
