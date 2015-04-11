@@ -24,17 +24,18 @@ namespace Worms_0._0._1
         protected float rotation;
         protected Texture2D textura;
         private Point mousePos;
+        private Rectangle rec;
         //MUDAR ISTO RELATIVAMENTE AS TEXTURAS!
         /// <summary>
         ///basicamente ver o tamanho das texturas dos characters!!!
         /// </summary>
-        protected int TextureWidth = 20, TextureWheight = 40;
+        protected int TextureWidth = 10, TextureWheight = 15;
         //==================================================
 
         public Weapons(string name, Characters Char)
         {
             this.Name = name; 
-            this.PositionRelativeToCharacter = new Vector2(Char.CharacterPosition().X + (TextureWidth - 2), Char.CharacterPosition().Y - (this.TextureWheight/2));
+            this.PositionRelativeToCharacter = new Vector2(Char.CharacterPosition().X, Char.CharacterPosition().Y);
             rotation = 0f;
         }
 
@@ -49,25 +50,26 @@ namespace Worms_0._0._1
             MouseState mState = Mouse.GetState();
 
             Vector2 nextPosition = PositionRelativeToCharacter;
-            nextPosition = new Vector2(PositionRelativeToCharacter.X, PositionRelativeToCharacter.Y);
+            nextPosition = new Vector2(PositionRelativeToCharacter.X -  mousePos.X, PositionRelativeToCharacter.Y - mousePos.Y);
 
             //rever
             //x y rato
             mousePos = mState.Position;
 
-            double x = mousePos.X - PositionRelativeToCharacter.X;
-            double y = PositionRelativeToCharacter.Y - mousePos.Y;
+            double x = Math.Abs(mousePos.X - PositionRelativeToCharacter.X);
+            double y = Math.Abs(PositionRelativeToCharacter.Y - mousePos.Y);
 
-            double hypo = Math.Pow(x,2) + Math.Pow(y,2);
-            double result = Math.Sqrt(hypo);
+            //double hypo = Math.Pow(mousePos.X, 2) + Math.Pow(y, 2);
+            //double result = Math.Sqrt(hypo);
 
-            rotation = (float)(Math.Atan(result) * 180 / Math.PI);
+            rotation = (float)(Math.Atan(y/x) * 180 / Math.PI);
             //rever
+            rec = new Rectangle((int)PositionRelativeToCharacter.X, (int)PositionRelativeToCharacter.Y, 10, 15);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this.textura, this.PositionRelativeToCharacter, null, Color.White, this.rotation, new Vector2(PositionRelativeToCharacter.X / 2, PositionRelativeToCharacter.Y), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(this.textura, this.PositionRelativeToCharacter, rec , Color.White, this.rotation, new Vector2(PositionRelativeToCharacter.X / 2, PositionRelativeToCharacter.Y), 1f, SpriteEffects.None, 0f);
         }
     }
 }
