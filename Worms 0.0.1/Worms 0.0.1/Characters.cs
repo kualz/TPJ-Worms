@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -59,9 +60,9 @@ namespace Worms_0._0._1
 
             CharacterPos = nextPosition;
         }
-        public void Draw(GameTime gameTime)
+        public void Draw(SpriteBatch spritebatch)
         {
-
+        
         }
 
         public Vector2 CharacterPosition()

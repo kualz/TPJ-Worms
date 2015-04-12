@@ -35,9 +35,11 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Camera2D.cs" />
     <Compile Include="Characters.cs" />
     <Compile Include="CharactersHandler.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Map.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Weapons and projectiles\Projectiles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
