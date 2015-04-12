@@ -34,14 +34,19 @@ namespace Worms_0._0._1
             return PoliceStationBasement[Rndp];
         }
 
-        static public string WeaponName(int weaponCode)
+        static public Weapons _GetWeapon(int weapon)
         {
-            foreach(Weapons weapon in PoliceStationBasement){
-                if (weaponCode == weapon.getSerialNumber())
-                    return weapon.getName();
-                else return NamesAndStuff[0];
+            return PoliceStationBasement[weapon];
+        }
+
+        static public Weapons getActiveWeapon()
+        {
+            for (int i = 0; i < PoliceStationBasement.Count(); i++)
+            {
+                if (PoliceStationBasement[i].getWeaponState() == true)
+                    return PoliceStationBasement[i];
             }
-            return NamesAndStuff[0];
+            return null;
         }
 
         static public Weapons GetWeapon(int Weapon)

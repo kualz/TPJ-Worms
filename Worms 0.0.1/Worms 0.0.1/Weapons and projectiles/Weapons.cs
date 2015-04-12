@@ -58,10 +58,7 @@ namespace Worms_0._0._1
 
         public void Update(GameTime gameTime, Characters Char)
         {
-
-            Vector2 nextPosition;
-            nextPosition = new Vector2(PositionRelativeToCharacter.X, PositionRelativeToCharacter.Y);
-            PositionRelativeToCharacter = nextPosition;
+            PositionRelativeToCharacter = new Vector2(PositionRelativeToCharacter.X, PositionRelativeToCharacter.Y); ;
 
             if (Keyboard.GetState().IsKeyDown(Keys.D1)){
                 weaponCodeChoosen = 0;
@@ -109,8 +106,7 @@ namespace Worms_0._0._1
             else this.activeState = false;
         }
 
-        public WeaponType getWeaponType()
-        {
+        public WeaponType getWeaponType(){
             return this.WeaponTypes;
         }
 

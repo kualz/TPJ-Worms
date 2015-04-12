@@ -38,7 +38,10 @@ namespace Worms_0._0._1
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            activeChar = new Characters(new Vector2(150, 150));
+            CharactersHandler.InitList(Content);
+            activeChar = CharactersHandler.getCharacter(1);
+            activeChar.SetCharacterPosition(new Vector2(600, 350));
+            activeChar.Load(Content);
             WeaponsHandler.InitList(activeChar, Content);
             weapon = WeaponsHandler.GetWeapon(0);
             weapon.Load(Content, "WeaponRifle");
@@ -56,6 +59,7 @@ namespace Worms_0._0._1
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            activeChar.Update(gameTime);
             weapon.Update(gameTime, activeChar);
 
             base.Update(gameTime);
@@ -67,7 +71,7 @@ namespace Worms_0._0._1
             GraphicsDevice.Clear(Color.Black);
             
             spriteBatch.Begin();
-
+            activeChar.Draw(spriteBatch);
             weapon.Draw(spriteBatch);
             spriteBatch.End();
 

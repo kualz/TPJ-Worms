@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -10,10 +11,12 @@ namespace Worms_0._0._1
 {
     class Characters
     {
-        private bool SpecialWeapon, CharacterInPlay;
-        private string CharacterName;
-        private Vector2 CharacterPos;
-        private float speed;
+        private Texture2D textura;
+
+        protected bool SpecialWeapon, CharacterInPlay;
+        protected string CharacterName;
+        protected Vector2 CharacterPos;
+        protected float speed;
         public CharacterState WormState;
         public enum CharacterState
         {
@@ -22,6 +25,9 @@ namespace Worms_0._0._1
             Airborne,
             OnTheGround
         };
+
+        public Characters()
+        { }
 
         public Characters(string name)
         {
@@ -32,9 +38,9 @@ namespace Worms_0._0._1
             WormState = CharacterState.OnTheGround;
         }
 
-        public void Load()
+        public void Load(ContentManager content)
         {
-
+            textura = content.Load<Texture2D>("WeaponRifle");
         }
 
         public void Update(GameTime gameTime)
@@ -57,12 +63,11 @@ namespace Worms_0._0._1
                 nextPosition = new Vector2(CharacterPos.X - speed * deltaTime, -0.5f * (CharacterPos.X - speed * deltaTime) * (CharacterPos.X - speed * deltaTime) + (CharacterPos.X - speed * deltaTime));
             }
             //colocar colisoes com o chao e alterar o estado para ontheground.
-
             CharacterPos = nextPosition;
         }
         public void Draw(SpriteBatch spritebatch)
         {
-        
+            spritebatch.Draw(textura , new Rectangle((int)CharacterPos.X, (int)CharacterPos.Y, 15, 30), Color.White);
         }
 
         public Vector2 CharacterPosition()
@@ -77,6 +82,5 @@ namespace Worms_0._0._1
         {
             SpecialWeapon = true;
         }
-
     }
 }
