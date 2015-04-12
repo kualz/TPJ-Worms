@@ -13,11 +13,12 @@ namespace Worms_0._0._1
     {
         private Texture2D textura;
 
-        protected bool SpecialWeapon, CharacterInPlay;
+        protected bool SpecialWeapon, CharacterInPlay, hasjumped;
         protected string CharacterName;
         protected Vector2 CharacterPos;
         protected float speed;
         public CharacterState WormState;
+        public Vector2 velocity;
         public enum CharacterState
         {
             GoingRight,
@@ -36,6 +37,8 @@ namespace Worms_0._0._1
             CharacterInPlay = false;
             speed = 100f;
             WormState = CharacterState.OnTheGround;
+            hasjumped = false;
+
         }
 
         public void Load(ContentManager content)
@@ -44,26 +47,32 @@ namespace Worms_0._0._1
         }
 
         public void Update(GameTime gameTime)
-        {
-            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            Vector2 nextPosition = CharacterPos;
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
+        {      
+            CharacterPos += velocity;
+
+            if (Keyboard.GetState().IsKeyDown(Keys.A)) velocity.X = -3f;
+            else if (Keyboard.GetState().IsKeyDown(Keys.D)) velocity.X = 3f;
+            else velocity.X = 0f;
+
+            if (Keyboard.GetState().IsKeyDown(Keys.W) && hasjumped == false)
             {
-                WormState = CharacterState.GoingLeft;
-                nextPosition = new Vector2(CharacterPos.X - speed * deltaTime, CharacterPos.Y);
+                CharacterPos.Y -= 10f;
+                velocity.Y = -5f;
+                hasjumped = true;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
+            if (hasjumped == true)
             {
-                WormState = CharacterState.GoingRight;
-                nextPosition = new Vector2(CharacterPos.X + speed * deltaTime, CharacterPos.Y);
-            }         
-            if (Keyboard.GetState().IsKeyDown(Keys.W)) WormState = CharacterState.Airborne;
-            if (WormState == CharacterState.Airborne)
-            {
-                nextPosition = new Vector2(CharacterPos.X - speed * deltaTime, -0.5f * (CharacterPos.X - speed * deltaTime) * (CharacterPos.X - speed * deltaTime) + (CharacterPos.X - speed * deltaTime));
+                float i = 1;
+                velocity.Y += 0.15f * i;
             }
-            //colocar colisoes com o chao e alterar o estado para ontheground.
-            CharacterPos = nextPosition;
+            if (hasjumped == false)        
+                velocity.Y = 0f;
+
+            //APENAS PARA TESTE
+            if (CharacterPos.Y > 350)
+                hasjumped = false;
+            
+
         }
         public void Draw(SpriteBatch spritebatch)
         {
