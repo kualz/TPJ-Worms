@@ -10,6 +10,7 @@ namespace Worms_0._0._1
     class Characters
     {
         private bool SpecialWeapon, CharacterInPlay;
+        private string CharacterName;
         private Vector2 CharacterPos;
         private float speed;
         public CharacterState WormState;
@@ -21,11 +22,11 @@ namespace Worms_0._0._1
             OnTheGround
         };
 
-        public Characters(Vector2 pos)
+        public Characters(string name)
         {
+            CharacterName = name;
             SpecialWeapon = false;
             CharacterInPlay = false;
-            CharacterPos = pos;
             speed = 100f;
             WormState = CharacterState.OnTheGround;
         }
@@ -39,20 +40,24 @@ namespace Worms_0._0._1
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             Vector2 nextPosition = CharacterPos;
-
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
+                WormState = CharacterState.GoingLeft;
                 nextPosition = new Vector2(CharacterPos.X - speed * deltaTime, CharacterPos.Y);
             }
             if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
+                WormState = CharacterState.GoingRight;
                 nextPosition = new Vector2(CharacterPos.X + speed * deltaTime, CharacterPos.Y);
             }         
             if (Keyboard.GetState().IsKeyDown(Keys.W)) WormState = CharacterState.Airborne;
             if (WormState == CharacterState.Airborne)
             {
-                nextPosition = new Vector2(CharacterPos.X - speed * deltaTime, CharacterPos.Y);
+                nextPosition = new Vector2(CharacterPos.X - speed * deltaTime, -0.5f * (CharacterPos.X - speed * deltaTime) * (CharacterPos.X - speed * deltaTime) + (CharacterPos.X - speed * deltaTime));
             }
+            //colocar colisoes com o chao e alterar o estado para ontheground.
+
+            CharacterPos = nextPosition;
         }
         public void Draw(GameTime gameTime)
         {
@@ -63,7 +68,10 @@ namespace Worms_0._0._1
         {
             return CharacterPos;
         }
-
+        public void SetCharacterPosition(Vector2 pos)
+        {
+            CharacterPos = pos;
+        }
         public void UnlockSpecialWeapon()
         {
             SpecialWeapon = true;
