@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 
 namespace Worms_0._0._1
 {
@@ -22,24 +23,20 @@ namespace Worms_0._0._1
         protected static int previousWeapon = 0;
         protected Vector2 PositionRelativeToCharacter;
         protected float rotation;
-
-
         protected Texture2D textura;
         private SpriteFont font;
-
         private Rectangle rec;
         protected bool activeState;
         protected int SerialNumber, weaponCodeChoosen = 0;
-        //MUDAR ISTO RELATIVAMENTE AS TEXTURAS!
-        /// <summary>
-        ///basicamente ver o tamanho das texturas dos characters!!!
-        /// </summary>
         protected int TextureWidth = 10, TextureWheight = 15;
-        //==================================================
+        private List<Projectiles> AmmoCrate = new List<Projectiles>();
+        private Projectiles ammo;
+        private bool ammoIsvisivble=false;
+
 
         public Weapons(){ }
 
-        public Weapons(string name, int serialNumber, Characters Char, WeaponType weaponType)
+        public Weapons(string name, int serialNumber, Characters Char, WeaponType weaponType, Projectiles.AmmoType ammotyperino)
         {
             this.SerialNumber = serialNumber;
             this.Name = name; 
@@ -47,10 +44,12 @@ namespace Worms_0._0._1
             this.WeaponTypes = weaponType;
             rotation = 0f;
             this.activeState = false;
+            this.ammo = new Projectiles(ammotyperino, this.rotation);
         }
 
         public void Load(ContentManager content, string asset)
         {
+            ammo.load(content);
             textura = content.Load<Texture2D>(asset);
             font = content.Load<SpriteFont>("MyFont");
         }
@@ -58,14 +57,23 @@ namespace Worms_0._0._1
         public void Update(GameTime gameTime, Characters Char)
         {
             Input.Update();
+            MouseState mState = Mouse.GetState();
             PositionRelativeToCharacter = new Vector2(Char.CharacterPosition().X + 5, Char.CharacterPosition().Y);
 
-
+            if(mState.LeftButton == ButtonState.Pressed)
+            {
+                if (WeaponsHandler.getActiveWeapon().getWeaponType() == WeaponType.GrenadeLauncher) { }
+                else if (WeaponsHandler.getActiveWeapon().getWeaponType() == WeaponType.MachineGun) {
+                    ammo.UpdateCal32(gameTime);    
+                }
+                else if (WeaponsHandler.getActiveWeapon().getWeaponType() == WeaponType.Rocket) { }
+                else if (WeaponsHandler.getActiveWeapon().getWeaponType() == WeaponType.ShotGun) { }
+                ammoIsvisivble = true;
+            }
             if (Input.IsPressed(Keys.D1)){
                 weaponCodeChoosen = 0;
                 WeaponsHandler.GetWeapon(weaponCodeChoosen);
                 previousWeapon = 0;
-
                 //''''''''''''
                 //test only!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 //Console.WriteLine("Weapon 1 Type: " + WeaponsHandler._GetWeapon(0).getWeaponState());
@@ -75,6 +83,7 @@ namespace Worms_0._0._1
                 Console.WriteLine("\n");
                 Console.WriteLine("Active weapon Name " + WeaponsHandler.getActiveWeapon().getName());
                 Console.WriteLine("Active weapon angle: " + rotation);
+                Console.WriteLine("Ammo Type: " + WeaponsHandler.getActiveWeapon().ammo.getAmmoType().ToString());
                 Console.WriteLine("\n");
                 //test only!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 //''''''''''''
@@ -93,13 +102,11 @@ namespace Worms_0._0._1
                 Console.WriteLine("\n");
                 Console.WriteLine("Active weapon Name: " + WeaponsHandler.getActiveWeapon().getName());
                 Console.WriteLine("Active weapon angle: " + rotation);
+                Console.WriteLine("Ammo Type: " + WeaponsHandler.getActiveWeapon().ammo.getAmmoType().ToString());
                 Console.WriteLine("\n");
                 //test only!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 //''''''''''''
             }
-               
-            //rever
-            MouseState mState = Mouse.GetState();
 
             //x y rato
             Point mousePos = mState.Position;
@@ -109,8 +116,6 @@ namespace Worms_0._0._1
             rot += (float)Math.PI/2f;
             //Console.WriteLine("Angle: " + rot);
             rotation = rot;
-            //rever
-
             rec = new Rectangle((int)PositionRelativeToCharacter.X, (int)PositionRelativeToCharacter.Y, 10, 15);
         }
 
@@ -122,6 +127,21 @@ namespace Worms_0._0._1
 
             spriteBatch.DrawString(font, "test\nPress 1 - first weapon" , new Vector2(200f, 550f), Color.White);
             spriteBatch.DrawString(font, "Press 2 - second weapon", new Vector2(200f, 600f), Color.White);
+            if (ammoIsvisivble == true)
+            {
+                if (WeaponsHandler.getActiveWeapon().getWeaponType() == WeaponType.GrenadeLauncher) {
+                    ammo.drawNade(spriteBatch);
+                }
+                else if (WeaponsHandler.getActiveWeapon().getWeaponType() == WeaponType.MachineGun){
+                    ammo.drawCal32(spriteBatch);
+                }
+                else if (WeaponsHandler.getActiveWeapon().getWeaponType() == WeaponType.Rocket) {
+                    ammo.drawRocket(spriteBatch);
+                }
+                else if (WeaponsHandler.getActiveWeapon().getWeaponType() == WeaponType.ShotGun) {
+                    ammo.drawChell(spriteBatch);
+                }
+            }
         }
 
         public string getName(){
