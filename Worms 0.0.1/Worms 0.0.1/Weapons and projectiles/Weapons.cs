@@ -58,7 +58,7 @@ namespace Worms_0._0._1
 
         public void Update(GameTime gameTime, Characters Char)
         {
-            PositionRelativeToCharacter = new Vector2(PositionRelativeToCharacter.X, PositionRelativeToCharacter.Y); ;
+            PositionRelativeToCharacter = new Vector2(Char.CharacterPosition().X, Char.CharacterPosition().Y); ;
 
             if (Keyboard.GetState().IsKeyDown(Keys.D1)){
                 weaponCodeChoosen = 0;
@@ -84,7 +84,7 @@ namespace Worms_0._0._1
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this.textura, PositionRelativeToCharacter, null , Color.White, this.rotation, new Vector2(0, 5), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(this.textura, PositionRelativeToCharacter, null , Color.White, this.rotation, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             spriteBatch.DrawString(font, "Weapon Name: " + WeaponsHandler.GetWeapon(weaponCodeChoosen).getName(), new Vector2(500f, 500f), Color.White);
             spriteBatch.DrawString(font, "Weapon Type: " + WeaponsHandler.GetWeapon(weaponCodeChoosen).getWeaponType().ToString(), new Vector2(500f, 525f), Color.White);
 
