@@ -21,10 +21,10 @@ namespace Worms_0._0._1
             NamesAndStuff.Add("KABOOM");
 
 
-            PoliceStationBasement.Add(new Weapons(NamesAndStuff[1], 1, CharacterActive, WeaponType.MachineGun, Projectiles.AmmoType.cal22));
-            PoliceStationBasement.Add(new Weapons(NamesAndStuff[2], 5, CharacterActive, WeaponType.ShotGun, Projectiles.AmmoType.chell));
-            PoliceStationBasement.Add(new Weapons(NamesAndStuff[3], 3, CharacterActive, WeaponType.Rocket, Projectiles.AmmoType.rocket));
-            PoliceStationBasement.Add(new Weapons(NamesAndStuff[4], 4, CharacterActive, WeaponType.GrenadeLauncher, Projectiles.AmmoType.nade));
+            PoliceStationBasement.Add(new Weapons(NamesAndStuff[1], 1, CharacterActive, WeaponType.MachineGun));
+            PoliceStationBasement.Add(new Weapons(NamesAndStuff[2], 5, CharacterActive, WeaponType.ShotGun));
+            PoliceStationBasement.Add(new Weapons(NamesAndStuff[3], 3, CharacterActive, WeaponType.Rocket));
+            PoliceStationBasement.Add(new Weapons(NamesAndStuff[4], 4, CharacterActive, WeaponType.GrenadeLauncher));
             PoliceStationBasement[0].setWeaponState();
         }
 

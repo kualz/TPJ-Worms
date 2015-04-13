@@ -36,7 +36,7 @@ namespace Worms_0._0._1
 
         public Weapons(){ }
 
-        public Weapons(string name, int serialNumber, Characters Char, WeaponType weaponType, Projectiles.AmmoType ammotyperino)
+        public Weapons(string name, int serialNumber, Characters Char, WeaponType weaponType)
         {
             this.SerialNumber = serialNumber;
             this.Name = name; 
@@ -44,12 +44,11 @@ namespace Worms_0._0._1
             this.WeaponTypes = weaponType;
             rotation = 0f;
             this.activeState = false;
-            this.ammo = new Projectiles(ammotyperino, this.rotation);
         }
 
         public void Load(ContentManager content, string asset)
         {
-            ammo.load(content);
+            //ammo.load(content);
             textura = content.Load<Texture2D>(asset);
             font = content.Load<SpriteFont>("MyFont");
         }
@@ -62,13 +61,7 @@ namespace Worms_0._0._1
 
             if(mState.LeftButton == ButtonState.Pressed)
             {
-                if (WeaponsHandler.getActiveWeapon().getWeaponType() == WeaponType.GrenadeLauncher) { }
-                else if (WeaponsHandler.getActiveWeapon().getWeaponType() == WeaponType.MachineGun) {
-                    ammo.UpdateCal32(gameTime);    
-                }
-                else if (WeaponsHandler.getActiveWeapon().getWeaponType() == WeaponType.Rocket) { }
-                else if (WeaponsHandler.getActiveWeapon().getWeaponType() == WeaponType.ShotGun) { }
-                ammoIsvisivble = true;
+
             }
             if (Input.IsPressed(Keys.D1)){
                 weaponCodeChoosen = 0;
@@ -83,7 +76,7 @@ namespace Worms_0._0._1
                 Console.WriteLine("\n");
                 Console.WriteLine("Active weapon Name " + WeaponsHandler.getActiveWeapon().getName());
                 Console.WriteLine("Active weapon angle: " + rotation);
-                Console.WriteLine("Ammo Type: " + WeaponsHandler.getActiveWeapon().ammo.getAmmoType().ToString());
+                //Console.WriteLine("Ammo Type: " + WeaponsHandler.getActiveWeapon().ammo.getAmmoType().ToString());
                 Console.WriteLine("\n");
                 //test only!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 //''''''''''''
@@ -102,7 +95,7 @@ namespace Worms_0._0._1
                 Console.WriteLine("\n");
                 Console.WriteLine("Active weapon Name: " + WeaponsHandler.getActiveWeapon().getName());
                 Console.WriteLine("Active weapon angle: " + rotation);
-                Console.WriteLine("Ammo Type: " + WeaponsHandler.getActiveWeapon().ammo.getAmmoType().ToString());
+                //Console.WriteLine("Ammo Type: " + WeaponsHandler.getActiveWeapon().ammo.getAmmoType().ToString());
                 Console.WriteLine("\n");
                 //test only!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 //''''''''''''
@@ -129,18 +122,7 @@ namespace Worms_0._0._1
             spriteBatch.DrawString(font, "Press 2 - second weapon", new Vector2(200f, 600f), Color.White);
             if (ammoIsvisivble == true)
             {
-                if (WeaponsHandler.getActiveWeapon().getWeaponType() == WeaponType.GrenadeLauncher) {
-                    ammo.drawNade(spriteBatch);
-                }
-                else if (WeaponsHandler.getActiveWeapon().getWeaponType() == WeaponType.MachineGun){
-                    ammo.drawCal32(spriteBatch);
-                }
-                else if (WeaponsHandler.getActiveWeapon().getWeaponType() == WeaponType.Rocket) {
-                    ammo.drawRocket(spriteBatch);
-                }
-                else if (WeaponsHandler.getActiveWeapon().getWeaponType() == WeaponType.ShotGun) {
-                    ammo.drawChell(spriteBatch);
-                }
+              
             }
         }
 
@@ -164,6 +146,10 @@ namespace Worms_0._0._1
 
         public int getSerialNumber(){
             return this.SerialNumber;
+        }
+
+        public float getRotation(){
+            return rotation;
         }
     }
 }

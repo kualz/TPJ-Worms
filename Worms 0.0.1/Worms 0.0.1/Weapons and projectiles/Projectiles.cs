@@ -11,7 +11,9 @@ namespace Worms_0._0._1
         protected float speed;
         protected Vector2 position;
         private Texture2D[] texturas;
+        private List<string> texturas1 = new List<string>();
         private Vector2 Direction;
+
         public enum AmmoType
         {
             cal22,
@@ -21,55 +23,33 @@ namespace Worms_0._0._1
         }
         protected AmmoType ammotype;
 
+        public Projectiles()
+        { }
 
-        public Projectiles(AmmoType ammoType, float rotation)
+        public Projectiles(AmmoType ammoType, float rotation, string texturaArma)
         {
             this.position = base.PositionRelativeToCharacter;
             this.speed = 100f;
             this.ammotype = ammoType;
             this.Direction = new Vector2((float)Math.Sin(rotation), 
                                          (float)Math.Cos(rotation));
+            texturas1.Add(texturaArma);
         }
 
         public void load(ContentManager content){
             texturas = new Texture2D[4];
-            texturas[0] = content.Load<Texture2D>("teste_Projetil1");
-            texturas[1] = content.Load<Texture2D>("teste_Projetil1");
-            texturas[2] = content.Load<Texture2D>("teste_Projetil1");
-            texturas[3] = content.Load<Texture2D>("teste_Projetil1");
+            texturas[0] = content.Load<Texture2D>(texturas1[0]);
+            texturas[1] = content.Load<Texture2D>(texturas1[1]);
+            texturas[2] = content.Load<Texture2D>(texturas1[2]);
+            texturas[3] = content.Load<Texture2D>(texturas1[3]);
         }
         
-        public void UpdateChell(GameTime gameTime){
+        public void Update(GameTime gameTime, Projectiles updateProjectile){
 
         }
 
-        public void UpdateCal32(GameTime gameTime){
-
-        }
-
-        public void UpdateRocket(GameTime gameTime){
-
-        }
-
-        public void UpdateNade(GameTime gameTime){
-
-        }
-
-
-
-        public void drawCal32(SpriteBatch spriteBatch){
-            spriteBatch.Draw(this.texturas[0], position, null, Color.White);
-        }
-
-        public void drawChell(SpriteBatch spriteBatch){
-
-        }
-
-        public void drawRocket(SpriteBatch spriteBatch){
-
-        }
-
-        public void drawNade(SpriteBatch spriteBatch){
+        public void draw(SpriteBatch spriteBatch)
+        {
 
         }
 
