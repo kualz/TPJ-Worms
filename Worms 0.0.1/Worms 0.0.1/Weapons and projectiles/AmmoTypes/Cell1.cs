@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -7,17 +8,24 @@ using System.Text;
 
 namespace Worms_0._0._1.Weapons_and_projectiles.AmmoTypes
 {
-    class Cell1 : Projectiles
+    class Cell1 : Weapons
     {
-        public Cell1() : base()
+        public Cell1()
+        {
+
+        }
+
+        public void load(ContentManager content)
         {
 
         }
 
         public void Update(GameTime gameTime)
-        { }
+        { 
+        
+        }
 
-        public void draw1(SpriteBatch spriteBatch)
+        public void draw(SpriteBatch spriteBatch)
         {
 
         }

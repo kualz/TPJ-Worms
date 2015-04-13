@@ -29,8 +29,6 @@ namespace Worms_0._0._1
         protected bool activeState;
         protected int SerialNumber, weaponCodeChoosen = 0;
         protected int TextureWidth = 10, TextureWheight = 15;
-        private List<Projectiles> AmmoCrate = new List<Projectiles>();
-        private Projectiles ammo;
         private bool ammoIsvisivble=false;
 
 
@@ -48,7 +46,6 @@ namespace Worms_0._0._1
 
         public void Load(ContentManager content, string asset)
         {
-            //ammo.load(content);
             textura = content.Load<Texture2D>(asset);
             font = content.Load<SpriteFont>("MyFont");
         }
@@ -67,47 +64,17 @@ namespace Worms_0._0._1
                 weaponCodeChoosen = 0;
                 WeaponsHandler.GetWeapon(weaponCodeChoosen);
                 previousWeapon = 0;
-                //''''''''''''
-                //test only!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                //Console.WriteLine("Weapon 1 Type: " + WeaponsHandler._GetWeapon(0).getWeaponState());
-                //Console.WriteLine("Weapon 2 Type: " + WeaponsHandler._GetWeapon(1).getWeaponState());
-                //Console.WriteLine("Weapon 3 Type: " + WeaponsHandler._GetWeapon(2).getWeaponState());
-                //Console.WriteLine("Weapon 4 Type: " + WeaponsHandler._GetWeapon(3).getWeaponState());
-                Console.WriteLine("\n");
-                Console.WriteLine("Active weapon Name " + WeaponsHandler.getActiveWeapon().getName());
-                Console.WriteLine("Active weapon angle: " + rotation);
-                //Console.WriteLine("Ammo Type: " + WeaponsHandler.getActiveWeapon().ammo.getAmmoType().ToString());
-                Console.WriteLine("\n");
-                //test only!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                //''''''''''''
             }
             else if (Input.IsPressed(Keys.D2)){
                 weaponCodeChoosen = 1;
                 WeaponsHandler.GetWeapon(weaponCodeChoosen);
                 previousWeapon = 1;
-
-                //''''''''''''
-                //test only!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                //Console.WriteLine("Weapon 1 Type: " + WeaponsHandler._GetWeapon(0).getWeaponState());
-                //Console.WriteLine("Weapon 2 Type: " + WeaponsHandler._GetWeapon(1).getWeaponState());
-                //Console.WriteLine("Weapon 3 Type: " + WeaponsHandler._GetWeapon(2).getWeaponState());
-                //Console.WriteLine("Weapon 4 Type: " + WeaponsHandler._GetWeapon(3).getWeaponState());
-                Console.WriteLine("\n");
-                Console.WriteLine("Active weapon Name: " + WeaponsHandler.getActiveWeapon().getName());
-                Console.WriteLine("Active weapon angle: " + rotation);
-                //Console.WriteLine("Ammo Type: " + WeaponsHandler.getActiveWeapon().ammo.getAmmoType().ToString());
-                Console.WriteLine("\n");
-                //test only!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                //''''''''''''
             }
-
-            //x y rato
             Point mousePos = mState.Position;
             float y = (float)mousePos.Y - PositionRelativeToCharacter.Y;
             float x = (float)PositionRelativeToCharacter.X - mousePos.X;
             float rot = (float)Math.Atan2(x,y);
             rot += (float)Math.PI/2f;
-            //Console.WriteLine("Angle: " + rot);
             rotation = rot;
             rec = new Rectangle((int)PositionRelativeToCharacter.X, (int)PositionRelativeToCharacter.Y, 10, 15);
         }
@@ -120,10 +87,6 @@ namespace Worms_0._0._1
 
             spriteBatch.DrawString(font, "test\nPress 1 - first weapon" , new Vector2(200f, 550f), Color.White);
             spriteBatch.DrawString(font, "Press 2 - second weapon", new Vector2(200f, 600f), Color.White);
-            if (ammoIsvisivble == true)
-            {
-              
-            }
         }
 
         public string getName(){

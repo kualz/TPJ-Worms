@@ -49,7 +49,7 @@
     <Compile Include="Weapons and projectiles\AmmoTypes\Cell1.cs" />
     <Compile Include="Weapons and projectiles\AmmoTypes\Nade.cs" />
     <Compile Include="Weapons and projectiles\AmmoTypes\Rocket.cs" />
-    <Compile Include="Weapons and projectiles\Projectiles.cs" />
+    <Compile Include="Weapons and projectiles\ProjectilesHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Weapons and projectiles\Weapons.cs" />
     <Compile Include="Weapons and projectiles\WeaponsHandler.cs" />

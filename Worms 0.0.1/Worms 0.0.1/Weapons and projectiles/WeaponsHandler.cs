@@ -20,7 +20,6 @@ namespace Worms_0._0._1
             NamesAndStuff.Add("LOL BOOM");
             NamesAndStuff.Add("KABOOM");
 
-
             PoliceStationBasement.Add(new Weapons(NamesAndStuff[1], 1, CharacterActive, WeaponType.MachineGun));
             PoliceStationBasement.Add(new Weapons(NamesAndStuff[2], 5, CharacterActive, WeaponType.ShotGun));
             PoliceStationBasement.Add(new Weapons(NamesAndStuff[3], 3, CharacterActive, WeaponType.Rocket));
