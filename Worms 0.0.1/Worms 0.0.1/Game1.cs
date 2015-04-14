@@ -25,7 +25,6 @@ namespace Worms_0._0._1
             graphics.PreferredBackBufferHeight = 720;
             graphics.PreferredBackBufferWidth = 1280;
             Content.RootDirectory = "Content";
-
         }
 
        
@@ -45,10 +44,10 @@ namespace Worms_0._0._1
             Player1.SetCharacterPosition(new Vector2(600, 350));
             Player1.Load(Content);
             WeaponsHandler.InitList(Player1, Content);
-           // Player2.SetCharacterPosition(new Vector2(700, 350));
-            //Player2.Load(Content);
+           //Player2.SetCharacterPosition(new Vector2(700, 350));
+           //Player2.Load(Content);
            // WeaponsHandler.InitList(Player2, Content);
-            weapon = WeaponsHandler.GetWeapon(0);
+            weapon = WeaponsHandler.GetWeapon(Player1, 0);
             weapon.Load(Content, "WeaponRifle");
         }
 
@@ -80,8 +79,8 @@ namespace Worms_0._0._1
             
             spriteBatch.Begin();
             Player1.Draw(spriteBatch);
-           // Player2.Draw(spriteBatch);
-            weapon.Draw(spriteBatch);
+            //Player2.Draw(spriteBatch);
+            weapon.Draw(spriteBatch, Player1);
             spriteBatch.End();
 
 

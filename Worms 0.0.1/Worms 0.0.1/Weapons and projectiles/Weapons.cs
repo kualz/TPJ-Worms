@@ -30,7 +30,7 @@ namespace Worms_0._0._1
         protected int SerialNumber, weaponCodeChoosen = 0;
         protected int TextureWidth = 10, TextureWheight = 15;
         private List<Bullet> createdAmmo = new List<Bullet>();
-        private Bullet nova = new Bullet();
+        private Bullet ammunition = new Bullet();
         private Point mousePos;
         private int currentFrame = 0;
         private float fireRateTime = 0, timer, intervalo = 0.08f;
@@ -49,7 +49,7 @@ namespace Worms_0._0._1
 
         public void Load(ContentManager content, string asset)
         {
-            nova.load(content);
+            ammunition.load(content);
             cross =content.Load<Texture2D>("cross");
             textura = content.Load<Texture2D>(asset);
             font = content.Load<SpriteFont>("MyFont");
@@ -63,36 +63,14 @@ namespace Worms_0._0._1
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             timer += deltaTime;
 
-            if (timer > intervalo)
-            {
-                currentFrame++;
-                if(currentFrame >= 3){
-                    currentFrame = 0;
-                }
-                timer = 0;
-            }
-
-            if(mState.LeftButton == ButtonState.Pressed)
-            {
-                if (fireRateTime >= nova.getFireRate(Bullet.AmmoType.cal32) && WeaponsHandler.getActiveWeapon().getWeaponType() == WeaponType.MachineGun){
-                    nova.addAmmoToStack(new Bullet(this.PositionRelativeToCharacter, (rotation  + (getRandom())), Bullet.AmmoType.cal32, 600, 1350, this.PositionRelativeToCharacter));
-                    fireRateTime = 0;
-                }
-                if (fireRateTime >= nova.getFireRate(Bullet.AmmoType.cell) && WeaponsHandler.getActiveWeapon().getWeaponType() == WeaponType.ShotGun){
-                    nova.addAmmoToStack(new Bullet(this.PositionRelativeToCharacter, rotation, Bullet.AmmoType.cell, 100, 400, this.PositionRelativeToCharacter));
-                    fireRateTime = 0;
-                }
-                else fireRateTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            }
-
             if (Input.IsPressed(Keys.D1)){
                 weaponCodeChoosen = 0;
-                WeaponsHandler.GetWeapon(weaponCodeChoosen);
+                WeaponsHandler.GetWeapon(Char, weaponCodeChoosen);
                 previousWeapon = 0;
             }
             else if (Input.IsPressed(Keys.D2)){
                 weaponCodeChoosen = 1;
-                WeaponsHandler.GetWeapon(weaponCodeChoosen);
+                WeaponsHandler.GetWeapon(Char, weaponCodeChoosen);
                 previousWeapon = 1;
             }
             mousePos = mState.Position;
@@ -102,23 +80,23 @@ namespace Worms_0._0._1
             rot += (float)Math.PI/2f;
             rotation = rot;
             rec = new Rectangle((int)PositionRelativeToCharacter.X, (int)PositionRelativeToCharacter.Y, 10, 15);
-            nova.update(gameTime, Bullet.AmmoType.cal32);
-            nova.UpdateDeletebullet();
+            ammunition.update(gameTime, Bullet.AmmoType.cal32);
+            ammunition.UpdateDeletebullet();
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Characters Char)
         {
             spriteBatch.Draw(cross, new Vector2(mousePos.X, mousePos.Y), Color.White);
-            spriteBatch.Draw(this.textura, new Vector2(PositionRelativeToCharacter.X + 3, PositionRelativeToCharacter.Y + 7), null , Color.White, this.rotation, new Vector2((float)2.5,(float)2.5), 1f, SpriteEffects.None, 0f);          
-            spriteBatch.DrawString(font, "Weapon Name: " + WeaponsHandler._GetWeapon(weaponCodeChoosen).getName(), new Vector2(500f, 500f), Color.White);
-            spriteBatch.DrawString(font, "Weapon Type: " + WeaponsHandler._GetWeapon(weaponCodeChoosen).getWeaponType().ToString(), new Vector2(500f, 525f), Color.White);
+            spriteBatch.Draw(this.textura, new Vector2(PositionRelativeToCharacter.X + 3, PositionRelativeToCharacter.Y + 7), null , Color.White, this.rotation, new Vector2((float)2.5,(float)2.5), 1f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(font, "Weapon Name: " + WeaponsHandler._GetWeapon(Char, weaponCodeChoosen).getName(), new Vector2(500f, 500f), Color.White);
+            spriteBatch.DrawString(font, "Weapon Type: " + WeaponsHandler._GetWeapon(Char, weaponCodeChoosen).getWeaponType().ToString(), new Vector2(500f, 525f), Color.White);
 
             spriteBatch.DrawString(font, "test\nPress 1 - first weapon" , new Vector2(200f, 550f), Color.White);
             spriteBatch.DrawString(font, "Press 2 - second weapon", new Vector2(200f, 600f), Color.White);
-            if(WeaponsHandler.getActiveWeapon().getWeaponType() == WeaponType.MachineGun)
-                nova.draw(spriteBatch, Bullet.AmmoType.cal32 , currentFrame);
-            if (WeaponsHandler.getActiveWeapon().getWeaponType() == WeaponType.ShotGun)
-                nova.draw(spriteBatch, Bullet.AmmoType.cell, currentFrame);
+            if (WeaponsHandler.getActiveWeapon(Char).getWeaponType() == WeaponType.MachineGun)
+                ammunition.draw(spriteBatch, Bullet.AmmoType.cal32 , currentFrame);
+            if (WeaponsHandler.getActiveWeapon(Char).getWeaponType() == WeaponType.ShotGun)
+                ammunition.draw(spriteBatch, Bullet.AmmoType.cell, currentFrame);
 
 
             //spriteBatch.Draw(this.textura, new Rectangle((int)PositionRelativeToCharacter.X, (int)PositionRelativeToCharacter.Y, 5, 5), Color.Red);

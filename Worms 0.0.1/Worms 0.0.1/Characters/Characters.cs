@@ -123,9 +123,13 @@ namespace Worms_0._0._1
         {
             return CharacterInPlay;
         }
+        public string returnName()
+        {
+            return this.CharacterName;
+        }
         public void CreatArsenal()
         {
-            Arsenal.Add(new Weapons("AR556",this,));
+            //Arsenal.Add(new Weapons("AR556",this,));
         }
     }
 }
