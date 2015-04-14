@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using Worms_0._0._1.Weapons_and_projectiles;
 
 namespace Worms_0._0._1
 {
@@ -18,8 +19,6 @@ namespace Worms_0._0._1
         }
         protected string Name;
         protected WeaponType WeaponTypes;
-        protected int Magazine;
-        protected float range;
         protected static int previousWeapon = 0;
         protected Vector2 PositionRelativeToCharacter;
         protected float rotation;
@@ -29,10 +28,10 @@ namespace Worms_0._0._1
         protected bool activeState;
         protected int SerialNumber, weaponCodeChoosen = 0;
         protected int TextureWidth = 10, TextureWheight = 15;
-        private bool ammoIsvisivble=false;
+        private List<Bullet> createdAmmo = new List<Bullet>();
+        private Bullet nova = new Bullet();
 
-
-        public Weapons(){ }
+        public Weapons() { }
 
         public Weapons(string name, int serialNumber, Characters Char, WeaponType weaponType)
         {
@@ -46,6 +45,7 @@ namespace Worms_0._0._1
 
         public void Load(ContentManager content, string asset)
         {
+            nova.load(content);
             textura = content.Load<Texture2D>(asset);
             font = content.Load<SpriteFont>("MyFont");
         }
@@ -58,7 +58,7 @@ namespace Worms_0._0._1
 
             if(mState.LeftButton == ButtonState.Pressed)
             {
-
+                nova.addAmmoToStack(new Bullet(this.PositionRelativeToCharacter, rotation, Bullet.AmmoType.cal32, 200));
             }
             if (Input.IsPressed(Keys.D1)){
                 weaponCodeChoosen = 0;
@@ -77,6 +77,8 @@ namespace Worms_0._0._1
             rot += (float)Math.PI/2f;
             rotation = rot;
             rec = new Rectangle((int)PositionRelativeToCharacter.X, (int)PositionRelativeToCharacter.Y, 10, 15);
+            nova.update(gameTime, Bullet.AmmoType.cal32);
+            nova.Updatedeletebullet(PositionRelativeToCharacter);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -87,6 +89,7 @@ namespace Worms_0._0._1
 
             spriteBatch.DrawString(font, "test\nPress 1 - first weapon" , new Vector2(200f, 550f), Color.White);
             spriteBatch.DrawString(font, "Press 2 - second weapon", new Vector2(200f, 600f), Color.White);
+            nova.draw(spriteBatch, Bullet.AmmoType.cal32);
         }
 
         public string getName(){
