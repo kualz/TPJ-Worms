@@ -34,6 +34,7 @@ namespace Worms_0._0._1
         private Point mousePos;
         private int currentFrame = 0;
         private float fireRateTime = 0, timer, intervalo = 0.08f;
+        private Random rnd;
 
         public Weapons() { }
 
@@ -77,7 +78,7 @@ namespace Worms_0._0._1
             {
                 if (fireRateTime >= nova.getFireRate(Bullet.AmmoType.cal32) && WeaponsHandler.getActiveWeapon().getWeaponType() == WeaponType.MachineGun)
                 {
-                    nova.addAmmoToStack(new Bullet(this.PositionRelativeToCharacter, rotation, Bullet.AmmoType.cal32, 400, 1350, this.PositionRelativeToCharacter));
+                    nova.addAmmoToStack(new Bullet(this.PositionRelativeToCharacter, (rotation  + (getRandom())), Bullet.AmmoType.cal32, 400, 1350, this.PositionRelativeToCharacter));
                     fireRateTime = 0;
                 }
                 else fireRateTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -117,6 +118,30 @@ namespace Worms_0._0._1
             spriteBatch.DrawString(font, "Press 2 - second weapon", new Vector2(200f, 600f), Color.White);
             nova.draw(spriteBatch, Bullet.AmmoType.cal32, currentFrame);
             //spriteBatch.Draw(this.textura, new Rectangle((int)PositionRelativeToCharacter.X, (int)PositionRelativeToCharacter.Y, 5, 5), Color.Red);
+        }
+
+        public float getRandom()
+        {
+            rnd = new Random(Guid.NewGuid().GetHashCode());
+            float random = -0.01f;
+            float random1 = 0.01f;
+            float random2 = 0.03f;
+            float random3 = -0.03f;
+            float random4 = 0.07f;
+            float random5 = -0.07f;
+            float random6 = 0.05f;
+            float random7 = -0.05f;
+            float random8 = 0.06f;
+            int random9 = rnd.Next(0, 4);
+            if (random9 == 0) return random;
+            else if (random9 == 1) return random1;
+            else if (random9 == 2) return random2;
+            else if (random9 == 3) return random3;
+            else if (random9 == 3) return random4;
+            else if (random9 == 3) return random5;
+            else if (random9 == 3) return random6;
+            else if (random9 == 3) return random7;
+            else return random8;
         }
 
         public string getName(){
