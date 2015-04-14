@@ -18,7 +18,7 @@ namespace Worms_0._0._1
         protected float speed;
         public CharacterState WormState;
         public Vector2 velocity;
-        private float intervalo = 0.08f, timer;
+        private float intervalo = 0.08f, timer, timer1;
         public SpriteEffects flip;
         private int currentFrame = 0;
         private Point mousePos;
@@ -31,6 +31,9 @@ namespace Worms_0._0._1
             OnTheGround
         };
 
+
+        private int weaponCodeChosen = 0, previousWeapon = 0;
+
         public Characters()
         { }
 
@@ -42,12 +45,23 @@ namespace Worms_0._0._1
             speed = 100f;
             WormState = CharacterState.OnTheGround;
             hasjumped = false;
-            
         }
 
         public void Load(ContentManager content)
         {
             textura = content.Load<Texture2D>("character");
+            /// <summary>
+            /// esta parte aqui nao sei mesmo sera a melhor forma assim?
+            /// :o
+            /// </summary>
+            CreatArsenal();
+            Arsenal[0].Load(content, "WeaponRifle");
+            Arsenal[1].Load(content, "WeaponRifle");
+            Arsenal[2].Load(content, "WeaponRifle");
+            /// <summary>
+            /// aqui so te diz que a arma inicial 'e a AR556 mas se quiseres podes mudar
+            /// </summary>
+            getAndActivateWeapon(0);
         }
 
         public void Update(GameTime gameTime)
@@ -66,6 +80,41 @@ namespace Worms_0._0._1
                 timer = 0;
             }
             CharacterPos += velocity;
+
+
+            /// <summary>
+            /// aqui o input para trocar de arma a funcionar...
+            /// o problema e quando tens dois jogadores...as informacoes do segundo sobrepoem as do 1' 
+            /// mas isso e simples de se ver
+            /// </summary>
+            Input.Update();
+            if (Input.IsPressed(Keys.D1))
+            {
+                weaponCodeChosen = 0;
+                getAndActivateWeapon(weaponCodeChosen);
+                previousWeapon = 0;
+            }
+            else if (Input.IsPressed(Keys.D2))
+            {
+                weaponCodeChosen = 1;
+                getAndActivateWeapon(weaponCodeChosen);
+                previousWeapon = 1;
+            }
+            else if (Input.IsPressed(Keys.D3))
+            {
+                weaponCodeChosen = 2;
+                getAndActivateWeapon(weaponCodeChosen);
+                previousWeapon = 2;
+            }
+
+            /// <summary>
+            /// aqui tbem e simples basicamente ele pega na arma que esta ativa e faz o update dela com as suas informacoes
+            /// se fores ao codigo da weapon aquilo ja nem usa a weapons handler
+            /// simplesmente carrega direto as variaveis
+            /// </summary>
+            Arsenal[weaponCodeChosen].Update(gameTime, this);
+
+
 
             if (Keyboard.GetState().IsKeyDown(Keys.A)) velocity.X = -3f;
             else if (Keyboard.GetState().IsKeyDown(Keys.D)) velocity.X = 3f;
@@ -100,6 +149,12 @@ namespace Worms_0._0._1
         public void Draw(SpriteBatch spritebatch)
         {
             spritebatch.Draw(textura, new Vector2((int)CharacterPos.X, (int)CharacterPos.Y), new Rectangle(currentFrame, 0, 50, 72), Color.White, 0f, new Vector2(25, 36), 1f, flip, 0f);
+
+
+            /// <summary>
+            /// tipo aqui so tens a weapon selecionada a fazer draw...nao sei se queres optimizar isto!!!
+            /// </summary>
+            Arsenal[weaponCodeChosen].Draw(spritebatch, this);
         }
 
         public Vector2 CharacterPosition()
@@ -127,9 +182,23 @@ namespace Worms_0._0._1
         {
             return this.CharacterName;
         }
+
+
+        /// <summary>
+        /// ok aqui basicamente eu criei doi metodos que podiam tar numa class a parte!
+        /// aquele teu que ja tinhas so completei e depois para aticar a weapon...para sabermos qual esta ativa
+        /// </summary>
         public void CreatArsenal()
         {
-            //Arsenal.Add(new Weapons("AR556",this,));
+            Arsenal.Add(new Weapons("AR556",this, Weapons.WeaponType.MachineGun));
+            Arsenal.Add(new Weapons("Bazooka", this, Weapons.WeaponType.Rocket));
+            Arsenal.Add(new Weapons("nade Launcher", this, Weapons.WeaponType.GrenadeLauncher));
+        }
+
+        public void getAndActivateWeapon(int weapon)
+        {
+            Arsenal[previousWeapon].setWeaponState();
+            Arsenal[weapon].setWeaponState();
         }
     }
 }

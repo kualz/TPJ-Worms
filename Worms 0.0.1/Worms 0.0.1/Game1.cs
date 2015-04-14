@@ -43,12 +43,8 @@ namespace Worms_0._0._1
             //Player2 = CharactersHandler.getCharacter(2);
             Player1.SetCharacterPosition(new Vector2(600, 350));
             Player1.Load(Content);
-            WeaponsHandler.InitList(Player1, Content);
-           //Player2.SetCharacterPosition(new Vector2(700, 350));
-           //Player2.Load(Content);
-           // WeaponsHandler.InitList(Player2, Content);
-            weapon = WeaponsHandler.GetWeapon(Player1, 0);
-            weapon.Load(Content, "WeaponRifle");
+            //Player2.SetCharacterPosition(new Vector2(700, 350));
+            //Player2.Load(Content);
         }
 
         
@@ -63,13 +59,9 @@ namespace Worms_0._0._1
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
           
-                Player1.Update(gameTime);
-                weapon.Update(gameTime, Player1);
-            
-            //Player2.Update(gameTime);
-            //weapon.Update(gameTime, Player2);
-
-            base.Update(gameTime);
+                Player1.Update(gameTime);  
+                //Player2.Update(gameTime);
+                base.Update(gameTime);
         }
 
         
@@ -80,9 +72,7 @@ namespace Worms_0._0._1
             spriteBatch.Begin();
             Player1.Draw(spriteBatch);
             //Player2.Draw(spriteBatch);
-            weapon.Draw(spriteBatch, Player1);
             spriteBatch.End();
-
 
             base.Draw(gameTime);
         }
