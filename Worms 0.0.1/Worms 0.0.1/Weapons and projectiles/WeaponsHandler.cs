@@ -15,15 +15,15 @@ namespace Worms_0._0._1
         static public void InitList(Characters CharacterActive, ContentManager content)
         {
             NamesAndStuff.Add("Weapon_name_not_Found");
-            NamesAndStuff.Add("Killerino");
-            NamesAndStuff.Add("Kiss My Ass");
-            NamesAndStuff.Add("LOL BOOM");
+            NamesAndStuff.Add("AR556");
+            NamesAndStuff.Add("ShootGone");
+            NamesAndStuff.Add("RockerLauncher");
             NamesAndStuff.Add("KABOOM");
 
-            PoliceStationBasement.Add(new Weapons(NamesAndStuff[1], 1, CharacterActive, WeaponType.MachineGun));
-            PoliceStationBasement.Add(new Weapons(NamesAndStuff[2], 5, CharacterActive, WeaponType.ShotGun));
-            PoliceStationBasement.Add(new Weapons(NamesAndStuff[3], 3, CharacterActive, WeaponType.Rocket));
-            PoliceStationBasement.Add(new Weapons(NamesAndStuff[4], 4, CharacterActive, WeaponType.GrenadeLauncher));
+            PoliceStationBasement.Add(new Weapons(NamesAndStuff[1], CharacterActive, WeaponType.MachineGun));
+            PoliceStationBasement.Add(new Weapons(NamesAndStuff[2], CharacterActive, WeaponType.ShotGun));
+            PoliceStationBasement.Add(new Weapons(NamesAndStuff[3], CharacterActive, WeaponType.Rocket));
+            PoliceStationBasement.Add(new Weapons(NamesAndStuff[4], CharacterActive, WeaponType.GrenadeLauncher));
             PoliceStationBasement[0].setWeaponState();
         }
 

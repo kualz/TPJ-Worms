@@ -38,9 +38,8 @@ namespace Worms_0._0._1
 
         public Weapons() { }
 
-        public Weapons(string name, int serialNumber, Characters Char, WeaponType weaponType)
+        public Weapons(string name, Characters Char, WeaponType weaponType)
         {
-            this.SerialNumber = serialNumber;
             this.Name = name; 
             this.PositionRelativeToCharacter = new Vector2(Char.CharacterPosition().X, Char.CharacterPosition().Y);
             this.WeaponTypes = weaponType;

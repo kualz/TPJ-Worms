@@ -14,7 +14,7 @@ namespace Worms_0._0._1
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Characters activeChar;
+        Characters Player1, Player2;
         Weapons weapon;
 
         public Game1()
@@ -39,10 +39,15 @@ namespace Worms_0._0._1
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             CharactersHandler.InitList(Content);
-            activeChar = CharactersHandler.getCharacter(1);
-            activeChar.SetCharacterPosition(new Vector2(600, 350));
-            activeChar.Load(Content);
-            WeaponsHandler.InitList(activeChar, Content);
+            Player1 = CharactersHandler.getCharacter(1);
+            Player1.SetCharacterInPlay();
+            //Player2 = CharactersHandler.getCharacter(2);
+            Player1.SetCharacterPosition(new Vector2(600, 350));
+            Player1.Load(Content);
+            WeaponsHandler.InitList(Player1, Content);
+           // Player2.SetCharacterPosition(new Vector2(700, 350));
+            //Player2.Load(Content);
+           // WeaponsHandler.InitList(Player2, Content);
             weapon = WeaponsHandler.GetWeapon(0);
             weapon.Load(Content, "WeaponRifle");
         }
@@ -58,9 +63,12 @@ namespace Worms_0._0._1
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            activeChar.Update(gameTime);
-            weapon.Update(gameTime, activeChar);
+          
+                Player1.Update(gameTime);
+                weapon.Update(gameTime, Player1);
+            
+            //Player2.Update(gameTime);
+            //weapon.Update(gameTime, Player2);
 
             base.Update(gameTime);
         }
@@ -71,12 +79,15 @@ namespace Worms_0._0._1
             GraphicsDevice.Clear(Color.Black);
             
             spriteBatch.Begin();
-            activeChar.Draw(spriteBatch);
+            Player1.Draw(spriteBatch);
+           // Player2.Draw(spriteBatch);
             weapon.Draw(spriteBatch);
             spriteBatch.End();
 
 
             base.Draw(gameTime);
         }
+
+ 
     }
 }

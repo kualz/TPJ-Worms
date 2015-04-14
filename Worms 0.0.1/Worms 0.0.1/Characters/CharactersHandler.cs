@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,8 @@ namespace Worms_0._0._1
     class CharactersHandler : Characters
     {
         static private List<Characters> Barracks = new List<Characters>();
-
+        static public List<Characters> Players = new List<Characters>();
+        static public int JogadorActivo = 0;
 
         static public void InitList(ContentManager content)
         {
@@ -23,6 +25,28 @@ namespace Worms_0._0._1
         static public Characters getCharacter(int Character)
         {
             return Barracks[Character];
+        }
+
+        static public void AddPlayer(Characters cha)
+        {
+            Players.Add(cha);
+        }
+
+        static public void ChangeActive()
+        {
+            Players[JogadorActivo].SetCharacterInPlay();
+            JogadorActivo++;
+            if (JogadorActivo >= Players.Count) JogadorActivo = 0;
+            Players[JogadorActivo].SetCharacterInPlay();
+
+        }
+        static public void updatePlayers(GameTime gameTime)
+        {
+            foreach (Characters cha in Players)
+            {
+                if (cha.isActive())
+                    cha.Update(gameTime);
+            }
         }
     }
 }

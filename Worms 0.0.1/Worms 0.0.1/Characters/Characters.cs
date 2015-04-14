@@ -22,6 +22,7 @@ namespace Worms_0._0._1
         public SpriteEffects flip;
         private int currentFrame = 0;
         private Point mousePos;
+        public List<Weapons> Arsenal = new List<Weapons>();
         public enum CharacterState
         {
             GoingRight,
@@ -41,7 +42,7 @@ namespace Worms_0._0._1
             speed = 100f;
             WormState = CharacterState.OnTheGround;
             hasjumped = false;
-
+            
         }
 
         public void Load(ContentManager content)
@@ -112,6 +113,19 @@ namespace Worms_0._0._1
         public void UnlockSpecialWeapon()
         {
             SpecialWeapon = true;
+        }
+        public void SetCharacterInPlay()
+        {
+            if (CharacterInPlay == true) CharacterInPlay = false;
+            else CharacterInPlay = true;
+        }
+        public bool isActive()
+        {
+            return CharacterInPlay;
+        }
+        public void CreatArsenal()
+        {
+            Arsenal.Add(new Weapons("AR556",this,));
         }
     }
 }
