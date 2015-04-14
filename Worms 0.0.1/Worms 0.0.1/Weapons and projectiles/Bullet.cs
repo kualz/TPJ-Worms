@@ -5,6 +5,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,8 +19,10 @@ namespace Worms_0._0._1.Weapons_and_projectiles
         public float speed;
         private Vector2 sourcePosition;
         private Vector2 direction;
+        private Vector2 velocity;
         private Texture2D texturax;
-        private Texture2D texturasShotgun;
+        private Texture2D texturasRocket;
+        private Point mousePos;
         private float rotation;
         private List<string> names = new List<string>();
         private List<Bullet> bulletsOnScreen = new List<Bullet>();
@@ -55,12 +58,9 @@ namespace Worms_0._0._1.Weapons_and_projectiles
         public void load(ContentManager content)
         {
             names.Add("teste_Projetil1");
-            //MUDAR TEXTURAS
-            names.Add("Cell1");
-            //MUDAR TEXTURAS
-
+            names.Add("teste_Projetil2");
             texturax = content.Load<Texture2D>(names[0]);
-            texturasShotgun = content.Load<Texture2D>(names[1]);
+            texturasRocket = content.Load<Texture2D>(names[1]);
         }
 
         public void addAmmoToStack(Bullet shooted)
@@ -81,19 +81,27 @@ namespace Worms_0._0._1.Weapons_and_projectiles
                 if (bullet.ammoType == AmmoType.cal32){
                     bullet.sourcePosition = bullet.sourcePosition + bullet.direction * bullet.speed * ((float)gameTime.ElapsedGameTime.TotalSeconds * 1.5f);
                 }
+                else if(bullet.ammoType == AmmoType.rocket){
+                    bullet.sourcePosition = bullet.sourcePosition + bullet.direction * bullet.speed * ((float)gameTime.ElapsedGameTime.TotalSeconds * 1.5f);
+                }
             }
         }
 
-        public void draw(SpriteBatch spriteBatch, AmmoType activeWeaponAmmoType, int x){
+        public void draw(SpriteBatch spriteBatch, AmmoType activeWeaponAmmoType){
             foreach (Bullet bullet in bulletsOnScreen){
                 if (activeWeaponAmmoType == AmmoType.cal32)
                     spriteBatch.Draw(texturax, new Vector2(bullet.sourcePosition.X + 3, bullet.sourcePosition.Y + 7), null, Color.White, bullet.rotation, new Vector2((float)2.5, (float)2.5), 1f, SpriteEffects.None, 0f);
+                else if (bullet.ammoType == AmmoType.rocket){
+                    spriteBatch.Draw(texturasRocket, new Vector2(bullet.sourcePosition.X, bullet.sourcePosition.Y + 7), null, Color.White, bullet.rotation, new Vector2((float)5, (float)3.5), 1f, SpriteEffects.None, 0f);
+                }
             }
         }
 
         public float getFireRate(AmmoType ammo){
             if (ammo == AmmoType.cal32)
                 return 0.1f;
+            if (ammo == AmmoType.rocket)
+                return 0.6f;
             else return 0;
         }
     }
