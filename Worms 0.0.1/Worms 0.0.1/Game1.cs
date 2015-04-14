@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
+using Worms_0._0._1.Weapons_and_projectiles;
 #endregion
 
 namespace Worms_0._0._1
@@ -16,6 +17,8 @@ namespace Worms_0._0._1
         SpriteBatch spriteBatch;
         Characters Player1, Player2;
         Weapons weapon;
+        Crosshair MIRA;
+        Vector2 mousevector;
 
         public Game1()
             : base()
@@ -36,15 +39,19 @@ namespace Worms_0._0._1
         
         protected override void LoadContent()
         {
+            MIRA.Load(Content);
             spriteBatch = new SpriteBatch(GraphicsDevice);
             CharactersHandler.InitList(Content);
-            Player1 = CharactersHandler.getCharacter(1);
+            Player1 = CharactersHandler.getCharacter(0);
             Player1.SetCharacterInPlay();
-            //Player2 = CharactersHandler.getCharacter(2);
+            Player2 = CharactersHandler.getCharacter(1);
             Player1.SetCharacterPosition(new Vector2(600, 350));
             Player1.Load(Content);
-            //Player2.SetCharacterPosition(new Vector2(700, 350));
-            //Player2.Load(Content);
+            Player2.SetCharacterPosition(new Vector2(700, 350));
+            Player2.Load(Content);
+
+            CharactersHandler.AddPlayer(Player1);
+            CharactersHandler.AddPlayer(Player2);
         }
 
         
@@ -56,10 +63,14 @@ namespace Worms_0._0._1
         
         protected override void Update(GameTime gameTime)
         {
+            MouseState mState = Mouse.GetState();
+            mousevector = new Vector2(mState.X, mState.Y);
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-          
-                Player1.Update(gameTime);  
+
+            if (Keyboard.GetState().IsKeyDown(Keys.K)) CharactersHandler.ChangeActive();
+            CharactersHandler.updatePlayers(gameTime);
+                //Player1.Update(gameTime);  
                 //Player2.Update(gameTime);
                 base.Update(gameTime);
         }
@@ -68,10 +79,10 @@ namespace Worms_0._0._1
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-            
+            MIRA.draw(spriteBatch,mousevector);
             spriteBatch.Begin();
             Player1.Draw(spriteBatch);
-            //Player2.Draw(spriteBatch);
+            Player2.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);

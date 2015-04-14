@@ -24,6 +24,7 @@ namespace Worms_0._0._1
         private Point mousePos;
         private SpriteFont font; 
         public List<Weapons> Arsenal = new List<Weapons>();
+        public Weapons ActiveWeapon;
         public enum CharacterState
         {
             GoingRight,
@@ -46,6 +47,8 @@ namespace Worms_0._0._1
             speed = 100f;
             WormState = CharacterState.OnTheGround;
             hasjumped = false;
+            CreatArsenal();
+            ActiveWeapon = Arsenal[0];
         }
 
         public void Load(ContentManager content)
@@ -56,10 +59,9 @@ namespace Worms_0._0._1
             /// esta parte aqui nao sei mesmo sera a melhor forma assim?
             /// :o
             /// </summary>
-            CreatArsenal();
             Arsenal[0].Load(content, "WeaponRifle");
             Arsenal[1].Load(content, "WeaponRifle");
-            Arsenal[2].Load(content, "WeaponRifle");
+            Arsenal[2].Load(content, "WeaponRifle");    
             /// <summary>
             /// aqui so te diz que a arma inicial 'e a AR556 mas se quiseres podes mudar
             /// </summary>
@@ -184,6 +186,10 @@ namespace Worms_0._0._1
         {
             return this.CharacterName;
         }
+        public Weapons GetActiveWeapon()
+        {
+            return ActiveWeapon;
+        }
 
 
         /// <summary>
@@ -192,7 +198,7 @@ namespace Worms_0._0._1
         /// </summary>
         public void CreatArsenal()
         {
-            Arsenal.Add(new Weapons("AR556",this, Weapons.WeaponType.MachineGun));
+            Arsenal.Add(new Weapons("AR556", this, Weapons.WeaponType.MachineGun));
             Arsenal.Add(new Weapons("Bazooka", this, Weapons.WeaponType.Rocket));
             Arsenal.Add(new Weapons("nade Launcher", this, Weapons.WeaponType.GrenadeLauncher));
         }
@@ -202,5 +208,7 @@ namespace Worms_0._0._1
             Arsenal[previousWeapon].setWeaponState();
             Arsenal[weapon].setWeaponState();
         }
+
+        
     }
 }

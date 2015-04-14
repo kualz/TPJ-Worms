@@ -49,7 +49,6 @@ namespace Worms_0._0._1
         public void Load(ContentManager content, string asset)
         {
             ammunition.load(content);
-            cross =content.Load<Texture2D>("cross");
             textura = content.Load<Texture2D>(asset);
             font = content.Load<SpriteFont>("MyFont");
         }

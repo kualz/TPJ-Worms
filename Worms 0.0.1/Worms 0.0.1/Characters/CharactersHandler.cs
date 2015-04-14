@@ -16,7 +16,7 @@ namespace Worms_0._0._1
         static public void InitList(ContentManager content)
         {
             Barracks.Add(new Characters("Kualz"));
-            Barracks.Add(new Characters("Phakrumn"));
+            Barracks.Add(new Characters("Phaktumn"));
             Barracks.Add(new Characters("Klipper"));
             Barracks.Add(new Characters("Zjeh"));
             Barracks.Add(new Characters("Saber"));
@@ -45,7 +45,10 @@ namespace Worms_0._0._1
             foreach (Characters cha in Players)
             {
                 if (cha.isActive())
+                {
                     cha.Update(gameTime);
+                    cha.GetActiveWeapon().Update(gameTime,cha);
+                }
             }
         }
     }
