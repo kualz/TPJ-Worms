@@ -22,6 +22,7 @@ namespace Worms_0._0._1
         public SpriteEffects flip;
         private int currentFrame = 0;
         private Point mousePos;
+        private SpriteFont font; 
         public List<Weapons> Arsenal = new List<Weapons>();
         public enum CharacterState
         {
@@ -50,6 +51,7 @@ namespace Worms_0._0._1
         public void Load(ContentManager content)
         {
             textura = content.Load<Texture2D>("character");
+            font = content.Load<SpriteFont>("MyFont");
             /// <summary>
             /// esta parte aqui nao sei mesmo sera a melhor forma assim?
             /// :o
@@ -149,7 +151,7 @@ namespace Worms_0._0._1
         public void Draw(SpriteBatch spritebatch)
         {
             spritebatch.Draw(textura, new Vector2((int)CharacterPos.X, (int)CharacterPos.Y), new Rectangle(currentFrame, 0, 50, 72), Color.White, 0f, new Vector2(25, 36), 1f, flip, 0f);
-
+            spritebatch.DrawString(font, "" + CharacterName, new Vector2((int)CharacterPos.X - 48, (int)CharacterPos.Y - 70), Color.White);
 
             /// <summary>
             /// tipo aqui so tens a weapon selecionada a fazer draw...nao sei se queres optimizar isto!!!
