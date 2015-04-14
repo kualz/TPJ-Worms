@@ -64,27 +64,27 @@ namespace Worms_0._0._1
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             timer += deltaTime;
 
-            //if (timer > intervalo)
-            //{
-            //    currentFrame++;
-            //    if(currentFrame >= 3){
-            //        currentFrame = 0;
-            //    }
-            //    timer = 0;
-            //}
-
+            if (timer > intervalo)
+            {
+                currentFrame++;
+                if(currentFrame >= 3){
+                    currentFrame = 0;
+                }
+                timer = 0;
+            }
 
             if(mState.LeftButton == ButtonState.Pressed)
             {
-                if (fireRateTime >= nova.getFireRate(Bullet.AmmoType.cal32) && WeaponsHandler.getActiveWeapon().getWeaponType() == WeaponType.MachineGun)
-                {
-                    nova.addAmmoToStack(new Bullet(this.PositionRelativeToCharacter, (rotation  + (getRandom())), Bullet.AmmoType.cal32, 400, 1350, this.PositionRelativeToCharacter));
+                if (fireRateTime >= nova.getFireRate(Bullet.AmmoType.cal32) && WeaponsHandler.getActiveWeapon().getWeaponType() == WeaponType.MachineGun){
+                    nova.addAmmoToStack(new Bullet(this.PositionRelativeToCharacter, (rotation  + (getRandom())), Bullet.AmmoType.cal32, 600, 1350, this.PositionRelativeToCharacter));
+                    fireRateTime = 0;
+                }
+                if (fireRateTime >= nova.getFireRate(Bullet.AmmoType.cell) && WeaponsHandler.getActiveWeapon().getWeaponType() == WeaponType.ShotGun){
+                    nova.addAmmoToStack(new Bullet(this.PositionRelativeToCharacter, rotation, Bullet.AmmoType.cell, 100, 400, this.PositionRelativeToCharacter));
                     fireRateTime = 0;
                 }
                 else fireRateTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
-
-
 
             if (Input.IsPressed(Keys.D1)){
                 weaponCodeChoosen = 0;
@@ -116,7 +116,12 @@ namespace Worms_0._0._1
 
             spriteBatch.DrawString(font, "test\nPress 1 - first weapon" , new Vector2(200f, 550f), Color.White);
             spriteBatch.DrawString(font, "Press 2 - second weapon", new Vector2(200f, 600f), Color.White);
-            nova.draw(spriteBatch, Bullet.AmmoType.cal32, currentFrame);
+            if(WeaponsHandler.getActiveWeapon().getWeaponType() == WeaponType.MachineGun)
+                nova.draw(spriteBatch, Bullet.AmmoType.cal32 , currentFrame);
+            if (WeaponsHandler.getActiveWeapon().getWeaponType() == WeaponType.ShotGun)
+                nova.draw(spriteBatch, Bullet.AmmoType.cell, currentFrame);
+
+
             //spriteBatch.Draw(this.textura, new Rectangle((int)PositionRelativeToCharacter.X, (int)PositionRelativeToCharacter.Y, 5, 5), Color.Red);
         }
 
@@ -160,7 +165,7 @@ namespace Worms_0._0._1
 
         public WeaponType getWeaponType(){
             return this.WeaponTypes;
-        }
+        } 
 
         public int getSerialNumber(){
             return this.SerialNumber;

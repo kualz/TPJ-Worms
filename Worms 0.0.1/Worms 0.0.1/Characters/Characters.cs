@@ -79,7 +79,7 @@ namespace Worms_0._0._1
             if (hasjumped == true)
             {
                 float i = 1;
-                velocity.Y += 0.15f * i;
+                velocity.Y += 0.20f * i;
             }
             if (hasjumped == false)        
                 velocity.Y = 0f;
