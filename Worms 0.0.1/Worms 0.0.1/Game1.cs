@@ -39,8 +39,9 @@ namespace Worms_0._0._1
         
         protected override void LoadContent()
         {
-            MIRA.Load(Content);
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            MIRA = new Crosshair();
+            MIRA.Load(Content);
             CharactersHandler.InitList(Content);
             Player1 = CharactersHandler.getCharacter(0);
             Player1.SetCharacterInPlay();
@@ -79,8 +80,9 @@ namespace Worms_0._0._1
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-            MIRA.draw(spriteBatch,mousevector);
+            
             spriteBatch.Begin();
+            MIRA.draw(spriteBatch, mousevector);
             Player1.Draw(spriteBatch);
             Player2.Draw(spriteBatch);
             spriteBatch.End();

@@ -82,7 +82,6 @@ namespace Worms_0._0._1
 
         public void Draw(SpriteBatch spriteBatch, Characters Char)
         {
-            spriteBatch.Draw(cross, new Vector2(mousePos.X, mousePos.Y), Color.White);
             spriteBatch.Draw(this.textura, new Vector2(PositionRelativeToCharacter.X + 3, PositionRelativeToCharacter.Y + 7), null , Color.White, this.rotation, new Vector2((float)2.5,(float)2.5), 1f, SpriteEffects.None, 0f);
             spriteBatch.DrawString(font, "Weapon Name: " + Name, new Vector2(500f, 500f), Color.White);
             spriteBatch.DrawString(font, "Weapon Type: " + WeaponTypes.ToString(), new Vector2(500f, 525f), Color.White);
