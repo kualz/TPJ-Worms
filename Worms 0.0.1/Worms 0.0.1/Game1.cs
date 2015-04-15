@@ -72,8 +72,8 @@ namespace Worms_0._0._1
 
             if (Input.IsPressed(Keys.K) && Player1.isJumping() == false && Player2.isJumping() == false) CharactersHandler.ChangeActive();
             CharactersHandler.updatePlayers(gameTime);
-                //Player1.Update(gameTime);  
-                //Player2.Update(gameTime);
+            //Player1.Update(gameTime);  
+            //Player2.Update(gameTime);
             base.Update(gameTime);
         }
 

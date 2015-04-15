@@ -166,10 +166,6 @@ namespace Worms_0._0._1
         {
             CharacterPos = pos;
         }
-        public void UnlockSpecialWeapon()
-        {
-            SpecialWeapon = true;
-        }
         public void SetCharacterInPlay()
         {
             if (CharacterInPlay == true) CharacterInPlay = false;
@@ -182,10 +178,6 @@ namespace Worms_0._0._1
         public string returnName()
         {
             return this.CharacterName;
-        }
-        public Weapons GetActiveWeapon()
-        {
-            return ActiveWeapon;
         }
         public bool isJumping()
         {
@@ -207,17 +199,15 @@ namespace Worms_0._0._1
         public void getAndActivateWeapon(int weapon)
         {
             Arsenal[previousWeapon].setWeaponState();
-            Arsenal[weapon].setWeaponState();
+            Arsenal[weaponCodeChosen].setWeaponState();
+            ActiveWeapon = Arsenal[weaponCodeChosen];
         }
 
-        public Weapons getActiveWeapon()
-        {
-            foreach (Weapons wep in Arsenal)
-            {
-                if(wep.getWeaponState())
-                    return wep;
-            }
-            return null;
+        public Weapons GetActiveWeapon(){
+            return ActiveWeapon;
+        }
+        public void UnlockSpecialWeapon(){
+            SpecialWeapon = true;
         }
 
 

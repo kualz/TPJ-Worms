@@ -40,6 +40,15 @@ namespace Worms_0._0._1
             return null;
         }
 
+        static public Weapons getActiveWeapon()
+        {
+            foreach (Characters cha in Players)
+            {
+                if (cha.isActive()) { return cha.GetActiveWeapon(); }
+            }
+            return null;
+        }
+
         static public void ChangeActive()
         {
             Players[JogadorActivo].SetCharacterInPlay();
@@ -50,10 +59,8 @@ namespace Worms_0._0._1
 
         static public void updatePlayers(GameTime gameTime)
         {
-            foreach (Characters cha in Players)
-            {
-                if (cha.isActive())
-                {
+            foreach (Characters cha in Players){
+                if (cha.isActive()){
                     cha.Update(gameTime);
                     cha.GetActiveWeapon().Update(gameTime,cha);
                 }

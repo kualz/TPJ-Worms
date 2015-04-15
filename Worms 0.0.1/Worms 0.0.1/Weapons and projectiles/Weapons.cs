@@ -93,18 +93,9 @@ namespace Worms_0._0._1
         public void Draw(SpriteBatch spriteBatch, Characters ActiveChar)
         {
             spriteBatch.Draw(this.textura, new Vector2(PositionRelativeToCharacter.X + 3, PositionRelativeToCharacter.Y + 7), null , Color.White, this.rotation, new Vector2((float)2.5,(float)2.5), 1f, SpriteEffects.None, 0f);
-            if (ActiveChar.returnName() == "Phaktumn")
-            {
-                spriteBatch.DrawString(font, "Character Active: " + CharactersHandler.getActiveCharacter().returnName(), new Vector2(500f, 475f), Color.White); 
-                spriteBatch.DrawString(font, "Weapon Name: " + Name, new Vector2(500f, 500f), Color.White);
-                spriteBatch.DrawString(font, "Weapon Type: " + WeaponTypes.ToString(), new Vector2(500f, 525f), Color.White);
-            }
-            if (ActiveChar.returnName() == "Kualz")
-            {
-                spriteBatch.DrawString(font, "Character Active: " + CharactersHandler.getActiveCharacter().returnName(), new Vector2(500f, 475f), Color.White); 
-                spriteBatch.DrawString(font, "Weapon Name: " + Name, new Vector2(500f, 500f), Color.White);
-                spriteBatch.DrawString(font, "Weapon Type: " + WeaponTypes.ToString(), new Vector2(500f, 525f), Color.White);
-            }
+            spriteBatch.DrawString(font, "Character Active: " + ActiveChar.returnName(), new Vector2(500f, 475f), Color.White); 
+            spriteBatch.DrawString(font, "Weapon Name: " + CharactersHandler.getActiveWeapon().getName(), new Vector2(500f, 500f), Color.White);
+            spriteBatch.DrawString(font, "Weapon Type: " + CharactersHandler.getActiveWeapon().getWeaponType(), new Vector2(500f, 525f), Color.White);
 
             spriteBatch.DrawString(font, "test\nPress 1 - first weapon" , new Vector2(200f, 550f), Color.White);
             spriteBatch.DrawString(font, "Press 2 - second weapon", new Vector2(200f, 600f), Color.White);
