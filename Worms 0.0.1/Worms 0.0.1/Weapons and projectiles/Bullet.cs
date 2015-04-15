@@ -29,7 +29,6 @@ namespace Worms_0._0._1.Weapons_and_projectiles
         private Vector2 shotPosition;
         public enum AmmoType
         {
-            cell,
             cal32,
             rocket,
             nade
@@ -84,6 +83,7 @@ namespace Worms_0._0._1.Weapons_and_projectiles
                 else if(bullet.ammoType == AmmoType.rocket){
                     bullet.sourcePosition = bullet.sourcePosition + bullet.direction * bullet.speed * ((float)gameTime.ElapsedGameTime.TotalSeconds * 1.5f);
                 }
+                else if (bullet.ammoType == AmmoType.nade) { }
             }
         }
 
@@ -94,14 +94,17 @@ namespace Worms_0._0._1.Weapons_and_projectiles
                 else if (bullet.ammoType == AmmoType.rocket){
                     spriteBatch.Draw(texturasRocket, new Vector2(bullet.sourcePosition.X, bullet.sourcePosition.Y + 7), null, Color.White, bullet.rotation, new Vector2((float)5, (float)3.5), 1f, SpriteEffects.None, 0f);
                 }
+                else if (bullet.ammoType == AmmoType.nade) { }
             }
         }
 
         public float getFireRate(AmmoType ammo){
             if (ammo == AmmoType.cal32)
-                return 0.1f;
+                return 0.3f;
             if (ammo == AmmoType.rocket)
                 return 0.6f;
+            if (ammo == AmmoType.nade)
+                return 0.9f;
             else return 0;
         }
     }

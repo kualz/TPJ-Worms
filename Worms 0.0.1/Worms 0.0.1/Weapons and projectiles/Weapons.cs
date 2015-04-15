@@ -37,7 +37,7 @@ namespace Worms_0._0._1
 
         public Weapons() { }
 
-        public Weapons(string name, Characters Char, WeaponType weaponType)
+        public Weapons(string name, Characters Char, WeaponType weaponType, bool state)
         {
             this.Name = name; 
             this.PositionRelativeToCharacter = new Vector2(Char.CharacterPosition().X, Char.CharacterPosition().Y);
@@ -64,12 +64,17 @@ namespace Worms_0._0._1
             {
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.cal32) && WeaponTypes == WeaponType.MachineGun)
                 {
-                    ammunition.addAmmoToStack(new Bullet(this.PositionRelativeToCharacter, (rotation + (getRandom())), Bullet.AmmoType.cal32, 400, 1350, this.PositionRelativeToCharacter));
+                    ammunition.addAmmoToStack(new Bullet(this.PositionRelativeToCharacter, (rotation + (getRandom())), Bullet.AmmoType.cal32, 300, 800, this.PositionRelativeToCharacter));
                     fireRateTime = 0;
                 }
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.rocket) && WeaponTypes == WeaponType.Rocket)
                 {
                     ammunition.addAmmoToStack(new Bullet(this.PositionRelativeToCharacter, (rotation + (getRandom())), Bullet.AmmoType.rocket, 200, 500, this.PositionRelativeToCharacter));
+                    fireRateTime = 0;
+                }
+                if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.nade) && WeaponTypes == WeaponType.GrenadeLauncher)
+                {
+                    ammunition.addAmmoToStack(new Bullet(this.PositionRelativeToCharacter, (rotation + (getRandom())), Bullet.AmmoType.nade, 500, 150, this.PositionRelativeToCharacter));
                     fireRateTime = 0;
                 }
                 else fireRateTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -85,11 +90,22 @@ namespace Worms_0._0._1
             ammunition.UpdateDeletebullet();
         }
 
-        public void Draw(SpriteBatch spriteBatch, Characters Char)
+        public void Draw(SpriteBatch spriteBatch, Characters ActiveChar)
         {
             spriteBatch.Draw(this.textura, new Vector2(PositionRelativeToCharacter.X + 3, PositionRelativeToCharacter.Y + 7), null , Color.White, this.rotation, new Vector2((float)2.5,(float)2.5), 1f, SpriteEffects.None, 0f);
-            spriteBatch.DrawString(font, "Weapon Name: " + Name, new Vector2(500f, 500f), Color.White);
-            spriteBatch.DrawString(font, "Weapon Type: " + WeaponTypes.ToString(), new Vector2(500f, 525f), Color.White);
+            if (ActiveChar.returnName() == "Phaktumn")
+            {
+                spriteBatch.DrawString(font, "Character Active: " + CharactersHandler.getActiveCharacter().returnName(), new Vector2(500f, 475f), Color.White); 
+                spriteBatch.DrawString(font, "Weapon Name: " + Name, new Vector2(500f, 500f), Color.White);
+                spriteBatch.DrawString(font, "Weapon Type: " + WeaponTypes.ToString(), new Vector2(500f, 525f), Color.White);
+            }
+            if (ActiveChar.returnName() == "Kualz")
+            {
+                spriteBatch.DrawString(font, "Character Active: " + CharactersHandler.getActiveCharacter().returnName(), new Vector2(500f, 475f), Color.White); 
+                spriteBatch.DrawString(font, "Weapon Name: " + Name, new Vector2(500f, 500f), Color.White);
+                spriteBatch.DrawString(font, "Weapon Type: " + WeaponTypes.ToString(), new Vector2(500f, 525f), Color.White);
+            }
+
             spriteBatch.DrawString(font, "test\nPress 1 - first weapon" , new Vector2(200f, 550f), Color.White);
             spriteBatch.DrawString(font, "Press 2 - second weapon", new Vector2(200f, 600f), Color.White);
             spriteBatch.DrawString(font, "Press 3 - Third weapon", new Vector2(200f, 625f), Color.White);
@@ -97,6 +113,8 @@ namespace Worms_0._0._1
                 ammunition.draw(spriteBatch, Bullet.AmmoType.cal32);
             if (WeaponTypes == WeaponType.Rocket)
                 ammunition.draw(spriteBatch, Bullet.AmmoType.rocket);
+            if (WeaponTypes == WeaponType.GrenadeLauncher)
+                ammunition.draw(spriteBatch, Bullet.AmmoType.nade);
 
             //spriteBatch.Draw(this.textura, new Rectangle((int)PositionRelativeToCharacter.X, (int)PositionRelativeToCharacter.Y, 5, 5), Color.Red);
         }

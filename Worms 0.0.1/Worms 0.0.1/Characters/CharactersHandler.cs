@@ -32,14 +32,22 @@ namespace Worms_0._0._1
             Players.Add(cha);
         }
 
+        static public Characters getActiveCharacter()
+        {
+            foreach (Characters cha in Players){
+                if (cha.isActive()){ return cha; } 
+            }
+            return null;
+        }
+
         static public void ChangeActive()
         {
             Players[JogadorActivo].SetCharacterInPlay();
             JogadorActivo++;
             if (JogadorActivo >= Players.Count) JogadorActivo = 0;
             Players[JogadorActivo].SetCharacterInPlay();
-
         }
+
         static public void updatePlayers(GameTime gameTime)
         {
             foreach (Characters cha in Players)

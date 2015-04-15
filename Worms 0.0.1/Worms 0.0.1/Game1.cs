@@ -64,16 +64,17 @@ namespace Worms_0._0._1
         
         protected override void Update(GameTime gameTime)
         {
+            Input.Update();
             MouseState mState = Mouse.GetState();
             mousevector = new Vector2(mState.X, mState.Y);
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if (Keyboard.GetState().IsKeyDown(Keys.K)) CharactersHandler.ChangeActive();
+            if (Input.IsPressed(Keys.K) && Player1.isJumping() == false && Player2.isJumping() == false) CharactersHandler.ChangeActive();
             CharactersHandler.updatePlayers(gameTime);
                 //Player1.Update(gameTime);  
                 //Player2.Update(gameTime);
-                base.Update(gameTime);
+            base.Update(gameTime);
         }
 
         

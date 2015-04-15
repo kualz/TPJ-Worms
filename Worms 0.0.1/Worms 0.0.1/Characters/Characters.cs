@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Worms_0._0._1
 {
-    class Characters
+    class Characters : IFocusable
     {
         private Texture2D textura;
         protected bool SpecialWeapon, CharacterInPlay, hasjumped;
@@ -32,8 +32,6 @@ namespace Worms_0._0._1
             Airborne,
             OnTheGround
         };
-
-
         private int weaponCodeChosen = 0, previousWeapon = 0;
 
         public Characters()
@@ -91,7 +89,6 @@ namespace Worms_0._0._1
             /// o problema e quando tens dois jogadores...as informacoes do segundo sobrepoem as do 1' 
             /// mas isso e simples de se ver
             /// </summary>
-            Input.Update();
             if (Input.IsPressed(Keys.D1))
             {
                 weaponCodeChosen = 0;
@@ -151,14 +148,14 @@ namespace Worms_0._0._1
 
         }
         public void Draw(SpriteBatch spritebatch)
-        {
+        {   
             spritebatch.Draw(textura, new Vector2((int)CharacterPos.X, (int)CharacterPos.Y), new Rectangle(currentFrame, 0, 50, 72), Color.White, 0f, new Vector2(25, 36), 1f, flip, 0f);
             spritebatch.DrawString(font, "" + CharacterName, new Vector2((int)CharacterPos.X - 48, (int)CharacterPos.Y - 70), Color.White);
-
             /// <summary>
             /// tipo aqui so tens a weapon selecionada a fazer draw...nao sei se queres optimizar isto!!!
             /// </summary>
-            Arsenal[weaponCodeChosen].Draw(spritebatch, this);
+            if(this.isActive())
+                Arsenal[weaponCodeChosen].Draw(spritebatch, CharactersHandler.getActiveCharacter());
         }
 
         public Vector2 CharacterPosition()
@@ -190,17 +187,21 @@ namespace Worms_0._0._1
         {
             return ActiveWeapon;
         }
+        public bool isJumping()
+        {
+            return hasjumped;
+        }
 
 
         /// <summary>
-        /// ok aqui basicamente eu criei doi metodos que podiam tar numa class a parte!
+        /// ok aqui basicamente eu criei dois metodos que podiam tar numa class a parte!
         /// aquele teu que ja tinhas so completei e depois para aticar a weapon...para sabermos qual esta ativa
         /// </summary>
         public void CreatArsenal()
         {
-            Arsenal.Add(new Weapons("AR556", this, Weapons.WeaponType.MachineGun));
-            Arsenal.Add(new Weapons("Bazooka", this, Weapons.WeaponType.Rocket));
-            Arsenal.Add(new Weapons("nade Launcher", this, Weapons.WeaponType.GrenadeLauncher));
+            Arsenal.Add(new Weapons("AR556", this, Weapons.WeaponType.MachineGun, true));
+            Arsenal.Add(new Weapons("Bazooka", this, Weapons.WeaponType.Rocket, false));
+            Arsenal.Add(new Weapons("nade Launcher", this, Weapons.WeaponType.GrenadeLauncher, false));
         }
 
         public void getAndActivateWeapon(int weapon)
@@ -209,6 +210,26 @@ namespace Worms_0._0._1
             Arsenal[weapon].setWeaponState();
         }
 
-        
+        public Weapons getActiveWeapon()
+        {
+            foreach (Weapons wep in Arsenal)
+            {
+                if(wep.getWeaponState())
+                    return wep;
+            }
+            return null;
+        }
+
+
+
+        public Vector2 Position
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        Vector2 IFocusable.Position
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }
