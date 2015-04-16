@@ -34,6 +34,10 @@ namespace Worms_0._0._1
         private int currentFrame = 0;
         private float fireRateTime = 0, timer, intervalo = 0.08f;
         private Random rnd;
+        private List<Bullet> bulletsOnScreen = new List<Bullet>();
+        private List<string> names = new List<string>();
+        private Texture2D texturax;
+        private Texture2D texturasRocket;
 
         public Weapons() { }
 
@@ -48,7 +52,10 @@ namespace Worms_0._0._1
 
         public void Load(ContentManager content, string asset)
         {
-            ammunition.load(content);
+            names.Add("teste_Projetil1");
+            names.Add("teste_Projetil2");
+            texturax = content.Load<Texture2D>(names[0]);
+            texturasRocket = content.Load<Texture2D>(names[1]);
             textura = content.Load<Texture2D>(asset);
             font = content.Load<SpriteFont>("MyFont");
         }
@@ -64,17 +71,17 @@ namespace Worms_0._0._1
             {
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.cal32) && WeaponTypes == WeaponType.MachineGun)
                 {
-                    ammunition.addAmmoToStack(new Bullet(this.PositionRelativeToCharacter, (rotation + (getRandom())), Bullet.AmmoType.cal32, 300, 800, this.PositionRelativeToCharacter));
+                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter, (rotation + (getRandom())), Bullet.AmmoType.cal32, 300, 800));
                     fireRateTime = 0;
                 }
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.rocket) && WeaponTypes == WeaponType.Rocket)
                 {
-                    ammunition.addAmmoToStack(new Bullet(this.PositionRelativeToCharacter, (rotation + (getRandom())), Bullet.AmmoType.rocket, 200, 500, this.PositionRelativeToCharacter));
+                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter, (rotation + (getRandom())), Bullet.AmmoType.rocket, 200, 500));
                     fireRateTime = 0;
                 }
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.nade) && WeaponTypes == WeaponType.GrenadeLauncher)
                 {
-                    ammunition.addAmmoToStack(new Bullet(this.PositionRelativeToCharacter, (rotation + (getRandom())), Bullet.AmmoType.nade, 500, 150, this.PositionRelativeToCharacter));
+                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter, (rotation + (getRandom())), Bullet.AmmoType.nade, 500, 150));
                     fireRateTime = 0;
                 }
                 else fireRateTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -86,8 +93,8 @@ namespace Worms_0._0._1
             rot += (float)Math.PI/2f;
             rotation = rot;
             rec = new Rectangle((int)PositionRelativeToCharacter.X, (int)PositionRelativeToCharacter.Y, 10, 15);
-            ammunition.update(gameTime, Bullet.AmmoType.cal32);
-            ammunition.UpdateDeletebullet();
+            updateBullets(gameTime);
+            updateDeleteBullets(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch, Characters ActiveChar)
@@ -99,12 +106,14 @@ namespace Worms_0._0._1
             spriteBatch.DrawString(font, "test\nPress 1 - first weapon" , new Vector2(200f, 550f), Color.White);
             spriteBatch.DrawString(font, "Press 2 - second weapon", new Vector2(200f, 600f), Color.White);
             spriteBatch.DrawString(font, "Press 3 - Third weapon", new Vector2(200f, 625f), Color.White);
-            if (WeaponTypes == WeaponType.MachineGun)
-                ammunition.draw(spriteBatch, Bullet.AmmoType.cal32);
-            if (WeaponTypes == WeaponType.Rocket)
-                ammunition.draw(spriteBatch, Bullet.AmmoType.rocket);
-            if (WeaponTypes == WeaponType.GrenadeLauncher)
-                ammunition.draw(spriteBatch, Bullet.AmmoType.nade);
+            foreach (Bullet bullet in bulletsOnScreen){
+                if (bullet.ammoType == Bullet.AmmoType.cal32)
+                    spriteBatch.Draw(texturax, new Vector2(bullet.sourcePosition.X + 3, bullet.sourcePosition.Y + 7), null, Color.White, rotation, new Vector2((float)2.5, (float)2.5), 1f, SpriteEffects.None, 0f);
+                else if (bullet.ammoType == Bullet.AmmoType.rocket)
+                    spriteBatch.Draw(texturasRocket, new Vector2(bullet.sourcePosition.X, bullet.sourcePosition.Y + 7), null, Color.White, rotation, new Vector2((float)5, (float)3.5), 1f, SpriteEffects.None, 0f);
+                else if (bullet.ammoType == Bullet.AmmoType.nade)
+                { }
+            }
             //spriteBatch.Draw(this.textura, new Rectangle((int)PositionRelativeToCharacter.X, (int)PositionRelativeToCharacter.Y, 5, 5), Color.Red);
         }
 
@@ -156,6 +165,19 @@ namespace Worms_0._0._1
 
         public float getRotation(){
             return rotation;
+        }
+
+        public void updateBullets(GameTime gameTime)
+        {
+            foreach (Bullet bullet in bulletsOnScreen){
+                bullet.update(gameTime);
+            }
+        }
+
+        public void updateDeleteBullets(GameTime gameTime){
+            for (int i = 0; i < bulletsOnScreen.Count; i++)
+                if ((bulletsOnScreen[i].sourcePosition - this.PositionRelativeToCharacter).Length() > bulletsOnScreen[i].range)
+                    bulletsOnScreen.Remove(bulletsOnScreen[i]);   
         }
     }
 }
