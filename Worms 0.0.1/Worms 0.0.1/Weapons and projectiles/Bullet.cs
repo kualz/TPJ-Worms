@@ -70,11 +70,6 @@ namespace Worms_0._0._1.Weapons_and_projectiles
 
         public void UpdateDeletebullet(){
             for (int i = 0; i < bulletsOnScreen.Count; i++){
-                if (CheckCollisions(bulletsOnScreen[i].sourcePosition).Count() != 0)
-                {
-                    Collisions.bulletCollisions.RemoveAt(bulletsOnScreen.Count - 1);
-                    bulletsOnScreen.Remove(bulletsOnScreen[i]);
-                }
                 if ((bulletsOnScreen[i].sourcePosition - bulletsOnScreen[i].shotPosition).Length() > bulletsOnScreen[i].range){
                     bulletsOnScreen.Remove(bulletsOnScreen[i]);
                 }
@@ -105,18 +100,6 @@ namespace Worms_0._0._1.Weapons_and_projectiles
                     spriteBatch.Draw(texturasRocket, new Vector2(bullet.sourcePosition.X, bullet.sourcePosition.Y + 7), null, Color.White, bullet.rotation, new Vector2((float)5, (float)3.5), 1f, SpriteEffects.None, 0f);
                 else if (bullet.ammoType == AmmoType.nade) { }
             }
-        }
-
-        public List<Rectangle> CheckCollisions(Vector2 pos)
-        {
-            List<Rectangle> collidingWith = new List<Rectangle>();
-            Rectangle rect = new Rectangle((int)Math.Round(pos.X), (int)Math.Round(pos.Y), 15, 15);
-            foreach (var rectangle in Collisions.characterCollisions){
-                if (rect.Intersects(rectangle) && rect != rectangle){
-                    collidingWith.Add(rectangle);
-                }
-            }
-            return collidingWith;
         }
 
         public float getFireRate(AmmoType ammo){

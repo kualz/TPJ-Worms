@@ -40,6 +40,18 @@ namespace Worms_0._0._1
             return null;
         }
 
+        static public Rectangle getActiveCharacterRectangle()
+        {
+            foreach (Characters cha in Players)
+            {
+                if (cha.isActive())
+                {
+                    return cha.getCharRec();
+                }
+            }
+            return new Rectangle();
+        }
+
         static public Weapons getActiveWeapon()
         {
             foreach (Characters cha in Players)

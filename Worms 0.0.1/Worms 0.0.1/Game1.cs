@@ -48,8 +48,10 @@ namespace Worms_0._0._1
             Player2 = CharactersHandler.getCharacter(1);
             Player1.SetCharacterPosition(new Vector2(600, 350));
             Player1.Load(Content);
+            Collisions.characterCollisions.Add(Player1);
             Player2.SetCharacterPosition(new Vector2(700, 350));
             Player2.Load(Content);
+            Collisions.characterCollisions.Add(Player2);
 
             CharactersHandler.AddPlayer(Player1);
             CharactersHandler.AddPlayer(Player2);

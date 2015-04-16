@@ -25,6 +25,7 @@ namespace Worms_0._0._1
         private SpriteFont font; 
         public List<Weapons> Arsenal = new List<Weapons>();
         public Weapons ActiveWeapon;
+        private Rectangle rec;
         public enum CharacterState
         {
             GoingRight,
@@ -144,8 +145,7 @@ namespace Worms_0._0._1
 
             if (mousePos.X > CharacterPos.X) flip = SpriteEffects.FlipHorizontally  ;
             else flip = SpriteEffects.None;
-            
-
+            rec = new Rectangle((int)CharacterPos.X, (int)CharacterPos.Y, 50, 72);
         }
         public void Draw(SpriteBatch spritebatch)
         {   
@@ -182,6 +182,10 @@ namespace Worms_0._0._1
         public bool isJumping()
         {
             return hasjumped;
+        }
+        public Rectangle getCharRec()
+        {
+            return rec;
         }
 
 

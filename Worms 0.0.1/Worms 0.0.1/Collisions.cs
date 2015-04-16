@@ -10,13 +10,13 @@ namespace Worms_0._0._1
     {
         public static List<Rectangle> tilesCollisions { get; protected set; }
         public static List<Rectangle> bulletCollisions { get; protected set; }
-        public static List<Rectangle> characterCollisions { get; protected set; }
+        public static List<Characters> characterCollisions { get; protected set; }
 
         static Collisions()
         {
             tilesCollisions = new List<Rectangle>();
             bulletCollisions = new List<Rectangle>();
-            characterCollisions = new List<Rectangle>();
+            characterCollisions = new List<Characters>();
         }
 
         public static void reset()
