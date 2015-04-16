@@ -41,6 +41,7 @@
     <Compile Include="Camera2D.cs" />
     <Compile Include="Characters\Characters.cs" />
     <Compile Include="Characters\CharactersHandler.cs" />
+    <Compile Include="Collisions.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Map.cs" />
