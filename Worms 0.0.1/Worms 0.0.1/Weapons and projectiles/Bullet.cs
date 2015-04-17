@@ -50,6 +50,7 @@ namespace Worms_0._0._1.Weapons_and_projectiles
 
         public void update(GameTime gameTime)
         {
+            
             if (ammoType == AmmoType.cal32)
             {
                 sourcePosition = sourcePosition + direction * speed * ((float)gameTime.ElapsedGameTime.TotalSeconds * 1.5f);
@@ -61,28 +62,26 @@ namespace Worms_0._0._1.Weapons_and_projectiles
                 bulletRec = new Rectangle((int)sourcePosition.X, (int)sourcePosition.Y, 15, 15);
             }
             else if (ammoType == AmmoType.nade) { }
-
-            if (CheckCollisionsProjectile().Count != 0)
+            if (CheckCollisionsProjectile(bulletRec) != new Rectangle(0,0,0,0))
             {
-                Game1.TesteMapa.DestroySquare(sourcePosition);
+                Collisions.tilesCollisions.Remove(CheckCollisionsProjectile(bulletRec));
             }
+           
             
         }
 
-        public List<Rectangle> CheckCollisionsProjectile()
+        public Rectangle CheckCollisionsProjectile(Rectangle rect)
         {
-            List<Rectangle> collidingWith = new List<Rectangle>();
-
-            Rectangle rect = new Rectangle((int)Math.Round(sourcePosition.X), (int)Math.Round(sourcePosition.Y), 15, 15);
+            //List<Rectangle> collidingWith = new List<Rectangle>();
 
             foreach (Rectangle rectangle in Collisions.tilesCollisions)
             {
                 if (rect.Intersects(rectangle) && rect != rectangle)
                 {
-                    collidingWith.Add(rectangle);
+                    return rectangle;
                 }
             }
-            return collidingWith;
+            return new Rectangle(0,0,0,0);
         }
 
         public float getFireRate(AmmoType ammo){
@@ -93,6 +92,11 @@ namespace Worms_0._0._1.Weapons_and_projectiles
             if (ammo == AmmoType.nade)
                 return 0.9f;
             else return 0;
+        }
+
+        public void ExplosionCollision()
+        {
+
         }
     }
 }

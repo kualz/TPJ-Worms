@@ -19,7 +19,7 @@ namespace Worms_0._0._1
         Weapons weapon;
         Crosshair MIRA;
         Vector2 mousevector;
-        public static Map TesteMapa;
+        Map TesteMapa;
 
         public Game1()
             : base()
@@ -42,6 +42,7 @@ namespace Worms_0._0._1
         {
             TesteMapa = new Map();
             TesteMapa.Load(Content);
+            TesteMapa.InitRectMap();
             spriteBatch = new SpriteBatch(GraphicsDevice);
             MIRA = new Crosshair();
             MIRA.Load(Content);
@@ -85,9 +86,19 @@ namespace Worms_0._0._1
         
         protected override void Draw(GameTime gameTime)
         {
+            
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
-            TesteMapa.Draw(spriteBatch);
+            //int aux = 0;
+            //if (aux == 0)
+            //{
+            //    TesteMapa.Draw(spriteBatch);
+            //    aux = 1;
+            //}
+            //else
+
+            TesteMapa.secondDraw(spriteBatch);
+
             MIRA.draw(spriteBatch, mousevector);
             Player1.Draw(spriteBatch);
             Player2.Draw(spriteBatch);

@@ -13,7 +13,7 @@ namespace Worms_0._0._1
         static int SelectedMap;
         static public List<byte[,]> WorldMaps = new List<byte[,]>();
         public Texture2D Wall;
-        private byte[,] mapa1 = { { 1 }, { 1 }, { 1 }, { 1 }, { 1 }, { 1 }, { 1 }, { 1 }, };
+        public byte[,] mapa1 = { { 1 }, { 1 }, { 1 }, { 1 }, { 1 }, { 1 }, { 1 }, { 1 }, };
 
 
         public void Load(ContentManager content)
@@ -24,10 +24,17 @@ namespace Worms_0._0._1
 
         public void update(GameTime gametime)
         {
-
+            
         }
 
-        public void Draw(SpriteBatch spritebatch)
+        public void secondDraw(SpriteBatch spritebatch)
+        {
+            foreach (Rectangle rect in Collisions.tilesCollisions)
+                        spritebatch.Draw(Wall, new Rectangle( rect.X , rect.Y , 20, 20), new Rectangle(500, 500, 50, 50), Color.White);
+        }
+
+
+        public void InitRectMap()
         {
             for (int y = 0; y < mapa1.GetLength(0); y++)
             {
@@ -35,19 +42,24 @@ namespace Worms_0._0._1
                 {
                     if (mapa1[y, x] == 1)
                     {
-                        spritebatch.Draw(Wall, new Rectangle(200 + x * 20,200+ y * 20, 20, 20), new Rectangle(500, 500, 50, 50), Color.White);
-                        Rectangle rect = new Rectangle(200 + x * 20, 200 + y * 20, 20, 20);
+                        Rectangle rect = new Rectangle(300 + x * 20, 300 + y * 20, 20, 20);
                         Collisions.tilesCollisions.Add(rect);
                     }
                 }
             }
         }
 
+        public void UpdateMapRect()
+        {
+            Collisions.tilesCollisions.Clear();
+            InitRectMap();
+        }
+
         public void DestroySquare(Vector2 pos)
         {
             mapa1[(int)Math.Round(pos.Y / 20), (int)Math.Round(pos.X / 20)] = 0;
+            UpdateMapRect();
         }
-
     }
 }
    
