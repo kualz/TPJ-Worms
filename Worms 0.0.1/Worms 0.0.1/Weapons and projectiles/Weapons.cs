@@ -32,10 +32,11 @@ namespace Worms_0._0._1
         private Bullet ammunition = new Bullet();
         private Point mousePos;
         private int currentFrame = 0;
-        private float fireRateTime = 0, fireRateTime1 = 0, timer, intervalo = 0.08f;
+        private float fireRateTime = 0, fireRateTime1 = 0, timer, intervalo = 0.05f;
         private Random rnd;
         private List<Bullet> bulletsOnScreen = new List<Bullet>();
         private List<string> names = new List<string>();
+        private Texture2D[] flashFiring;
         private Texture2D texturax;
         private Texture2D texturasRocket;
 
@@ -52,6 +53,13 @@ namespace Worms_0._0._1
 
         public void Load(ContentManager content, string asset)
         {
+            flashFiring = new Texture2D[6];
+            flashFiring[0] = content.Load<Texture2D>("flash_d_0001");
+            flashFiring[1] = content.Load<Texture2D>("flash_d_0002");
+            flashFiring[2] = content.Load<Texture2D>("flash_d_0003");
+            flashFiring[3] = content.Load<Texture2D>("flash_d_0004");
+            flashFiring[4] = content.Load<Texture2D>("flash_d_0005");
+            flashFiring[5] = content.Load<Texture2D>("flash_d_0006");
             names.Add("teste_Projetil1");
             names.Add("teste_Projetil2");
             texturax = content.Load<Texture2D>(names[0]);
@@ -66,12 +74,24 @@ namespace Worms_0._0._1
             MouseState mState = Mouse.GetState();
             PositionRelativeToCharacter = new Vector2(Char.CharacterPosition().X + 5, Char.CharacterPosition().Y);
             mousePos = mState.Position;
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            timer += deltaTime;
+            if (timer >= intervalo)
+            {
+                currentFrame++;
+                if (currentFrame >= (6))
+                {
+                    currentFrame = 0;
+                }
+                timer = 0;
+            }
+
 
             if (mState.LeftButton == ButtonState.Pressed)
             {
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.cal32) && WeaponTypes == WeaponType.MachineGun)
                 {
-                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter, (rotation + (getRandom())), Bullet.AmmoType.cal32, 300, 80));
+                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter, (rotation + (getRandom())), Bullet.AmmoType.cal32, 300, 800));
                     fireRateTime = 0;
                 }
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.rocket) && WeaponTypes == WeaponType.Rocket)
@@ -87,20 +107,15 @@ namespace Worms_0._0._1
                 else fireRateTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
 
-
-
-            fireRateTime1 += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (fireRateTime1 >= 0.5f)
-            {
-                Console.Clear();
-                foreach (Bullet bullet in bulletsOnScreen)
-                    Console.WriteLine("ON SCREEN" + bullet.ToString());
-                Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-                fireRateTime1 = 0;
-            }
-
-
-
+            //fireRateTime1 += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            //if (fireRateTime1 >= 0.1f)
+            //{
+            //    Console.Clear();
+            //    foreach (Bullet bullet in bulletsOnScreen)
+            //        Console.WriteLine("ON SCREEN" + bullet.ToString());
+            //    Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
+            //    fireRateTime1 = 0;
+            //}
 
             float y = (float)mousePos.Y - PositionRelativeToCharacter.Y;
             float x = (float)PositionRelativeToCharacter.X - mousePos.X;
@@ -121,9 +136,14 @@ namespace Worms_0._0._1
             spriteBatch.DrawString(font, "test\nPress 1 - first weapon" , new Vector2(200f, 550f), Color.White);
             spriteBatch.DrawString(font, "Press 2 - second weapon", new Vector2(200f, 600f), Color.White);
             spriteBatch.DrawString(font, "Press 3 - Third weapon", new Vector2(200f, 625f), Color.White);
-            foreach (Bullet bullet in bulletsOnScreen){
+            foreach (Bullet bullet in bulletsOnScreen)
+            {
                 if (bullet.ammoType == Bullet.AmmoType.cal32)
+                {
+                    if (fireRateTime < ammunition.getFireRate(Bullet.AmmoType.cal32))
+                        spriteBatch.Draw(flashFiring[currentFrame], new Vector2(this.PositionRelativeToCharacter.X, this.PositionRelativeToCharacter.Y), null, Color.White, rotation, new Vector2((float)80, (float)260), .15f, SpriteEffects.None, 0f);
                     spriteBatch.Draw(texturax, new Vector2(bullet.sourcePosition.X + 3, bullet.sourcePosition.Y + 7), null, Color.White, rotation, new Vector2((float)2.5, (float)2.5), 1f, SpriteEffects.None, 0f);
+                }
                 else if (bullet.ammoType == Bullet.AmmoType.rocket)
                     spriteBatch.Draw(texturasRocket, new Vector2(bullet.sourcePosition.X, bullet.sourcePosition.Y + 7), null, Color.White, rotation, new Vector2((float)5, (float)3.5), 1f, SpriteEffects.None, 0f);
                 else if (bullet.ammoType == Bullet.AmmoType.nade)
