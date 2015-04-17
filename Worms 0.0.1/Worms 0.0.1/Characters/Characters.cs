@@ -82,7 +82,6 @@ namespace Worms_0._0._1
                 }
                 timer = 0;
             }
-            CharacterPos += velocity;
 
 
             /// <summary>
@@ -118,9 +117,7 @@ namespace Worms_0._0._1
 
 
 
-            if (Keyboard.GetState().IsKeyDown(Keys.A)) velocity.X = -3f;
-            else if (Keyboard.GetState().IsKeyDown(Keys.D)) velocity.X = 3f;
-            else velocity.X = 0f;
+           
 
             if (Keyboard.GetState().IsKeyDown(Keys.W) && hasjumped == false)
             {
@@ -136,17 +133,25 @@ namespace Worms_0._0._1
             if (hasjumped == false)        
                 velocity.Y = 0f;
 
-            //APENAS PARA TESTE
+            //////////////////////////////////////////////////////////////APENAS PARA TESTE\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
             if (CharacterPos.Y > 350)
                 hasjumped = false;
 
+            //rodar personagem
             mousePos = mState.Position;
             float x = (float)CharacterPos.X - mousePos.X;
-
             if (mousePos.X > CharacterPos.X) flip = SpriteEffects.FlipHorizontally  ;
             else flip = SpriteEffects.None;
-            rec = new Rectangle((int)CharacterPos.X, (int)CharacterPos.Y, 50, 72);
+
+            if (Keyboard.GetState().IsKeyDown(Keys.A) && CheckCollisionsTile(rec).Count == 0) velocity.X = -3f;
+            else if (Keyboard.GetState().IsKeyDown(Keys.D) && CheckCollisionsTile(rec).Count == 0) velocity.X = 3f;
+            else velocity.X = 0f;
+
+            CharacterPos += velocity;
+
+            rec = new Rectangle((int)CharacterPos.X, (int)CharacterPos.Y, 20, 20);
         }
+
         public void Draw(SpriteBatch spritebatch)
         {   
             spritebatch.Draw(textura, new Vector2((int)CharacterPos.X, (int)CharacterPos.Y), new Rectangle(currentFrame, 0, 50, 72), Color.White, 0f, new Vector2(25, 36), 1f, flip, 0f);
@@ -225,5 +230,21 @@ namespace Worms_0._0._1
         {
             get { throw new NotImplementedException(); }
         }
+
+        public List<Rectangle> CheckCollisionsTile(Rectangle rect)
+        {
+            List<Rectangle> collidingWith = new List<Rectangle>();
+            foreach (var rectangle in Collisions.tilesCollisions)
+            {
+                if (rect.Intersects(rectangle) && rect != rectangle)
+                {
+                    collidingWith.Add(rectangle);
+                }
+            }
+            return collidingWith;
+
+
+        }
+
     }
 }
