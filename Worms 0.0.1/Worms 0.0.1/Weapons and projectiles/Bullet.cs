@@ -61,7 +61,28 @@ namespace Worms_0._0._1.Weapons_and_projectiles
                 bulletRec = new Rectangle((int)sourcePosition.X, (int)sourcePosition.Y, 15, 15);
             }
             else if (ammoType == AmmoType.nade) { }
+
+            if (CheckCollisionsProjectile().Count != 0)
+            {
+                Game1.TesteMapa.DestroySquare(sourcePosition);
+            }
             
+        }
+
+        public List<Rectangle> CheckCollisionsProjectile()
+        {
+            List<Rectangle> collidingWith = new List<Rectangle>();
+
+            Rectangle rect = new Rectangle((int)Math.Round(sourcePosition.X), (int)Math.Round(sourcePosition.Y), 15, 15);
+
+            foreach (Rectangle rectangle in Collisions.tilesCollisions)
+            {
+                if (rect.Intersects(rectangle) && rect != rectangle)
+                {
+                    collidingWith.Add(rectangle);
+                }
+            }
+            return collidingWith;
         }
 
         public float getFireRate(AmmoType ammo){

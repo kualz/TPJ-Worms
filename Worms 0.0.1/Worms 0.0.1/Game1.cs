@@ -19,14 +19,15 @@ namespace Worms_0._0._1
         Weapons weapon;
         Crosshair MIRA;
         Vector2 mousevector;
+        public static Map TesteMapa;
 
         public Game1()
             : base()
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferHeight = 720;
-            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 700;
+            graphics.PreferredBackBufferWidth = 1000;
             Content.RootDirectory = "Content";
         }
 
@@ -39,6 +40,8 @@ namespace Worms_0._0._1
         
         protected override void LoadContent()
         {
+            TesteMapa = new Map();
+            TesteMapa.Load(Content);
             spriteBatch = new SpriteBatch(GraphicsDevice);
             MIRA = new Crosshair();
             MIRA.Load(Content);
@@ -65,6 +68,7 @@ namespace Worms_0._0._1
         
         protected override void Update(GameTime gameTime)
         {
+            TesteMapa.update(gameTime);
             Input.Update();
             MouseState mState = Mouse.GetState();
             mousevector = new Vector2(mState.X, mState.Y);
@@ -82,8 +86,8 @@ namespace Worms_0._0._1
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-            
             spriteBatch.Begin();
+            TesteMapa.Draw(spriteBatch);
             MIRA.draw(spriteBatch, mousevector);
             Player1.Draw(spriteBatch);
             Player2.Draw(spriteBatch);
