@@ -94,7 +94,7 @@ namespace Worms_0._0._1.Weapons_and_projectiles
             else return 0;
         }
 
-        public void ExplosionCollision()
+        public void DontNeverDuwides()
         {
 
         }
