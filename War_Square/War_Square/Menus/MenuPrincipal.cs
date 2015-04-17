@@ -27,6 +27,7 @@ namespace War_Square.Menus
         {
             spriteFont = content.Load<SpriteFont>("MyFont");
             Options.Add("Start New Game");
+            Options.Add("Options");
             Options.Add("Exit");
             texture = content.Load<Texture2D>("1");
         }
@@ -52,7 +53,10 @@ namespace War_Square.Menus
                     case 0:
                         game.gameState = Game1.GameState.CharacterChoose;
                         break;
-                    case 1: game.Exit();
+                    case 1:
+                        game.gameState = Game1.GameState.Options;
+                        break;
+                    case 2: game.Exit();
                         break;
                 }
             }

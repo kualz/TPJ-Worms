@@ -10,8 +10,27 @@ namespace War_Square.Menus
 {
     class MenuInGame
     {
-        public void load(ContentManager content) { }
-        public void update(GameTime gametime) { }
-        public void draw(SpriteBatch spriteBatch) { }
+        private Texture2D textura;
+        private SpriteFont font;
+        private int escolha;
+        private List<string> options = new List<string>();
+
+
+        public void load(ContentManager content)
+        {
+            textura = content.Load<Texture2D>("1");
+            font = content.Load<SpriteFont>("MyFont");
+
+        }
+
+        public void update(GameTime gametime)
+        {
+
+        }
+
+        public void draw(SpriteBatch spriteBatch)
+        {
+
+        }
     }
 }
