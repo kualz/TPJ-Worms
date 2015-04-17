@@ -29,7 +29,8 @@ namespace War_Square.Menus
             //escolher niveis
             //e stuff do som se for necessario!
             //e mais coisas ta tudo no txt! ate se carregava de la XD
-            Options.Add("");
+            Options.Add("Volume");
+            Options.Add("Back");
         }
 
         public void Update(GameTime gameTime, Game1 game)
@@ -54,8 +55,7 @@ namespace War_Square.Menus
                     case 0:
                         break;
                     case 1:
-                        break;
-                    default:
+                        game.gameState = Game1.GameState.Menu;
                         break;
                 }
             }

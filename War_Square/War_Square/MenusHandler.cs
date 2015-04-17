@@ -27,26 +27,50 @@ namespace War_Square
 
         static public void Update(GameTime gameTime, Game1 game)
         {
-            if (game.gameState == Game1.GameState.running)
-                menuInGame.update(gameTime);
-            if (game.gameState == Game1.GameState.Options)
-                optionsMenu.Update(gameTime, game);
             if (game.gameState == Game1.GameState.Menu)
+            {
                 menuPrincipal.update(gameTime, game);
+                return;
+            }
+            if (game.gameState == Game1.GameState.running)
+            {
+                menuInGame.update(gameTime);
+                return;
+            }
+            if (game.gameState == Game1.GameState.Options)
+            {
+                optionsMenu.Update(gameTime, game);
+                return;
+            }
             if (game.gameState == Game1.GameState.CharacterChoose)
+            {
                 characterChoose.Update(gameTime, game);
+                return;
+            }
         }
 
         static public void draw(SpriteBatch spriteBatch, Game1 game)
         {
             if (game.gameState == Game1.GameState.running)
+            {
                 menuInGame.draw(spriteBatch);
+                return;
+            }
             if (game.gameState == Game1.GameState.Options)
+            {
                 optionsMenu.Draw(spriteBatch);
+                return;
+            }
             if (game.gameState == Game1.GameState.Menu)
+            {
                 menuPrincipal.Draw(spriteBatch);
+                return;
+            }
             if (game.gameState == Game1.GameState.CharacterChoose)
+            {
                 characterChoose.draw(spriteBatch);
+                return;
+            }
         }
     }
 }
