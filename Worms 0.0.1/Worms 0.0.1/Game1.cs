@@ -96,7 +96,6 @@ namespace Worms_0._0._1
             //    aux = 1;
             //}
             //else
-
             TesteMapa.secondDraw(spriteBatch);
 
             MIRA.draw(spriteBatch, mousevector);

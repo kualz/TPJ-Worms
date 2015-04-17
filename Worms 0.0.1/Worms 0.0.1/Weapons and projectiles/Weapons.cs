@@ -41,6 +41,7 @@ namespace Worms_0._0._1
         private Texture2D[] explosion;
         private Texture2D texturax;
         private Texture2D texturasRocket;
+        static public bool Sexplosion = false;
 
         public Weapons() { }
 
@@ -173,6 +174,11 @@ namespace Worms_0._0._1
                 else if (bullet.ammoType == Bullet.AmmoType.nade)
                 { }
             }
+            if (Sexplosion)
+            {
+                spriteBatch.Draw(explosion[currentFrame1], new Vector2(Bullet.rec.X, Bullet.rec.Y), null, Color.White, 0f, new Vector2((float)5, (float)5), 0.05f, SpriteEffects.None, 0f);
+            }
+            Sexplosion = false;
             //spriteBatch.Draw(this.textura, new Rectangle((int)PositionRelativeToCharacter.X, (int)PositionRelativeToCharacter.Y, 5, 5), Color.Red);
         }
 
@@ -236,7 +242,7 @@ namespace Worms_0._0._1
         public void updateDeleteBullets(GameTime gameTime){
             for (int i = 0; i < bulletsOnScreen.Count; i++)
                 if ((bulletsOnScreen[i].sourcePosition - this.PositionRelativeToCharacter).Length() > bulletsOnScreen[i].range)
-                    bulletsOnScreen.Remove(bulletsOnScreen[i]);   
+                    bulletsOnScreen.Remove(bulletsOnScreen[i]);
         }
     }
 }

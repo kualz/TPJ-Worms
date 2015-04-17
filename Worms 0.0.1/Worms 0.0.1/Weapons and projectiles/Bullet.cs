@@ -23,6 +23,7 @@ namespace Worms_0._0._1.Weapons_and_projectiles
         private Point mousePos;
         private float rotation;
         private Rectangle bulletRec;
+        static public Vector2 rec;
         public enum AmmoType
         {
             cal32,
@@ -49,8 +50,7 @@ namespace Worms_0._0._1.Weapons_and_projectiles
         }
 
         public void update(GameTime gameTime)
-        {
-            
+        {      
             if (ammoType == AmmoType.cal32)
             {
                 sourcePosition = sourcePosition + direction * speed * ((float)gameTime.ElapsedGameTime.TotalSeconds * 1.5f);
@@ -65,19 +65,18 @@ namespace Worms_0._0._1.Weapons_and_projectiles
             if (CheckCollisionsProjectile(bulletRec) != new Rectangle(0,0,0,0))
             {
                 Collisions.tilesCollisions.Remove(CheckCollisionsProjectile(bulletRec));
-            }
-           
-            
+                Weapons.Sexplosion = true;
+            }      
         }
 
         public Rectangle CheckCollisionsProjectile(Rectangle rect)
         {
             //List<Rectangle> collidingWith = new List<Rectangle>();
-
             foreach (Rectangle rectangle in Collisions.tilesCollisions)
             {
                 if (rect.Intersects(rectangle) && rect != rectangle)
                 {
+                    rec = new Vector2(rectangle.X, rectangle.Y);
                     return rectangle;
                 }
             }
