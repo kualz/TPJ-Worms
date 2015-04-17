@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using Worms_0._0._1.Weapons_and_projectiles;
 
+
 namespace Worms_0._0._1
 {
     class Weapons
@@ -31,12 +32,13 @@ namespace Worms_0._0._1
         private List<Bullet> createdAmmo = new List<Bullet>();
         private Bullet ammunition = new Bullet();
         private Point mousePos;
-        private int currentFrame = 0;
-        private float fireRateTime = 0, fireRateTime1 = 0, timer, intervalo = 0.05f;
+        private int currentFrame = 0, currentFrame1 = 0;
+        private float fireRateTime = 0, fireRateTime1 = 0, timer, timerExplosion, intervalo = 0.05f;
         private Random rnd;
         private List<Bullet> bulletsOnScreen = new List<Bullet>();
         private List<string> names = new List<string>();
         private Texture2D[] flashFiring;
+        private Texture2D[] explosion;
         private Texture2D texturax;
         private Texture2D texturasRocket;
 
@@ -60,6 +62,18 @@ namespace Worms_0._0._1
             flashFiring[3] = content.Load<Texture2D>("flash_d_0004");
             flashFiring[4] = content.Load<Texture2D>("flash_d_0005");
             flashFiring[5] = content.Load<Texture2D>("flash_d_0006");
+
+            explosion = new Texture2D[9];
+            explosion[0] = content.Load<Texture2D>("fireball_hit_0001");
+            explosion[1] = content.Load<Texture2D>("fireball_hit_0002");
+            explosion[2] = content.Load<Texture2D>("fireball_hit_0003");
+            explosion[3] = content.Load<Texture2D>("fireball_hit_0004");
+            explosion[4] = content.Load<Texture2D>("fireball_hit_0005");
+            explosion[5] = content.Load<Texture2D>("fireball_hit_0006");
+            explosion[6] = content.Load<Texture2D>("fireball_hit_0007");
+            explosion[7] = content.Load<Texture2D>("fireball_hit_0008");
+            explosion[8] = content.Load<Texture2D>("fireball_hit_0009");
+
             names.Add("teste_Projetil1");
             names.Add("teste_Projetil2");
             texturax = content.Load<Texture2D>(names[0]);
@@ -76,6 +90,7 @@ namespace Worms_0._0._1
             mousePos = mState.Position;
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             timer += deltaTime;
+            timerExplosion += deltaTime;
             if (timer >= intervalo)
             {
                 currentFrame++;
@@ -84,6 +99,15 @@ namespace Worms_0._0._1
                     currentFrame = 0;
                 }
                 timer = 0;
+            }
+            if (timerExplosion >= intervalo)
+            {
+                currentFrame1++;
+                if (currentFrame1 >= (9))
+                {
+                    currentFrame1 = 0;
+                }
+                timerExplosion = 0;
             }
 
 
@@ -143,6 +167,7 @@ namespace Worms_0._0._1
                     if (fireRateTime < ammunition.getFireRate(Bullet.AmmoType.cal32))
                         spriteBatch.Draw(flashFiring[currentFrame], new Vector2(this.PositionRelativeToCharacter.X, this.PositionRelativeToCharacter.Y), null, Color.White, rotation, new Vector2((float)80, (float)260), .15f, SpriteEffects.None, 0f);
                     spriteBatch.Draw(texturax, new Vector2(bullet.sourcePosition.X + 3, bullet.sourcePosition.Y + 7), null, Color.White, rotation, new Vector2((float)2.5, (float)2.5), 1f, SpriteEffects.None, 0f);
+                    
                 }
                 else if (bullet.ammoType == Bullet.AmmoType.rocket)
                     spriteBatch.Draw(texturasRocket, new Vector2(bullet.sourcePosition.X, bullet.sourcePosition.Y + 7), null, Color.White, rotation, new Vector2((float)5, (float)3.5), 1f, SpriteEffects.None, 0f);
