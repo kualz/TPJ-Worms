@@ -17,7 +17,7 @@ namespace Worms_0._0._1
         protected Vector2 CharacterPos;
         protected float speed;
         public CharacterState WormState;
-        public Vector2 velocity;
+        public Vector2 velocity, nextpos;
         private float intervalo = 0.08f, timer, timer1;
         public SpriteEffects flip;
         private int currentFrame = 0;
@@ -72,6 +72,7 @@ namespace Worms_0._0._1
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             timer += deltaTime;
             MouseState mState = Mouse.GetState();
+            Vector2 nextPos = CharacterPos;
 
             if (timer >= intervalo)
             {
@@ -143,18 +144,28 @@ namespace Worms_0._0._1
             if (mousePos.X > CharacterPos.X) flip = SpriteEffects.FlipHorizontally  ;
             else flip = SpriteEffects.None;
 
-            if (Keyboard.GetState().IsKeyDown(Keys.A) && CheckCollisionsTile(rec).Count == 0) velocity.X = -3f;
-            else if (Keyboard.GetState().IsKeyDown(Keys.D) && CheckCollisionsTile(rec).Count == 0) velocity.X = 3f;
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                nextpos = new Vector2(CharacterPos.X - 3f, CharacterPos.Y);              
+                if (CheckCollisionsTile(nextpos).Count == 0)
+                    CharacterPos = nextpos;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                nextpos = new Vector2(CharacterPos.X + 3f, CharacterPos.Y);
+                if (CheckCollisionsTile(nextpos).Count == 0)
+                    CharacterPos = nextpos;
+            }
+            
             else velocity.X = 0f;
-
             CharacterPos += velocity;
-
-            rec = new Rectangle((int)CharacterPos.X, (int)CharacterPos.Y, 20, 20);
+            rec = new Rectangle((int)CharacterPos.X, (int)CharacterPos.Y, 50, 72);
         }
 
         public void Draw(SpriteBatch spritebatch)
         {   
-            spritebatch.Draw(textura, new Vector2((int)CharacterPos.X, (int)CharacterPos.Y), new Rectangle(currentFrame, 0, 50, 72), Color.White, 0f, new Vector2(25, 36), 1f, flip, 0f);
+            spritebatch.Draw(textura, new Vector2((int)CharacterPos.X, (int)CharacterPos.Y), new Rectangle(currentFrame, 0, 50, 72), Color.White, 0f, Vector2.Zero, 1f, flip, 0f);
             spritebatch.DrawString(font, "" + CharacterName, new Vector2((int)CharacterPos.X - 48, (int)CharacterPos.Y - 70), Color.White);
             /// <summary>
             /// tipo aqui so tens a weapon selecionada a fazer draw...nao sei se queres optimizar isto!!!
@@ -231,9 +242,11 @@ namespace Worms_0._0._1
             get { throw new NotImplementedException(); }
         }
 
-        public List<Rectangle> CheckCollisionsTile(Rectangle rect)
+        public List<Rectangle> CheckCollisionsTile(Vector2 pos)
         {
             List<Rectangle> collidingWith = new List<Rectangle>();
+            Rectangle rect = new Rectangle((int)Math.Round(pos.X), (int)Math.Round(pos.Y), 50, 72);
+
             foreach (var rectangle in Collisions.tilesCollisions)
             {
                 if (rect.Intersects(rectangle) && rect != rectangle)
