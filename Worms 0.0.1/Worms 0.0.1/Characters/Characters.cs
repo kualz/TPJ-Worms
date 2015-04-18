@@ -76,8 +76,8 @@ namespace Worms_0._0._1
 
             if (timer >= intervalo)
             {
-                currentFrame = currentFrame + 50;
-                if (currentFrame >= 250)
+                currentFrame = currentFrame + 58;
+                if (currentFrame >= 290)
                 {
                     currentFrame = 0;
                 }
@@ -165,7 +165,7 @@ namespace Worms_0._0._1
 
         public void Draw(SpriteBatch spritebatch)
         {   
-            spritebatch.Draw(textura, new Vector2((int)CharacterPos.X, (int)CharacterPos.Y), new Rectangle(currentFrame, 0, 50, 72), Color.White, 0f, Vector2.Zero, 1f, flip, 0f);
+            spritebatch.Draw(textura, new Vector2((int)CharacterPos.X, (int)CharacterPos.Y), new Rectangle(currentFrame, 0, 50, 70), Color.White, 0f, Vector2.Zero, 1f, flip, 0f);
             spritebatch.DrawString(font, "" + CharacterName, new Vector2((int)CharacterPos.X - 48, (int)CharacterPos.Y - 70), Color.White);
             /// <summary>
             /// tipo aqui so tens a weapon selecionada a fazer draw...nao sei se queres optimizar isto!!!
