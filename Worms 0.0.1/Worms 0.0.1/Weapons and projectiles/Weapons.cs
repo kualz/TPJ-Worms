@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Worms_0._0._1.Weapons_and_projectiles;
 
 
+
 namespace Worms_0._0._1
 {
     class Weapons
@@ -27,7 +28,7 @@ namespace Worms_0._0._1
         private SpriteFont font;
         private Rectangle rec;
         protected bool activeState;
-        protected int SerialNumber, weaponCodeChoosen = 0;
+        protected int SerialNumber, weaponCodeChoosen = 0, helperX = 0, helperXpos = 0;
         protected int TextureWidth = 10, TextureWheight = 15;
         private List<Bullet> createdAmmo = new List<Bullet>();
         private Bullet ammunition = new Bullet();
@@ -42,6 +43,7 @@ namespace Worms_0._0._1
         private Texture2D texturax;
         private Texture2D texturasRocket;
         static public bool Sexplosion = false;
+        private SpriteEffects flip;
 
         public Weapons() { }
 
@@ -150,11 +152,24 @@ namespace Worms_0._0._1
             rec = new Rectangle((int)PositionRelativeToCharacter.X, (int)PositionRelativeToCharacter.Y, 10, 15);
             updateBullets(gameTime);
             updateDeleteBullets(gameTime);
+            float mouseX = (float)PositionRelativeToCharacter.X - mousePos.X;
+            if (mousePos.X > PositionRelativeToCharacter.X)
+            {
+                flip = SpriteEffects.FlipHorizontally;
+                helperX = 0;
+                helperXpos = 0;
+            }
+            if (mousePos.X < PositionRelativeToCharacter.X)
+            {
+                flip = SpriteEffects.None;
+                helperX = -20;
+                helperXpos = 30;
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch, Characters ActiveChar)
         {
-            spriteBatch.Draw(this.textura, new Vector2(PositionRelativeToCharacter.X + 3, PositionRelativeToCharacter.Y + 7), null , Color.White, this.rotation, new Vector2((float)2.5,(float)2.5), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(this.textura, new Vector2(PositionRelativeToCharacter.X+5+helperXpos, PositionRelativeToCharacter.Y+45), null, Color.White, this.rotation + (float)(Math.PI / 2), new Vector2((float)45+helperX, (float)40), 1f, flip, 0f);
             spriteBatch.DrawString(font, "Character Active: " + ActiveChar.returnName(), new Vector2(500f, 475f), Color.White); 
             spriteBatch.DrawString(font, "Weapon Name: " + CharactersHandler.getActiveWeapon().getName(), new Vector2(500f, 500f), Color.White);
             spriteBatch.DrawString(font, "Weapon Type: " + CharactersHandler.getActiveWeapon().getWeaponType(), new Vector2(500f, 525f), Color.White);
@@ -166,8 +181,9 @@ namespace Worms_0._0._1
                 if (bullet.ammoType == Bullet.AmmoType.cal32)
                 {
                     if (fireRateTime < ammunition.getFireRate(Bullet.AmmoType.cal32))
-                        spriteBatch.Draw(flashFiring[currentFrame], new Vector2(this.PositionRelativeToCharacter.X + 5, this.PositionRelativeToCharacter.Y + 5), null, Color.White, rotation, new Vector2((float)80, (float)260), .15f, SpriteEffects.None, 0f);
-                    spriteBatch.Draw(texturax, new Vector2(bullet.sourcePosition.X + 3, bullet.sourcePosition.Y + 7), null, Color.White, rotation, new Vector2((float)2.5, (float)2.5), 1f, SpriteEffects.None, 0f);              
+                        //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------pus este 260 a sorte e deu GG--------------------
+                        spriteBatch.Draw(flashFiring[currentFrame], new Vector2(this.PositionRelativeToCharacter.X + 5 + helperXpos, this.PositionRelativeToCharacter.Y + 45), null, Color.White, rotation, new Vector2((float)0, (float)260), .15f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(texturax, new Vector2(bullet.sourcePosition.X + 5 + helperXpos, bullet.sourcePosition.Y + 45), null, Color.White, rotation, new Vector2((float)2.5, (float)2.5), 1f, SpriteEffects.None, 0f);              
                 }
                 else if (bullet.ammoType == Bullet.AmmoType.rocket)
                     spriteBatch.Draw(texturasRocket, new Vector2(bullet.sourcePosition.X, bullet.sourcePosition.Y + 7), null, Color.White, rotation, new Vector2((float)5, (float)3.5), 1f, SpriteEffects.None, 0f);

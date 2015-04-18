@@ -58,9 +58,9 @@ namespace Worms_0._0._1
             /// esta parte aqui nao sei mesmo sera a melhor forma assim?
             /// :o
             /// </summary>
-            Arsenal[0].Load(content, "WeaponRifle");
-            Arsenal[1].Load(content, "WeaponRifle");
-            Arsenal[2].Load(content, "WeaponRifle");    
+            Arsenal[0].Load(content, "gunn");
+            Arsenal[1].Load(content, "gunn");
+            Arsenal[2].Load(content, "gunn");    
             /// <summary>
             /// aqui so te diz que a arma inicial 'e a AR556 mas se quiseres podes mudar
             /// </summary>
