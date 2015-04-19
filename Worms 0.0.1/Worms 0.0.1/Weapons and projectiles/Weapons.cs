@@ -91,7 +91,6 @@ namespace Worms_0._0._1
 
         public void Update(GameTime gameTime, Characters Char)
         {
-            Input.Update();
             MouseState mState = Mouse.GetState();
             PositionRelativeToCharacter = new Vector2(Char.CharacterPosition().X, Char.CharacterPosition().Y);
             mousePos = mState.Position;
@@ -116,17 +115,21 @@ namespace Worms_0._0._1
             {
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.cal32) && WeaponTypes == WeaponType.MachineGun)
                 {
-                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.cal32, 300, 800));
+                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.cal32, 300, 800, mousePos));
                     fireRateTime = 0;
                 }
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.rocket) && WeaponTypes == WeaponType.Rocket)
                 {
-                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.rocket, 200, 500));
+                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.rocket, 200, 500, mousePos));
                     fireRateTime = 0;
                 }
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.nade) && WeaponTypes == WeaponType.GrenadeLauncher)
                 {
-                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.nade, 500, 150));
+                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, 
+                                        (rotation + (getRandom())), 
+                                        Bullet.AmmoType.nade, 
+                                        500, 150, 
+                                        mousePos));
                     fireRateTime = 0;
                 }
                 else fireRateTime += (float)gameTime.ElapsedGameTime.TotalSeconds;

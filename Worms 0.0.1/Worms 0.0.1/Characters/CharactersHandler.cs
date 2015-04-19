@@ -78,7 +78,5 @@ namespace Worms_0._0._1
                 }
             }
         }
-
-        
     }
 }

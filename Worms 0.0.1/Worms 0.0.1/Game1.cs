@@ -84,13 +84,14 @@ namespace Worms_0._0._1
         protected override void Update(GameTime gameTime)
         {
             Input.Update();
-            if(gameState == GameState.Menu)
+            if (gameState == GameState.Menu)
+            {
                 MenusHandler.Update(gameTime, this);
+            }
             else
             {
                 roundTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
                 TesteMapa.update(gameTime);
-                Input.Update();
                 MouseState mState = Mouse.GetState();
                 mousevector = new Vector2(mState.X, mState.Y);
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape))

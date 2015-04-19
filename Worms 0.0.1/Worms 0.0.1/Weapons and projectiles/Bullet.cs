@@ -21,9 +21,14 @@ namespace Worms_0._0._1.Weapons_and_projectiles
         private Vector2 direction;
         private Vector2 velocity;
         private Point mousePos;
+        private Mouse mouse;
         private float rotation;
         private Rectangle bulletRec;
         static public Vector2 rec;
+        private float deltaX;
+        private float ratio;
+        private float K = 1;
+        private int distanciaPercorrida = 0;
         public enum AmmoType
         {
             cal32,
@@ -38,7 +43,8 @@ namespace Worms_0._0._1.Weapons_and_projectiles
                       float rotation, 
                       AmmoType ammo, 
                       int range, 
-                      float speed)
+                      float speed, 
+                      Point MousePos)
         {
             this.range = range;
             this.sourcePosition = sourcePosition;
@@ -46,10 +52,15 @@ namespace Worms_0._0._1.Weapons_and_projectiles
             this.direction = new Vector2((float)Math.Cos(rotation),(float)Math.Sin(rotation));
             this.ammoType = ammo;
             this.speed = speed;
+            mousePos = MousePos;
         }
 
         public void update(GameTime gameTime, Weapons weapon)
-        {      
+        {
+            deltaX = Math.Abs(mousePos.X - sourcePosition.X);
+            ratio = 1 / deltaX;
+            distanciaPercorrida++;
+
             if (ammoType == AmmoType.cal32)
             {
                 sourcePosition = sourcePosition + direction * speed * ((float)gameTime.ElapsedGameTime.TotalSeconds * 1.5f);
@@ -57,7 +68,15 @@ namespace Worms_0._0._1.Weapons_and_projectiles
             }
             else if (ammoType == AmmoType.rocket)
             {
-
+                velocity.X += 0.20f * K;
+                if (velocity.X > 5f) velocity.X = 5f;
+                velocity.Y = ratio * 5f;
+                if (distanciaPercorrida > deltaX / 2) sourcePosition.Y += velocity.Y;
+                if (distanciaPercorrida < deltaX / 2) sourcePosition.Y -= velocity.Y;
+                if (mousePos.X > sourcePosition.X) sourcePosition.X += velocity.X;
+                if (mousePos.X < sourcePosition.X) sourcePosition.X -= velocity.X;
+                
+                bulletRec = new Rectangle((int)sourcePosition.X, (int)sourcePosition.Y, 15, 15);
             }
             else if (ammoType == AmmoType.nade) 
             { 

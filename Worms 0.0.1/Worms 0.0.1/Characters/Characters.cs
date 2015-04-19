@@ -78,7 +78,6 @@ namespace Worms_0._0._1
                 MouseState mState = Mouse.GetState();
                 Vector2 nextPos = CharacterPos;
 
-                #region AnimaçaoPersonagem
                 if (timer >= intervalo)
                 {
                     currentFrame = currentFrame + 58;
@@ -88,27 +87,25 @@ namespace Worms_0._0._1
                     }
                     timer = 0;
                 }
-                #endregion
 
-                #region Trocar arma
                 /// <summary>
                 /// aqui o input para trocar de arma a funcionar...
                 /// o problema e quando tens dois jogadores...as informacoes do segundo sobrepoem as do 1' 
                 /// mas isso e simples de se ver
                 /// </summary>
-                if (Input.IsPressed(Keys.D1))
+                if (Keyboard.GetState().IsKeyDown(Keys.D1))
                 {
                     weaponCodeChosen = 0;
                     getAndActivateWeapon(weaponCodeChosen);
                     previousWeapon = 0;
                 }
-                else if (Input.IsPressed(Keys.D2))
+                if (Keyboard.GetState().IsKeyDown(Keys.D2))
                 {
                     weaponCodeChosen = 1;
                     getAndActivateWeapon(weaponCodeChosen);
                     previousWeapon = 1;
                 }
-                else if (Input.IsPressed(Keys.D3))
+                if (Keyboard.GetState().IsKeyDown(Keys.D3))
                 {
                     weaponCodeChosen = 2;
                     getAndActivateWeapon(weaponCodeChosen);
@@ -120,9 +117,8 @@ namespace Worms_0._0._1
                 /// simplesmente carrega direto as variaveis
                 /// </summary>
                 Arsenal[weaponCodeChosen].Update(gameTime, this);
-                #endregion
 
-                if (Keyboard.GetState().IsKeyDown(Keys.W) && hasjumped == false)
+                if (Input.IsPressed(Keys.W) && hasjumped == false)
                 {
                     CharacterPos.Y -= 8f;
                     velocity.Y = -5f;
@@ -157,12 +153,10 @@ namespace Worms_0._0._1
 
                 CharacterPos += velocity;
 
-                #region Rodar Personagem / flip
                 mousePos = mState.Position;
                 float x = (float)CharacterPos.X - mousePos.X;
                 if (mousePos.X > CharacterPos.X) flip = SpriteEffects.FlipHorizontally;
                 else flip = SpriteEffects.None;
-                #endregion 
 
 
                 if (Keyboard.GetState().IsKeyDown(Keys.A))
