@@ -73,7 +73,6 @@ namespace Worms_0._0._1
             timer += deltaTime;
             MouseState mState = Mouse.GetState();
             Vector2 nextPos = CharacterPos;
-
             if (timer >= intervalo)
             {
                 currentFrame = currentFrame + 58;
@@ -83,7 +82,6 @@ namespace Worms_0._0._1
                 }
                 timer = 0;
             }
-
 
             /// <summary>
             /// aqui o input para trocar de arma a funcionar...
@@ -108,18 +106,12 @@ namespace Worms_0._0._1
                 getAndActivateWeapon(weaponCodeChosen);
                 previousWeapon = 2;
             }
-
             /// <summary>
             /// aqui tbem e simples basicamente ele pega na arma que esta ativa e faz o update dela com as suas informacoes
             /// se fores ao codigo da weapon aquilo ja nem usa a weapons handler
             /// simplesmente carrega direto as variaveis
             /// </summary>
             Arsenal[weaponCodeChosen].Update(gameTime, this);
-
-
-
-           
-
             if (Keyboard.GetState().IsKeyDown(Keys.W) && hasjumped == false)
             {
                 CharacterPos.Y -= 10f;
@@ -133,17 +125,14 @@ namespace Worms_0._0._1
             }
             if (hasjumped == false)        
                 velocity.Y = 0f;
-
             //////////////////////////////////////////////////////////////APENAS PARA TESTE\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
             if (CharacterPos.Y > 350)
                 hasjumped = false;
-
             //rodar personagem
             mousePos = mState.Position;
             float x = (float)CharacterPos.X - mousePos.X;
             if (mousePos.X > CharacterPos.X) flip = SpriteEffects.FlipHorizontally  ;
             else flip = SpriteEffects.None;
-
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 nextpos = new Vector2(CharacterPos.X - 3f, CharacterPos.Y);              
@@ -157,7 +146,6 @@ namespace Worms_0._0._1
                 if (CheckCollisionsTile(nextpos).Count == 0)
                     CharacterPos = nextpos;
             }
-            
             else velocity.X = 0f;
             CharacterPos += velocity;
             rec = new Rectangle((int)CharacterPos.X, (int)CharacterPos.Y, 50, 72);

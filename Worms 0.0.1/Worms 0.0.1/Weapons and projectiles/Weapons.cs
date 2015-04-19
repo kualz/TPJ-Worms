@@ -28,7 +28,7 @@ namespace Worms_0._0._1
         private SpriteFont font;
         private Rectangle rec;
         protected bool activeState;
-        protected int SerialNumber, weaponCodeChoosen = 0, helperX = 0, helperXpos = 0;
+        protected int SerialNumber, weaponCodeChoosen = 0, helperX = 0, helperXpos = 0, helperXCharPos = 0, helperYCharPos = 0;
         protected int TextureWidth = 10, TextureWheight = 15;
         private List<Bullet> createdAmmo = new List<Bullet>();
         private Bullet ammunition = new Bullet();
@@ -42,6 +42,7 @@ namespace Worms_0._0._1
         private Texture2D[] explosion;
         private Texture2D texturax;
         private Texture2D texturasRocket;
+        private Texture2D flatSquare;
         static public bool Sexplosion = false;
         private SpriteEffects flip;
 
@@ -76,6 +77,8 @@ namespace Worms_0._0._1
             explosion[6] = content.Load<Texture2D>("fireball_hit_0007");
             explosion[7] = content.Load<Texture2D>("fireball_hit_0008");
             explosion[8] = content.Load<Texture2D>("fireball_hit_0009");
+
+            flatSquare = content.Load<Texture2D>("1"); 
 
             names.Add("teste_Projetil1");
             names.Add("teste_Projetil2");
@@ -112,8 +115,6 @@ namespace Worms_0._0._1
                 }
                 timerExplosion = 0;
             }
-
-
             if (mState.LeftButton == ButtonState.Pressed)
             {
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.cal32) && WeaponTypes == WeaponType.MachineGun)
@@ -143,9 +144,8 @@ namespace Worms_0._0._1
             //    Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
             //    fireRateTime1 = 0;
             //}
-
-            float y = (float)mousePos.Y - PositionRelativeToCharacter.Y;
-            float x = (float)PositionRelativeToCharacter.X - mousePos.X;
+            float y = (float)mousePos.Y - (PositionRelativeToCharacter.Y + helperYCharPos);
+            float x = (float)(PositionRelativeToCharacter.X + helperXCharPos) - mousePos.X;
             float rot = (float)Math.Atan2(x,y);
             rot += (float)Math.PI/2f;
             rotation = rot;
@@ -158,18 +158,22 @@ namespace Worms_0._0._1
                 flip = SpriteEffects.FlipHorizontally;
                 helperX = 0;
                 helperXpos = 0;
+                helperXCharPos = 0;
+                helperYCharPos = 35;
             }
             if (mousePos.X < PositionRelativeToCharacter.X)
             {
                 flip = SpriteEffects.None;
                 helperX = -20;
                 helperXpos = 30;
+                helperXCharPos = 30;
+                helperYCharPos = 35;
             }
         }
 
         public void Draw(SpriteBatch spriteBatch, Characters ActiveChar)
         {
-            spriteBatch.Draw(this.textura, new Vector2(PositionRelativeToCharacter.X+5+helperXpos, PositionRelativeToCharacter.Y+45), null, Color.White, this.rotation + (float)(Math.PI / 2), new Vector2((float)45+helperX, (float)40), 1f, flip, 0f);
+            spriteBatch.Draw(this.textura, new Vector2(PositionRelativeToCharacter.X + 5 + helperXpos, PositionRelativeToCharacter.Y + 45), null, Color.White, this.rotation+(float)Math.PI/2, new Vector2((float)45 + helperX, (float)40), 1f, flip, 0f);
             spriteBatch.DrawString(font, "Character Active: " + ActiveChar.returnName(), new Vector2(500f, 475f), Color.White); 
             spriteBatch.DrawString(font, "Weapon Name: " + CharactersHandler.getActiveWeapon().getName(), new Vector2(500f, 500f), Color.White);
             spriteBatch.DrawString(font, "Weapon Type: " + CharactersHandler.getActiveWeapon().getWeaponType(), new Vector2(500f, 525f), Color.White);
@@ -182,8 +186,8 @@ namespace Worms_0._0._1
                 {
                     if (fireRateTime < ammunition.getFireRate(Bullet.AmmoType.cal32))
                         //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------pus este 260 a sorte e deu GG--------------------
-                        spriteBatch.Draw(flashFiring[currentFrame], new Vector2(this.PositionRelativeToCharacter.X + 5 + helperXpos, this.PositionRelativeToCharacter.Y + 45), null, Color.White, rotation, new Vector2((float)0, (float)260), .15f, SpriteEffects.None, 0f);
-                    spriteBatch.Draw(texturax, new Vector2(bullet.sourcePosition.X + 5 + helperXpos, bullet.sourcePosition.Y + 45), null, Color.White, rotation, new Vector2((float)2.5, (float)2.5), 1f, SpriteEffects.None, 0f);              
+                        spriteBatch.Draw(flashFiring[currentFrame], new Vector2(this.PositionRelativeToCharacter.X + 5 + helperXpos , this.PositionRelativeToCharacter.Y + 45), null, Color.White, rotation, new Vector2((float)0, (float)260), .15f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(texturax, new Vector2(bullet.sourcePosition.X + 5 + helperXpos, bullet.sourcePosition.Y + 45), null, Color.White, rotation, new Vector2((float)5, (float)2.5), 1f, SpriteEffects.None, 0f);              
                 }
                 else if (bullet.ammoType == Bullet.AmmoType.rocket)
                     spriteBatch.Draw(texturasRocket, new Vector2(bullet.sourcePosition.X, bullet.sourcePosition.Y + 7), null, Color.White, rotation, new Vector2((float)5, (float)3.5), 1f, SpriteEffects.None, 0f);
@@ -195,7 +199,7 @@ namespace Worms_0._0._1
                 spriteBatch.Draw(explosion[currentFrame1], new Vector2(Bullet.rec.X, Bullet.rec.Y), null, Color.White, 0f, new Vector2((float)5, (float)5), 0.05f, SpriteEffects.None, 0f);
             }
             Sexplosion = false;
-            //spriteBatch.Draw(this.textura, new Rectangle((int)PositionRelativeToCharacter.X, (int)PositionRelativeToCharacter.Y, 5, 5), Color.Red);
+            spriteBatch.Draw(flatSquare, new Vector2(PositionRelativeToCharacter.X + helperXCharPos, PositionRelativeToCharacter.Y + helperYCharPos), Color.White);
         }
 
         public float getRandom()
