@@ -175,7 +175,7 @@ namespace Worms_0._0._1
 
         public void Draw(SpriteBatch spriteBatch, Characters ActiveChar)
         {
-            spriteBatch.Draw(this.textura, new Vector2(PositionRelativeToCharacter.X + 5 + helperXpos, PositionRelativeToCharacter.Y + 45), null, Color.White, this.rotation+(float)Math.PI/2, new Vector2((float)45 + helperX, (float)40), 1f, flip, 0f);
+            spriteBatch.Draw(this.textura, new Vector2(ActiveChar.CharacterPosition().X + 5 + helperXpos, ActiveChar.CharacterPosition().Y + 45), null, Color.White, this.rotation+(float)Math.PI/2, new Vector2((float)45 + helperX, (float)40), 1f, flip, 0f);
             spriteBatch.DrawString(font, "Character Active: " + ActiveChar.returnName(), new Vector2(500f, 475f), Color.White); 
             spriteBatch.DrawString(font, "Weapon Name: " + CharactersHandler.getActiveWeapon().getName(), new Vector2(500f, 500f), Color.White);
             spriteBatch.DrawString(font, "Weapon Type: " + CharactersHandler.getActiveWeapon().getWeaponType(), new Vector2(500f, 525f), Color.White);
@@ -201,7 +201,7 @@ namespace Worms_0._0._1
                 spriteBatch.Draw(explosion[currentFrame1], new Vector2(Bullet.rec.X, Bullet.rec.Y), null, Color.White, 0f, new Vector2((float)5, (float)5), 0.05f, SpriteEffects.None, 0f);
             }
             Sexplosion = false;
-            spriteBatch.Draw(flatSquare, new Vector2(PositionRelativeToCharacter.X + helperXCharPos, PositionRelativeToCharacter.Y + helperYCharPos), Color.White);
+            //spriteBatch.Draw(flatSquare, new Vector2(PositionRelativeToCharacter.X + helperXCharPos, PositionRelativeToCharacter.Y + helperYCharPos), Color.White);
         }
 
         public float getRandom()
