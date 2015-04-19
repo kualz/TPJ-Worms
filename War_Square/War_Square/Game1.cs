@@ -19,6 +19,8 @@ namespace War_Square
         private Vector2 mousevector;
         private Map TesteMapa;
         private float roundTime = 20;
+        private Camera2D Camera;
+        public int CameraFocusAux = 0;
         public enum GameState
         {
             running,
@@ -39,6 +41,8 @@ namespace War_Square
             graphics.PreferredBackBufferHeight = 700;
             graphics.PreferredBackBufferWidth = 1000;
             Content.RootDirectory = "Content";
+            Camera = new Camera2D(this);
+            Components.Add(Camera);
         }
 
 
@@ -50,6 +54,7 @@ namespace War_Square
 
         protected override void LoadContent()
         {
+            Camera.Scale = 0.7f;
             spriteBatch = new SpriteBatch(GraphicsDevice);
             spriteFont = Content.Load<SpriteFont>("MyFont");
             CharactersHandler.InitList(Content);
@@ -88,6 +93,7 @@ namespace War_Square
             }
             else
             {
+                Camera.Focus = CharactersHandler.Players[CameraFocusAux];
                 roundTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
                 TesteMapa.update(gameTime);
                 MouseState mState = Mouse.GetState();
@@ -97,9 +103,17 @@ namespace War_Square
                     gameState = GameState.Paused;
                 }
                 if (Input.IsPressed(Keys.K) && CharactersHandler.getPlayerIN_GAME(0).isJumping() == false && CharactersHandler.getPlayerIN_GAME(1).isJumping() == false)
+                {
+                    CameraFocusAux++;
+                    if (CameraFocusAux > CharactersHandler.Players.Count - 1) CameraFocusAux = 0;
+                    Camera.Focus = CharactersHandler.Players[CameraFocusAux];
                     CharactersHandler.ChangeActive();
+                }
                 if (roundTime <= 0)
                 {
+                    CameraFocusAux++;
+                    if (CameraFocusAux > CharactersHandler.Players.Count - 1) CameraFocusAux = 0;
+                    Camera.Focus = CharactersHandler.Players[CameraFocusAux];
                     CharactersHandler.ChangeActive();
                     roundTime = 20;
                 }
@@ -112,7 +126,7 @@ namespace War_Square
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Camera.Transform);
             if (gameState != GameState.running)
                 MenusHandler.draw(spriteBatch, this);
             else

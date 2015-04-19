@@ -7,10 +7,11 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using War_Square.WeaponsAndProjectiles;
+using War_Square;
 
 namespace War_Square.characters
 {
-    class Characters
+    class Characters : IFocusable
     {
         private Texture2D textura, Hitbox;
         protected bool SpecialWeapon, CharacterInPlay, hasjumped;
@@ -209,6 +210,7 @@ namespace War_Square.characters
 
         public void Draw(SpriteBatch spritebatch)
         {
+            
             Vector2 Gravityaux = new Vector2(CharacterPos.X, CharacterPos.Y + 4f);
             spritebatch.Draw(textura, new Vector2((int)CharacterPos.X, (int)CharacterPos.Y), new Rectangle(currentFrame, 0, 50, 70), Color.White, 0f, Vector2.Zero, 1f, flip, 0f);
             if(this.isActive())
@@ -291,6 +293,11 @@ namespace War_Square.characters
                 }
             }
             return collidingWith;
+        }
+
+        public Vector2 Position
+        {
+            get { return this.CharacterPos; }
         }
     }
 }

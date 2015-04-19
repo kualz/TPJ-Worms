@@ -54,13 +54,8 @@ namespace War_Square.WeaponsAndProjectiles
             this.drag = initialpos.Y - mousePos.Y;
 
             if (mousePos.X > initialpos.X) this.tempototal = (float)Math.Abs((mousePos.X - initialpos.X) + drag*1.5) / velocity.X;
-            if (mousePos.X < initialpos.X) this.tempototal = (float)Math.Abs((mousePos.X - initialpos.X) - drag * 1.5) / velocity.X;
-            //float a = 0.5f * gravity;
-            //float b = 9.8f * (float)(Math.Abs(mousePos.X - initialpos.X) / velocity.X);
-            //float c = (float)Math.Abs(mousePos.Y - initialpos.Y);
-            //this.tempototal = (- b + (float)Math.Sqrt(b * b - 4 * a * c)) / 2 * a;
+            if (mousePos.X < initialpos.X) this.tempototal = (float)Math.Abs((mousePos.X - initialpos.X) - drag*1.5) / velocity.X;           
             velocity.Y = gravity * tempototal/2;
-            //Console.WriteLine("" + tempototal);
         }
 
         public void update(GameTime gameTime, Weapons weapon)
