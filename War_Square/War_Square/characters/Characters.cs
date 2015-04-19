@@ -71,7 +71,7 @@ namespace War_Square.characters
 
         public void Update(GameTime gameTime)
         {
-            Vector2 Gravityaux = new Vector2(CharacterPos.X, CharacterPos.Y + 4f);
+            Vector2 Gravityaux = new Vector2(CharacterPos.X, CharacterPos.Y + 5f);
             if (isActive())
             {
                 float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -121,7 +121,7 @@ namespace War_Square.characters
 
                 if (Keyboard.GetState().IsKeyDown(Keys.W) && hasjumped == false)
                 {
-                    CharacterPos.Y -= 10f;
+                    CharacterPos.Y -= 8f;
                     velocity.Y = -5f;
                     hasjumped = true;
 
@@ -130,18 +130,30 @@ namespace War_Square.characters
                 {
                     float i = 1;
                     velocity.Y += 0.20f * i;
+                    if (velocity.Y > 5f) velocity.Y = 5f;
                     if (CheckCollisionsTile(Gravityaux).Count != 0)
                     {
                         hasjumped = false;
                     }
                 }
+                nextpos = new Vector2(CharacterPos.X, CharacterPos.Y - 5f);
+                if (CheckCollisionsTile(nextpos).Count != 0) velocity.Y = 1f;
+
+                if (CheckCollisionsTile(Gravityaux).Count == 0)
+                {
+                    hasjumped = true;
+                }
+                if (CheckCollisionsTile(Gravityaux).Count != 0)
+                {
+                    hasjumped = false;
+                }
                 if (hasjumped == false)
                     velocity.Y = 0f;
-
-                CharacterPos += velocity;
                 ////////////////////////////////////////////////////////////////APENAS PARA TESTE\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
                 //if (CharacterPos.Y > 350)
                 //    hasjumped = false;
+                CharacterPos += velocity;
+
                 //rodar personagem
                 mousePos = mState.Position;
                 float x = (float)CharacterPos.X - mousePos.X;
@@ -150,14 +162,14 @@ namespace War_Square.characters
 
                 if (Keyboard.GetState().IsKeyDown(Keys.A))
                 {
-                    nextpos = new Vector2(CharacterPos.X - 3f, CharacterPos.Y);
+                    nextpos = new Vector2(CharacterPos.X - 2f, CharacterPos.Y);
                     if (CheckCollisionsTile(nextpos).Count == 0)
                         CharacterPos = nextpos;
                 }
 
                 if (Keyboard.GetState().IsKeyDown(Keys.D))
                 {
-                    nextpos = new Vector2(CharacterPos.X + 3f, CharacterPos.Y);
+                    nextpos = new Vector2(CharacterPos.X + 2f, CharacterPos.Y);
                     if (CheckCollisionsTile(nextpos).Count == 0)
                         CharacterPos = nextpos;
                 }
@@ -185,6 +197,7 @@ namespace War_Square.characters
                 {
                     float i = 1;
                     velocity.Y += 0.20f * i;
+                    if (velocity.Y > 5f) velocity.Y = 5f;
                     if (CheckCollisionsTile(Gravityaux).Count != 0)
                     {
                         hasjumped = false;
