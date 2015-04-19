@@ -13,13 +13,21 @@ namespace Worms_0._0._1
         static int SelectedMap;
         static public List<byte[,]> WorldMaps = new List<byte[,]>();
         public Texture2D Wall;
-        public byte[,] mapa1 = { { 1 }, { 1 }, { 1 }, { 1 }, { 1 }, { 1 }, { 1 }, { 1 }, };
+        public byte[,] mapa1 = { {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0 }, 
+                               { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0}, 
+                               { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0 },
+                               { 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0 },
+                               { 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0}, 
+                               { 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0},
+                               { 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0},
+                               { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,1,1,1,1,1,1,1,1,1,1,1}};
 
 
         public void Load(ContentManager content)
         {
             WorldMaps.Add(mapa1);
             Wall = content.Load<Texture2D>("Hand Painted Metal_Diffuse");
+
         }
 
         public void update(GameTime gametime)
@@ -30,7 +38,9 @@ namespace Worms_0._0._1
         public void secondDraw(SpriteBatch spritebatch)
         {
             foreach (Rectangle rect in Collisions.tilesCollisions)
-                        spritebatch.Draw(Wall, new Rectangle( rect.X , rect.Y , 20, 20), new Rectangle(500, 500, 50, 50), Color.White);
+            {               
+                spritebatch.Draw(Wall, new Rectangle(rect.X, rect.Y, 20, 20), new Rectangle(230, 500, 50, 50), Color.White);
+            }
         }
 
 

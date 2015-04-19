@@ -73,6 +73,7 @@ namespace Worms_0._0._1
             timer += deltaTime;
             MouseState mState = Mouse.GetState();
             Vector2 nextPos = CharacterPos;
+            Vector2 Gravityaux = new Vector2(CharacterPos.X, CharacterPos.Y + 4f);
             if (timer >= intervalo)
             {
                 currentFrame = currentFrame + 58;
@@ -117,17 +118,22 @@ namespace Worms_0._0._1
                 CharacterPos.Y -= 10f;
                 velocity.Y = -5f;
                 hasjumped = true;
+
             }
             if (hasjumped == true)
             {
                 float i = 1;
                 velocity.Y += 0.20f * i;
+                if (CheckCollisionsTile(Gravityaux).Count != 0)
+                {
+                    hasjumped = false;
+                }
             }
             if (hasjumped == false)        
                 velocity.Y = 0f;
-            //////////////////////////////////////////////////////////////APENAS PARA TESTE\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-            if (CharacterPos.Y > 350)
-                hasjumped = false;
+            ////////////////////////////////////////////////////////////////APENAS PARA TESTE\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+            //if (CharacterPos.Y > 350)
+            //    hasjumped = false;
             //rodar personagem
             mousePos = mState.Position;
             float x = (float)CharacterPos.X - mousePos.X;
@@ -146,9 +152,18 @@ namespace Worms_0._0._1
                 if (CheckCollisionsTile(nextpos).Count == 0)
                     CharacterPos = nextpos;
             }
+
+            if (CheckCollisionsTile(Gravityaux).Count == 0)
+            {
+                hasjumped = true;
+            }
+            if (CheckCollisionsTile(Gravityaux).Count != 0)
+            {
+                hasjumped = false;
+            }
             else velocity.X = 0f;
             CharacterPos += velocity;
-            rec = new Rectangle((int)CharacterPos.X, (int)CharacterPos.Y, 50, 72);
+            rec = new Rectangle((int)CharacterPos.X, (int)CharacterPos.Y, 40, 70);
         }
 
         public void Draw(SpriteBatch spritebatch)
@@ -233,7 +248,7 @@ namespace Worms_0._0._1
         public List<Rectangle> CheckCollisionsTile(Vector2 pos)
         {
             List<Rectangle> collidingWith = new List<Rectangle>();
-            Rectangle rect = new Rectangle((int)Math.Round(pos.X), (int)Math.Round(pos.Y), 50, 72);
+            Rectangle rect = new Rectangle((int)Math.Round(pos.X), (int)Math.Round(pos.Y), 25, 63);
 
             foreach (var rectangle in Collisions.tilesCollisions)
             {
