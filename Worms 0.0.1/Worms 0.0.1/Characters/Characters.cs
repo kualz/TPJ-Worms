@@ -193,7 +193,7 @@ namespace Worms_0._0._1
             Vector2 Gravityaux = new Vector2(CharacterPos.X, CharacterPos.Y + 4f);
             spritebatch.Draw(textura, new Vector2((int)CharacterPos.X, (int)CharacterPos.Y), new Rectangle(currentFrame, 0, 50, 70), Color.White, 0f, Vector2.Zero, 1f, flip, 0f);
             spritebatch.DrawString(font, "" + CharacterName, new Vector2((int)CharacterPos.X - 48, (int)CharacterPos.Y - 70), Color.White);
-            spritebatch.Draw(Hitbox, new Rectangle((int)Math.Round(Gravityaux.X), (int)Math.Round(Gravityaux.Y), 25, 63), Color.Wheat);
+            //spritebatch.Draw(Hitbox, new Rectangle((int)Math.Round(Gravityaux.X) + 12, (int)Math.Round(Gravityaux.Y), 25, 63), Color.Wheat);
             /// <summary>
             /// tipo aqui so tens a weapon selecionada a fazer draw...nao sei se queres optimizar isto!!!
             /// </summary>
@@ -272,7 +272,7 @@ namespace Worms_0._0._1
         public List<Rectangle> CheckCollisionsTile(Vector2 pos)
         {
             List<Rectangle> collidingWith = new List<Rectangle>();
-            Rectangle rect = new Rectangle((int)Math.Round(pos.X), (int)Math.Round(pos.Y), 25, 63);
+            Rectangle rect = new Rectangle((int)Math.Round(pos.X) + 12, (int)Math.Round(pos.Y), 25, 63);
 
             foreach (var rectangle in Collisions.tilesCollisions)
             {
