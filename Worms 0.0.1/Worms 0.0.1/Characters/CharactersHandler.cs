@@ -72,11 +72,13 @@ namespace Worms_0._0._1
         static public void updatePlayers(GameTime gameTime)
         {
             foreach (Characters cha in Players){
-                if (cha.isActive()){
-                    cha.Update(gameTime);
-                    cha.GetActiveWeapon().Update(gameTime,cha);
+                cha.Update(gameTime);
+                    if (cha.isActive()){
+                        cha.GetActiveWeapon().Update(gameTime,cha);
                 }
             }
         }
+
+        
     }
 }

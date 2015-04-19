@@ -11,7 +11,7 @@ namespace Worms_0._0._1
 {
     class Characters : IFocusable
     {
-        private Texture2D textura;
+        private Texture2D textura, Hitbox;
         protected bool SpecialWeapon, CharacterInPlay, hasjumped;
         protected string CharacterName;
         protected Vector2 CharacterPos;
@@ -54,6 +54,7 @@ namespace Worms_0._0._1
         {
             textura = content.Load<Texture2D>("character");
             font = content.Load<SpriteFont>("MyFont");
+            Hitbox = content.Load<Texture2D>("1");
             /// <summary>
             /// esta parte aqui nao sei mesmo sera a melhor forma assim?
             /// :o
@@ -69,112 +70,135 @@ namespace Worms_0._0._1
 
         public void Update(GameTime gameTime)
         {
-            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            timer += deltaTime;
-            MouseState mState = Mouse.GetState();
-            Vector2 nextPos = CharacterPos;
             Vector2 Gravityaux = new Vector2(CharacterPos.X, CharacterPos.Y + 4f);
-            if (timer >= intervalo)
+            if (isActive())
             {
-                currentFrame = currentFrame + 58;
-                if (currentFrame >= 290)
+                float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+                timer += deltaTime;
+                MouseState mState = Mouse.GetState();
+                Vector2 nextPos = CharacterPos;              
+                if (timer >= intervalo)
                 {
-                    currentFrame = 0;
+                    currentFrame = currentFrame + 58;
+                    if (currentFrame >= 290)
+                    {
+                        currentFrame = 0;
+                    }
+                    timer = 0;
                 }
-                timer = 0;
-            }
 
-            /// <summary>
-            /// aqui o input para trocar de arma a funcionar...
-            /// o problema e quando tens dois jogadores...as informacoes do segundo sobrepoem as do 1' 
-            /// mas isso e simples de se ver
-            /// </summary>
-            if (Input.IsPressed(Keys.D1))
-            {
-                weaponCodeChosen = 0;
-                getAndActivateWeapon(weaponCodeChosen);
-                previousWeapon = 0;
-            }
-            else if (Input.IsPressed(Keys.D2))
-            {
-                weaponCodeChosen = 1;
-                getAndActivateWeapon(weaponCodeChosen);
-                previousWeapon = 1;
-            }
-            else if (Input.IsPressed(Keys.D3))
-            {
-                weaponCodeChosen = 2;
-                getAndActivateWeapon(weaponCodeChosen);
-                previousWeapon = 2;
-            }
-            /// <summary>
-            /// aqui tbem e simples basicamente ele pega na arma que esta ativa e faz o update dela com as suas informacoes
-            /// se fores ao codigo da weapon aquilo ja nem usa a weapons handler
-            /// simplesmente carrega direto as variaveis
-            /// </summary>
-            Arsenal[weaponCodeChosen].Update(gameTime, this);
-            if (Keyboard.GetState().IsKeyDown(Keys.W) && hasjumped == false)
-            {
-                CharacterPos.Y -= 10f;
-                velocity.Y = -5f;
-                hasjumped = true;
+                /// <summary>
+                /// aqui o input para trocar de arma a funcionar...
+                /// o problema e quando tens dois jogadores...as informacoes do segundo sobrepoem as do 1' 
+                /// mas isso e simples de se ver
+                /// </summary>
+                if (Input.IsPressed(Keys.D1))
+                {
+                    weaponCodeChosen = 0;
+                    getAndActivateWeapon(weaponCodeChosen);
+                    previousWeapon = 0;
+                }
+                else if (Input.IsPressed(Keys.D2))
+                {
+                    weaponCodeChosen = 1;
+                    getAndActivateWeapon(weaponCodeChosen);
+                    previousWeapon = 1;
+                }
+                else if (Input.IsPressed(Keys.D3))
+                {
+                    weaponCodeChosen = 2;
+                    getAndActivateWeapon(weaponCodeChosen);
+                    previousWeapon = 2;
+                }
+                /// <summary>
+                /// aqui tbem e simples basicamente ele pega na arma que esta ativa e faz o update dela com as suas informacoes
+                /// se fores ao codigo da weapon aquilo ja nem usa a weapons handler
+                /// simplesmente carrega direto as variaveis
+                /// </summary>
+                Arsenal[weaponCodeChosen].Update(gameTime, this);
+                if (Keyboard.GetState().IsKeyDown(Keys.W) && hasjumped == false)
+                {
+                    CharacterPos.Y -= 10f;
+                    velocity.Y = -5f;
+                    hasjumped = true;
 
-            }
-            if (hasjumped == true)
-            {
-                float i = 1;
-                velocity.Y += 0.20f * i;
+                }
+                if (hasjumped == true)
+                {
+                    float i = 1;
+                    velocity.Y += 0.20f * i;
+                    if (CheckCollisionsTile(Gravityaux).Count != 0)
+                    {
+                        hasjumped = false;
+                    }
+                }
+                if (hasjumped == false)
+                    velocity.Y = 0f;
+                ////////////////////////////////////////////////////////////////APENAS PARA TESTE\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+                //if (CharacterPos.Y > 350)
+                //    hasjumped = false;
+                //rodar personagem
+                mousePos = mState.Position;
+                float x = (float)CharacterPos.X - mousePos.X;
+                if (mousePos.X > CharacterPos.X) flip = SpriteEffects.FlipHorizontally;
+                else flip = SpriteEffects.None;
+                if (Keyboard.GetState().IsKeyDown(Keys.A))
+                {
+                    nextpos = new Vector2(CharacterPos.X - 3f, CharacterPos.Y);
+                    if (CheckCollisionsTile(nextpos).Count == 0)
+                        CharacterPos = nextpos;
+                }
+
+                if (Keyboard.GetState().IsKeyDown(Keys.D))
+                {
+                    nextpos = new Vector2(CharacterPos.X + 3f, CharacterPos.Y);
+                    if (CheckCollisionsTile(nextpos).Count == 0)
+                        CharacterPos = nextpos;
+                }
+
+                if (CheckCollisionsTile(Gravityaux).Count == 0)
+                {
+                    hasjumped = true;
+                }
                 if (CheckCollisionsTile(Gravityaux).Count != 0)
                 {
                     hasjumped = false;
                 }
+                else velocity.X = 0f;
+                CharacterPos += velocity;
+                rec = new Rectangle((int)CharacterPos.X, (int)CharacterPos.Y, 40, 70);
             }
-            if (hasjumped == false)        
-                velocity.Y = 0f;
-            ////////////////////////////////////////////////////////////////APENAS PARA TESTE\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-            //if (CharacterPos.Y > 350)
-            //    hasjumped = false;
-            //rodar personagem
-            mousePos = mState.Position;
-            float x = (float)CharacterPos.X - mousePos.X;
-            if (mousePos.X > CharacterPos.X) flip = SpriteEffects.FlipHorizontally  ;
-            else flip = SpriteEffects.None;
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            else
             {
-                nextpos = new Vector2(CharacterPos.X - 3f, CharacterPos.Y);              
-                if (CheckCollisionsTile(nextpos).Count == 0)
-                    CharacterPos = nextpos;
+                if (CheckCollisionsTile(Gravityaux).Count != 0)
+                {
+                    hasjumped = false;
+                }
+                else hasjumped = true;
+                if (hasjumped == true)
+                {
+                    float i = 1;
+                    velocity.Y += 0.20f * i;
+                    if (CheckCollisionsTile(Gravityaux).Count != 0)
+                    {
+                        hasjumped = false;
+                    }
+                    CharacterPos += velocity;
+                } 
             }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
-            {
-                nextpos = new Vector2(CharacterPos.X + 3f, CharacterPos.Y);
-                if (CheckCollisionsTile(nextpos).Count == 0)
-                    CharacterPos = nextpos;
-            }
-
-            if (CheckCollisionsTile(Gravityaux).Count == 0)
-            {
-                hasjumped = true;
-            }
-            if (CheckCollisionsTile(Gravityaux).Count != 0)
-            {
-                hasjumped = false;
-            }
-            else velocity.X = 0f;
-            CharacterPos += velocity;
-            rec = new Rectangle((int)CharacterPos.X, (int)CharacterPos.Y, 40, 70);
         }
 
         public void Draw(SpriteBatch spritebatch)
-        {   
+        {
+            Vector2 Gravityaux = new Vector2(CharacterPos.X, CharacterPos.Y + 4f);
             spritebatch.Draw(textura, new Vector2((int)CharacterPos.X, (int)CharacterPos.Y), new Rectangle(currentFrame, 0, 50, 70), Color.White, 0f, Vector2.Zero, 1f, flip, 0f);
             spritebatch.DrawString(font, "" + CharacterName, new Vector2((int)CharacterPos.X - 48, (int)CharacterPos.Y - 70), Color.White);
+            spritebatch.Draw(Hitbox, new Rectangle((int)Math.Round(Gravityaux.X), (int)Math.Round(Gravityaux.Y), 25, 63), Color.Wheat);
             /// <summary>
             /// tipo aqui so tens a weapon selecionada a fazer draw...nao sei se queres optimizar isto!!!
             /// </summary>
            // if(this.isActive())
-                Arsenal[weaponCodeChosen].Draw(spritebatch, this);
+            Arsenal[weaponCodeChosen].Draw(spritebatch, this);
         }
 
         public Vector2 CharacterPosition()
@@ -258,9 +282,9 @@ namespace Worms_0._0._1
                 }
             }
             return collidingWith;
-
-
         }
+
+        
 
     }
 }
