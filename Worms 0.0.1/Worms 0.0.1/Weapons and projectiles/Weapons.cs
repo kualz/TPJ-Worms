@@ -43,6 +43,7 @@ namespace Worms_0._0._1
         private Texture2D texturax;
         private Texture2D texturasRocket;
         private Texture2D flatSquare;
+        private Vector2 auxVector;
         static public bool Sexplosion = false;
         private SpriteEffects flip;
 
@@ -92,7 +93,7 @@ namespace Worms_0._0._1
         {
             Input.Update();
             MouseState mState = Mouse.GetState();
-            PositionRelativeToCharacter = new Vector2(Char.CharacterPosition().X + 5, Char.CharacterPosition().Y);
+            PositionRelativeToCharacter = new Vector2(Char.CharacterPosition().X, Char.CharacterPosition().Y);
             mousePos = mState.Position;
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             timer += deltaTime;
@@ -119,17 +120,17 @@ namespace Worms_0._0._1
             {
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.cal32) && WeaponTypes == WeaponType.MachineGun)
                 {
-                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter, (rotation + (getRandom())), Bullet.AmmoType.cal32, 300, 800));
+                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.cal32, 300, 800));
                     fireRateTime = 0;
                 }
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.rocket) && WeaponTypes == WeaponType.Rocket)
                 {
-                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter, (rotation + (getRandom())), Bullet.AmmoType.rocket, 200, 500));
+                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.rocket, 200, 500));
                     fireRateTime = 0;
                 }
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.nade) && WeaponTypes == WeaponType.GrenadeLauncher)
                 {
-                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter, (rotation + (getRandom())), Bullet.AmmoType.nade, 500, 150));
+                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.nade, 500, 150));
                     fireRateTime = 0;
                 }
                 else fireRateTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -169,6 +170,7 @@ namespace Worms_0._0._1
                 helperXCharPos = 30;
                 helperYCharPos = 35;
             }
+            auxVector = new Vector2(helperXCharPos,helperYCharPos);
         }
 
         public void Draw(SpriteBatch spriteBatch, Characters ActiveChar)
@@ -187,7 +189,7 @@ namespace Worms_0._0._1
                     if (fireRateTime < ammunition.getFireRate(Bullet.AmmoType.cal32))
                         //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------pus este 260 a sorte e deu GG--------------------
                         spriteBatch.Draw(flashFiring[currentFrame], new Vector2(this.PositionRelativeToCharacter.X + 5 + helperXpos , this.PositionRelativeToCharacter.Y + 45), null, Color.White, rotation, new Vector2((float)0, (float)260), .15f, SpriteEffects.None, 0f);
-                    spriteBatch.Draw(texturax, new Vector2(bullet.sourcePosition.X + 5 + helperXpos, bullet.sourcePosition.Y + 45), null, Color.White, rotation, new Vector2((float)5, (float)2.5), 1f, SpriteEffects.None, 0f);              
+                    spriteBatch.Draw(texturax, new Vector2(bullet.sourcePosition.X, bullet.sourcePosition.Y + 10), null, Color.White, rotation, new Vector2((float)5, (float)2.5), 1f, SpriteEffects.None, 0f);              
                 }
                 else if (bullet.ammoType == Bullet.AmmoType.rocket)
                     spriteBatch.Draw(texturasRocket, new Vector2(bullet.sourcePosition.X, bullet.sourcePosition.Y + 7), null, Color.White, rotation, new Vector2((float)5, (float)3.5), 1f, SpriteEffects.None, 0f);
