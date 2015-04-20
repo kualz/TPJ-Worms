@@ -194,8 +194,8 @@ namespace Worms_0._0._1
             spritebatch.Draw(textura, new Vector2((int)CharacterPos.X, (int)CharacterPos.Y), new Rectangle(currentFrame, 0, 50, 70), Color.White, 0f, Vector2.Zero, 1f, flip, 0f);
             if(this.isActive())
                 spritebatch.DrawString(font, "Character Active: " + CharacterName, new Vector2(500f, 475f), Color.White); 
-            spritebatch.DrawString(font, "" + CharacterName, new Vector2((int)CharacterPos.X - 48, (int)CharacterPos.Y - 70), Color.White);
-            spritebatch.Draw(Hitbox, new Rectangle((int)Math.Round(Gravityaux.X) + 12, (int)Math.Round(Gravityaux.Y), 25, 63), Color.Wheat);
+            spritebatch.DrawString(font, "" + CharacterName, new Vector2((int)CharacterPos.X, (int)CharacterPos.Y - 40), Color.White);
+            //spritebatch.Draw(Hitbox, new Rectangle((int)Math.Round(Gravityaux.X) + 12, (int)Math.Round(Gravityaux.Y), 25, 63), Color.Wheat);
             /// <summary>
             /// tipo aqui so tens a weapon selecionada a fazer draw...nao sei se queres optimizar isto!!!
             /// </summary>

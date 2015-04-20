@@ -43,8 +43,7 @@ namespace Worms_0._0._1.Weapons_and_projectiles
             this.range = range;
             this.sourcePosition = sourcePosition;
             this.rotation = rotation;
-            this.direction = new Vector2((float)Math.Cos(rotation),
-                                         (float)Math.Sin(rotation));
+            this.direction = new Vector2((float)Math.Cos(rotation),(float)Math.Sin(rotation));
             this.ammoType = ammo;
             this.speed = speed;
         }
