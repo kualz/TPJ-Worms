@@ -36,7 +36,7 @@ namespace Worms_0._0._1
         private int currentFrame = 0, currentFrame1 = 0;
         private float fireRateTime = 0, fireRateTime1 = 0, timer, timerExplosion, intervalo = 0.05f;
         private Random rnd;
-        private List<Bullet> bulletsOnScreen = new List<Bullet>();
+        public List<Bullet> bulletsOnScreen = new List<Bullet>();
         private List<string> names = new List<string>();
         private Texture2D[] flashFiring;
         private Texture2D[] explosion;
@@ -98,29 +98,25 @@ namespace Worms_0._0._1
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             timer += deltaTime;
             timerExplosion += deltaTime;
-            if (timer >= intervalo)
-            {
+
+            if (timer >= intervalo){
                 currentFrame++;
                 if (currentFrame >= (6))
-                {
                     currentFrame = 0;
-                }
                 timer = 0;
             }
-            if (timerExplosion >= intervalo)
-            {
+            if (timerExplosion >= intervalo){
                 currentFrame1++;
                 if (currentFrame1 >= (9))
-                {
                     currentFrame1 = 0;
-                }
                 timerExplosion = 0;
             }
+
             if (mState.LeftButton == ButtonState.Pressed)
             {
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.cal32) && WeaponTypes == WeaponType.MachineGun)
                 {
-                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.cal32, 300, 800));
+                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.cal32, 300, 100));
                     fireRateTime = 0;
                 }
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.rocket) && WeaponTypes == WeaponType.Rocket)
@@ -136,15 +132,15 @@ namespace Worms_0._0._1
                 else fireRateTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
 
-            //fireRateTime1 += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            //if (fireRateTime1 >= 0.1f)
-            //{
-            //    Console.Clear();
-            //    foreach (Bullet bullet in bulletsOnScreen)
-            //        Console.WriteLine("ON SCREEN" + bullet.ToString());
-            //    Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-            //    fireRateTime1 = 0;
-            //}
+            fireRateTime1 += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (fireRateTime1 >= 0.5f)
+            {
+                Console.Clear();
+                foreach (Bullet bullet in bulletsOnScreen)
+                    Console.WriteLine("ON SCREEN" + bullet.ToString());
+                Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
+                fireRateTime1 = 0;
+            }
             float y = (float)mousePos.Y - (PositionRelativeToCharacter.Y + helperYCharPos);
             float x = (float)(PositionRelativeToCharacter.X + helperXCharPos) - mousePos.X;
             float rot = (float)Math.Atan2(x,y);
@@ -166,7 +162,7 @@ namespace Worms_0._0._1
             {
                 flip = SpriteEffects.None;
                 helperX = -20;
-                helperXpos = 30;
+                helperXpos = 35;
                 helperXCharPos = 30;
                 helperYCharPos = 35;
             }
@@ -176,7 +172,6 @@ namespace Worms_0._0._1
         public void Draw(SpriteBatch spriteBatch, Characters ActiveChar)
         {
             spriteBatch.Draw(this.textura, new Vector2(ActiveChar.CharacterPosition().X + 5 + helperXpos, ActiveChar.CharacterPosition().Y + 45), null, Color.White, this.rotation+(float)Math.PI/2, new Vector2((float)45 + helperX, (float)40), 1f, flip, 0f);
-            spriteBatch.DrawString(font, "Character Active: " + ActiveChar.returnName(), new Vector2(500f, 475f), Color.White); 
             spriteBatch.DrawString(font, "Weapon Name: " + CharactersHandler.getActiveWeapon().getName(), new Vector2(500f, 500f), Color.White);
             spriteBatch.DrawString(font, "Weapon Type: " + CharactersHandler.getActiveWeapon().getWeaponType(), new Vector2(500f, 525f), Color.White);
             spriteBatch.DrawString(font, "test\nPress 1 - first weapon" , new Vector2(200f, 550f), Color.White);
@@ -256,15 +251,18 @@ namespace Worms_0._0._1
 
         public void updateBullets(GameTime gameTime)
         {
-            foreach (Bullet bullet in bulletsOnScreen){
-                bullet.update(gameTime);
+            for (int i = bulletsOnScreen.Count - 1; i >= 0; i--)
+            {
+                bulletsOnScreen[i].update(gameTime, this);
             }
         }
 
         public void updateDeleteBullets(GameTime gameTime){
             for (int i = 0; i < bulletsOnScreen.Count; i++)
+            {
                 if ((bulletsOnScreen[i].sourcePosition - this.PositionRelativeToCharacter).Length() > bulletsOnScreen[i].range)
                     bulletsOnScreen.Remove(bulletsOnScreen[i]);
+            }
         }
     }
 }
