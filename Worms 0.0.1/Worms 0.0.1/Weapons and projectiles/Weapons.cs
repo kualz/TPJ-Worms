@@ -116,7 +116,7 @@ namespace Worms_0._0._1
             {
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.cal32) && WeaponTypes == WeaponType.MachineGun)
                 {
-                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.cal32, 300, 100));
+                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.cal32, 300, 800));
                     fireRateTime = 0;
                 }
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.rocket) && WeaponTypes == WeaponType.Rocket)
@@ -130,16 +130,6 @@ namespace Worms_0._0._1
                     fireRateTime = 0;
                 }
                 else fireRateTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            }
-
-            fireRateTime1 += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (fireRateTime1 >= 0.5f)
-            {
-                Console.Clear();
-                foreach (Bullet bullet in bulletsOnScreen)
-                    Console.WriteLine("ON SCREEN" + bullet.ToString());
-                Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-                fireRateTime1 = 0;
             }
             float y = (float)mousePos.Y - (PositionRelativeToCharacter.Y + helperYCharPos);
             float x = (float)(PositionRelativeToCharacter.X + helperXCharPos) - mousePos.X;
