@@ -70,13 +70,15 @@ namespace Worms_0._0._1
 
         public void Update(GameTime gameTime)
         {
-            Vector2 Gravityaux = new Vector2(CharacterPos.X, CharacterPos.Y + 4f);
+            Vector2 Gravityaux = new Vector2(CharacterPos.X, CharacterPos.Y + 5f);
             if (isActive())
             {
                 float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
                 timer += deltaTime;
                 MouseState mState = Mouse.GetState();
-                Vector2 nextPos = CharacterPos;              
+                Vector2 nextPos = CharacterPos;
+
+                #region AnimaçaoPersonagem
                 if (timer >= intervalo)
                 {
                     currentFrame = currentFrame + 58;
@@ -86,7 +88,9 @@ namespace Worms_0._0._1
                     }
                     timer = 0;
                 }
+                #endregion
 
+                #region Trocar arma
                 /// <summary>
                 /// aqui o input para trocar de arma a funcionar...
                 /// o problema e quando tens dois jogadores...as informacoes do segundo sobrepoem as do 1' 
@@ -116,45 +120,29 @@ namespace Worms_0._0._1
                 /// simplesmente carrega direto as variaveis
                 /// </summary>
                 Arsenal[weaponCodeChosen].Update(gameTime, this);
+                #endregion
+
                 if (Keyboard.GetState().IsKeyDown(Keys.W) && hasjumped == false)
                 {
-                    CharacterPos.Y -= 10f;
+                    CharacterPos.Y -= 8f;
                     velocity.Y = -5f;
                     hasjumped = true;
-
                 }
+
+
                 if (hasjumped == true)
                 {
                     float i = 1;
                     velocity.Y += 0.20f * i;
+                    if (velocity.Y > 5f) velocity.Y = 5f;
                     if (CheckCollisionsTile(Gravityaux).Count != 0)
                     {
                         hasjumped = false;
                     }
                 }
-                if (hasjumped == false)
-                    velocity.Y = 0f;
-                ////////////////////////////////////////////////////////////////APENAS PARA TESTE\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-                //if (CharacterPos.Y > 350)
-                //    hasjumped = false;
-                //rodar personagem
-                mousePos = mState.Position;
-                float x = (float)CharacterPos.X - mousePos.X;
-                if (mousePos.X > CharacterPos.X) flip = SpriteEffects.FlipHorizontally;
-                else flip = SpriteEffects.None;
-                if (Keyboard.GetState().IsKeyDown(Keys.A))
-                {
-                    nextpos = new Vector2(CharacterPos.X - 3f, CharacterPos.Y);
-                    if (CheckCollisionsTile(nextpos).Count == 0)
-                        CharacterPos = nextpos;
-                }
 
-                if (Keyboard.GetState().IsKeyDown(Keys.D))
-                {
-                    nextpos = new Vector2(CharacterPos.X + 3f, CharacterPos.Y);
-                    if (CheckCollisionsTile(nextpos).Count == 0)
-                        CharacterPos = nextpos;
-                }
+                nextpos = new Vector2(CharacterPos.X, CharacterPos.Y - 5f);
+                if (CheckCollisionsTile(nextpos).Count != 0) velocity.Y = 1f;
 
                 if (CheckCollisionsTile(Gravityaux).Count == 0)
                 {
@@ -164,8 +152,35 @@ namespace Worms_0._0._1
                 {
                     hasjumped = false;
                 }
-                else velocity.X = 0f;
+                if (hasjumped == false)
+                    velocity.Y = 0f;
+
                 CharacterPos += velocity;
+
+                #region Rodar Personagem / flip
+                mousePos = mState.Position;
+                float x = (float)CharacterPos.X - mousePos.X;
+                if (mousePos.X > CharacterPos.X) flip = SpriteEffects.FlipHorizontally;
+                else flip = SpriteEffects.None;
+                #endregion 
+
+
+                if (Keyboard.GetState().IsKeyDown(Keys.A))
+                {
+                    nextpos = new Vector2(CharacterPos.X - 2f, CharacterPos.Y);
+                    if (CheckCollisionsTile(nextpos).Count == 0)
+                        CharacterPos = nextpos;
+                }
+
+                if (Keyboard.GetState().IsKeyDown(Keys.D))
+                {
+                    nextpos = new Vector2(CharacterPos.X + 2f, CharacterPos.Y);
+                    if (CheckCollisionsTile(nextpos).Count == 0)
+                        CharacterPos = nextpos;
+                }
+
+               
+              
                 rec = new Rectangle((int)CharacterPos.X, (int)CharacterPos.Y, 40, 70);
             }
             else
@@ -179,6 +194,7 @@ namespace Worms_0._0._1
                 {
                     float i = 1;
                     velocity.Y += 0.20f * i;
+                    if (velocity.Y > 5f) velocity.Y = 5f;
                     if (CheckCollisionsTile(Gravityaux).Count != 0)
                     {
                         hasjumped = false;
