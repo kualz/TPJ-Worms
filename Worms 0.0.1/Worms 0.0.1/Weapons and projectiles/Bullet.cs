@@ -57,12 +57,15 @@ namespace Worms_0._0._1.Weapons_and_projectiles
             }
             else if (ammoType == AmmoType.rocket)
             {
-                sourcePosition = sourcePosition + direction * speed * ((float)gameTime.ElapsedGameTime.TotalSeconds * 1.5f);
-                bulletRec = new Rectangle((int)sourcePosition.X, (int)sourcePosition.Y, 15, 15);
+
             }
-            else if (ammoType == AmmoType.nade) { }
+            else if (ammoType == AmmoType.nade) 
+            { 
+            
+            }
             if (CheckCollisionsProjectile(bulletRec) != new Rectangle(0,0,0,0))
             {
+                weapon.Sexplosion = true;
                 Collisions.tilesCollisions.Remove(CheckCollisionsProjectile(bulletRec));
                 for (int i = weapon.bulletsOnScreen.Count - 1; i >= 0; i--)
                 {

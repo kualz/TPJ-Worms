@@ -13,7 +13,7 @@ namespace Worms_0._0._1.Menus
     class MenuPrincipal
     {
         public List<string> Options = new List<string>();
-        private int selectedOption;
+        private int selectedOption = 0;
         private SpriteFont spriteFont;
         private Texture2D texture;
         private float _X, _Y;
@@ -31,7 +31,7 @@ namespace Worms_0._0._1.Menus
 
         public void update(GameTime gameTime, Game1 game)
         {
-            if(Input.IsPressed(Keys.Down))
+            if (Input.IsPressed(Keys.Down))
             {
                 selectedOption++;
                 if (selectedOption >= Options.Count)
@@ -41,13 +41,13 @@ namespace Worms_0._0._1.Menus
             {
                 selectedOption--;
                 if (selectedOption < 0)
-                    selectedOption = Options.Count;
+                    selectedOption = Options.Count - 1;
             }
             if(Input.IsDown(Keys.Enter))
             {
                 switch(selectedOption)
                 {
-                    case 0:
+                    case 0: game.gameState = Game1.GameState.running;
                         break;
                     case 1:game.Exit();
                         break;
@@ -62,8 +62,7 @@ namespace Worms_0._0._1.Menus
             {
                 if (selectedOption != i)
                     spriteBatch.DrawString(spriteFont, Options[i], new Vector2(100, 100 + i * 40), Color.Black);
-                else
-                    spriteBatch.DrawString(spriteFont, Options[i], new Vector2(100, 100 + i * 40), Color.Orange);
+                else spriteBatch.DrawString(spriteFont, Options[i], new Vector2(100, 100 + i * 40), Color.Orange);
             }
         }
     }

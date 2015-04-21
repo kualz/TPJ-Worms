@@ -29,7 +29,7 @@ namespace Worms_0._0._1.Menus
             Options.Add("");
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, Game1 game)
         {
             if(Input.IsPressed(Keys.Down))
             {

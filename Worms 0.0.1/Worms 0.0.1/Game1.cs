@@ -13,14 +13,25 @@ namespace Worms_0._0._1
 {
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        Characters Player1, Player2;
-        Weapons weapon;
-        Crosshair MIRA;
-        Vector2 mousevector;
-        Map TesteMapa;
-        bool MyFirstTime = true;
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+        private SpriteFont spriteFont;
+        private Characters Player1, Player2;
+        private Crosshair MIRA;
+        private Vector2 mousevector;
+        private Map TesteMapa;
+        private float roundTime = 20;
+        public enum GameState
+        {
+            running,
+            Paused,
+            gameOver,
+            Menu,
+            Options,
+            MapChoose,
+            CharacterChoose
+        }
+        public GameState gameState = GameState.Menu;
 
         public Game1()
             : base()
@@ -41,10 +52,12 @@ namespace Worms_0._0._1
         
         protected override void LoadContent()
         {
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteFont = Content.Load<SpriteFont>("MyFont");
+            MenusHandler.load(Content, this);
             TesteMapa = new Map();
             TesteMapa.Load(Content);
             TesteMapa.InitRectMap();
-            spriteBatch = new SpriteBatch(GraphicsDevice);
             MIRA = new Crosshair();
             MIRA.Load(Content);
             CharactersHandler.InitList(Content);
@@ -70,47 +83,48 @@ namespace Worms_0._0._1
         
         protected override void Update(GameTime gameTime)
         {
-            if (MyFirstTime == true)
-            {
-                Player1.Update(gameTime);
-                Player2.Update(gameTime);
-                MyFirstTime = false;
-            }
-            TesteMapa.update(gameTime);
             Input.Update();
-            MouseState mState = Mouse.GetState();
-            mousevector = new Vector2(mState.X, mState.Y);
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-            if (Input.IsPressed(Keys.K) && Player1.isJumping() == false && Player2.isJumping() == false) CharactersHandler.ChangeActive();
-            CharactersHandler.updatePlayers(gameTime);
+            if(gameState == GameState.Menu)
+                MenusHandler.Update(gameTime, this);
+            else
+            {
+                roundTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                TesteMapa.update(gameTime);
+                Input.Update();
+                MouseState mState = Mouse.GetState();
+                mousevector = new Vector2(mState.X, mState.Y);
+                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                    gameState = GameState.Paused;
+                if (Input.IsPressed(Keys.K) && Player1.isJumping() == false && Player2.isJumping() == false)
+                    CharactersHandler.ChangeActive();
+                if (roundTime <= 0)
+                {
+                    CharactersHandler.ChangeActive();
+                    roundTime = 20;
+                }
+                CharactersHandler.updatePlayers(gameTime);
+            }
             base.Update(gameTime);
         }
 
         
         protected override void Draw(GameTime gameTime)
-        {
-            
+        {    
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
-            //int aux = 0;
-            //if (aux == 0)
-            //{
-            //    TesteMapa.Draw(spriteBatch);
-            //    aux = 1;
-            //}
-            //else
-            TesteMapa.secondDraw(spriteBatch);
-
-            MIRA.draw(spriteBatch, mousevector);
-            Player1.Draw(spriteBatch);
-            Player2.Draw(spriteBatch);
+            if(gameState == GameState.Menu)
+                MenusHandler.draw(spriteBatch, this);
+            else
+            {
+                TesteMapa.secondDraw(spriteBatch);
+                spriteBatch.DrawString(spriteFont, "Time: " + roundTime, new Vector2(50, 50), Color.White);
+                MIRA.draw(spriteBatch, mousevector);
+                Player1.Draw(spriteBatch);
+                Player2.Draw(spriteBatch);
+            }
             spriteBatch.End();
 
             base.Draw(gameTime);
         }
-
- 
     }
 }
