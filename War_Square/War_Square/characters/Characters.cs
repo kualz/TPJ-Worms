@@ -71,7 +71,7 @@ namespace War_Square.characters
 
         public void Update(GameTime gameTime)
         {
-            Vector2 Gravityaux = new Vector2(CharacterPos.X, CharacterPos.Y + 5f);
+            Vector2 Gravityaux = new Vector2(CharacterPos.X, CharacterPos.Y + 2f);
             if (isActive())
             {
                 float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -121,22 +121,20 @@ namespace War_Square.characters
 
                 if (Keyboard.GetState().IsKeyDown(Keys.W) && hasjumped == false)
                 {
-                    CharacterPos.Y -= 8f;
-                    velocity.Y = -5f;
+                    CharacterPos.Y -= 5f;
+                    velocity.Y = -3f;
                     hasjumped = true;
 
                 }
-                if (hasjumped == true)
+                if ((hasjumped == true) && (CheckCollisionsTile(Gravityaux).Count == 0))
                 {
                     float i = 1;
-                    velocity.Y += 0.20f * i;
-                    if (velocity.Y > 5f) velocity.Y = 5f;
-                    if (CheckCollisionsTile(Gravityaux).Count != 0)
-                    {
-                        hasjumped = false;
-                    }
+                    velocity.Y += 0.2f * i;
+                    if (velocity.Y > 1f) velocity.Y = 1f;
                 }
+
                 nextpos = new Vector2(CharacterPos.X, CharacterPos.Y - 5f);
+
                 if (CheckCollisionsTile(nextpos).Count != 0) velocity.Y = 1f;
 
                 if (CheckCollisionsTile(Gravityaux).Count == 0)
@@ -149,10 +147,9 @@ namespace War_Square.characters
                 }
                 if (hasjumped == false)
                     velocity.Y = 0f;
-                ////////////////////////////////////////////////////////////////APENAS PARA TESTE\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-                //if (CharacterPos.Y > 350)
-                //    hasjumped = false;
+               
                 CharacterPos += velocity;
+               
 
                 //rodar personagem
                 mousePos = mState.Position;
@@ -197,13 +194,14 @@ namespace War_Square.characters
                 {
                     float i = 1;
                     velocity.Y += 0.20f * i;
-                    if (velocity.Y > 5f) velocity.Y = 5f;
+                    if (velocity.Y >= 5f) velocity.Y = 5f;
                     if (CheckCollisionsTile(Gravityaux).Count != 0)
                     {
                         hasjumped = false;
                     }
                     CharacterPos += velocity;
                 }
+                
             }
         }
 
@@ -281,7 +279,7 @@ namespace War_Square.characters
         public List<Rectangle> CheckCollisionsTile(Vector2 pos)
         {
             List<Rectangle> collidingWith = new List<Rectangle>();
-            Rectangle rect = new Rectangle((int)Math.Round(pos.X) + 12, (int)Math.Round(pos.Y), 25, 63);
+            Rectangle rect = new Rectangle((int)Math.Round(pos.X) + 12, (int)Math.Round(pos.Y), 25, 65);
 
             foreach (var rectangle in Collisions.tilesCollisions)
             {
