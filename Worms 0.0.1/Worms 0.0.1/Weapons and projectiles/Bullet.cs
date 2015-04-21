@@ -43,13 +43,12 @@ namespace Worms_0._0._1.Weapons_and_projectiles
             this.range = range;
             this.sourcePosition = sourcePosition;
             this.rotation = rotation;
-            this.direction = new Vector2((float)Math.Cos(rotation),
-                                         (float)Math.Sin(rotation));
+            this.direction = new Vector2((float)Math.Cos(rotation),(float)Math.Sin(rotation));
             this.ammoType = ammo;
             this.speed = speed;
         }
 
-        public void update(GameTime gameTime)
+        public void update(GameTime gameTime, Weapons weapon)
         {      
             if (ammoType == AmmoType.cal32)
             {
@@ -65,7 +64,11 @@ namespace Worms_0._0._1.Weapons_and_projectiles
             if (CheckCollisionsProjectile(bulletRec) != new Rectangle(0,0,0,0))
             {
                 Collisions.tilesCollisions.Remove(CheckCollisionsProjectile(bulletRec));
-                Weapons.Sexplosion = true;
+                for (int i = weapon.bulletsOnScreen.Count - 1; i >= 0; i--)
+                {
+                    if (weapon.bulletsOnScreen[i] == this)
+                        weapon.bulletsOnScreen.Remove(this);
+                }
             }      
         }
 
@@ -81,6 +84,11 @@ namespace Worms_0._0._1.Weapons_and_projectiles
                 }
             }
             return new Rectangle(0,0,0,0);
+        }
+
+        public Rectangle getRectangle()
+        {
+            return this.bulletRec;
         }
 
         public float getFireRate(AmmoType ammo){
