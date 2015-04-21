@@ -158,8 +158,8 @@ namespace Worms_0._0._1
             /// <summary>
             /// tipo aqui so tens a weapon selecionada a fazer draw...nao sei se queres optimizar isto!!!
             /// </summary>
-           // if(this.isActive())
-                Arsenal[weaponCodeChosen].Draw(spritebatch, this);
+            // if(this.isActive())
+            Arsenal[weaponCodeChosen].Draw(spritebatch, this);
         }
 
         public Vector2 CharacterPosition()

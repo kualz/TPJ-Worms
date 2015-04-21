@@ -20,6 +20,7 @@ namespace Worms_0._0._1
         Crosshair MIRA;
         Vector2 mousevector;
         Map TesteMapa;
+        bool MyFirstTime = true;
 
         public Game1()
             : base()
@@ -69,6 +70,12 @@ namespace Worms_0._0._1
         
         protected override void Update(GameTime gameTime)
         {
+            if (MyFirstTime == true)
+            {
+                Player1.Update(gameTime);
+                Player2.Update(gameTime);
+                MyFirstTime = false;
+            }
             TesteMapa.update(gameTime);
             Input.Update();
             MouseState mState = Mouse.GetState();
@@ -78,8 +85,6 @@ namespace Worms_0._0._1
 
             if (Input.IsPressed(Keys.K) && Player1.isJumping() == false && Player2.isJumping() == false) CharactersHandler.ChangeActive();
             CharactersHandler.updatePlayers(gameTime);
-            //Player1.Update(gameTime);  
-            //Player2.Update(gameTime);
             base.Update(gameTime);
         }
 
