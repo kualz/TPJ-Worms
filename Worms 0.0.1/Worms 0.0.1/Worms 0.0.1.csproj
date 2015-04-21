@@ -45,6 +45,10 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Map.cs" />
+    <Compile Include="MenusHandler.cs" />
+    <Compile Include="Menus\MenuInGame.cs" />
+    <Compile Include="Menus\MenuPrincipal.cs" />
+    <Compile Include="Menus\OptionsMenu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Weapons and projectiles\Bullet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
