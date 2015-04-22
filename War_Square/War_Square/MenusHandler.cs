@@ -14,6 +14,7 @@ namespace War_Square
         static public MenuPrincipal menuPrincipal = new MenuPrincipal();
         static public OptionsMenu optionsMenu = new OptionsMenu();
         static public MenuInGame menuInGame = new MenuInGame();
+        static public MenuCharacterChoose characterChoose = new MenuCharacterChoose();
 
 
         static public void load(ContentManager content, Game1 game)
@@ -21,6 +22,7 @@ namespace War_Square
             menuInGame.load(content);
             optionsMenu.Load(content);
             menuPrincipal.load(content);
+            characterChoose.load(content);
         }
 
         static public void Update(GameTime gameTime, Game1 game)
@@ -31,12 +33,20 @@ namespace War_Square
                 optionsMenu.Update(gameTime, game);
             if (game.gameState == Game1.GameState.Menu)
                 menuPrincipal.update(gameTime, game);
+            if (game.gameState == Game1.GameState.CharacterChoose)
+                characterChoose.Update(gameTime, game);
         }
 
         static public void draw(SpriteBatch spriteBatch, Game1 game)
         {
+            if (game.gameState == Game1.GameState.running)
+                menuInGame.draw(spriteBatch);
+            if (game.gameState == Game1.GameState.Options)
+                optionsMenu.Draw(spriteBatch);
             if (game.gameState == Game1.GameState.Menu)
                 menuPrincipal.Draw(spriteBatch);
+            if (game.gameState == Game1.GameState.CharacterChoose)
+                characterChoose.draw(spriteBatch);
         }
     }
 }

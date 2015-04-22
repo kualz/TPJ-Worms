@@ -82,7 +82,7 @@ namespace War_Square
         protected override void Update(GameTime gameTime)
         {
             Input.Update();
-            if (gameState == GameState.Menu)
+            if (gameState != GameState.running)
             {
                 MenusHandler.Update(gameTime, this);
             }
@@ -111,7 +111,7 @@ namespace War_Square
         {
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
-            if (gameState == GameState.Menu)
+            if (gameState != GameState.running)
                 MenusHandler.draw(spriteBatch, this);
             else
             {

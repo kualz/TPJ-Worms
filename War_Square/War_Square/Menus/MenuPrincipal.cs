@@ -49,7 +49,8 @@ namespace War_Square.Menus
             {
                 switch (selectedOption)
                 {
-                    case 0: game.gameState = Game1.GameState.running;
+                    case 0:
+                        game.gameState = Game1.GameState.CharacterChoose;
                         break;
                     case 1: game.Exit();
                         break;
