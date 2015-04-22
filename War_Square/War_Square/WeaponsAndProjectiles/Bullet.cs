@@ -11,9 +11,9 @@ namespace War_Square.WeaponsAndProjectiles
 {
     class Bullet
     {
-        public float range;
+        public float range, gravity = 9.8f;
         public float speed;
-        public Vector2 sourcePosition;
+        public Vector2 sourcePosition, initialpos;
         private Vector2 direction;
         private Vector2 velocity;
         private Point mousePos;
@@ -24,6 +24,7 @@ namespace War_Square.WeaponsAndProjectiles
         private float ratio;
         private float K = 1;
         private int distanciaPercorrida = 0;
+        float deltatime;
         public enum AmmoType
         {
             cal32,
@@ -43,17 +44,19 @@ namespace War_Square.WeaponsAndProjectiles
         {
             this.range = range;
             this.sourcePosition = sourcePosition;
+            this.initialpos = sourcePosition;
             this.rotation = rotation;
             this.direction = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
             this.ammoType = ammo;
             this.speed = speed;
-            mousePos = MousePos;
+            mousePos = MousePos;          
         }
 
         public void update(GameTime gameTime, Weapons weapon)
         {
             deltaX = Math.Abs(mousePos.X - sourcePosition.X);
-            ratio = 1 / deltaX;
+            deltatime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            ratio = 50 / deltaX;
             distanciaPercorrida++;
 
             if (ammoType == AmmoType.cal32)
@@ -63,13 +66,24 @@ namespace War_Square.WeaponsAndProjectiles
             }
             else if (ammoType == AmmoType.rocket)
             {
-                velocity.X += 0.20f * K;
-                if (velocity.X > 5f) velocity.X = 5f;
-                velocity.Y = ratio * 5f;
-                if (distanciaPercorrida > deltaX / 2) sourcePosition.Y += velocity.Y;
-                if (distanciaPercorrida < deltaX / 2) sourcePosition.Y -= velocity.Y;
-                if (mousePos.X > sourcePosition.X) sourcePosition.X += velocity.X;
-                if (mousePos.X < sourcePosition.X) sourcePosition.X -= velocity.X;
+                //velocity.X += 0.20f * K;
+                //if (velocity.X > 5f) velocity.X = 5f;
+                //velocity.Y = ratio * 5f;
+                //if (distanciaPercorrida > deltaX / 2) sourcePosition.Y += velocity.Y;
+                //if (distanciaPercorrida < deltaX / 2) sourcePosition.Y -= velocity.Y;
+                //if (mousePos.X > sourcePosition.X) sourcePosition.X += velocity.X;
+                //if (mousePos.X < sourcePosition.X) sourcePosition.X -= velocity.X;
+
+               /////teste\\\\\
+
+                velocity.Y += gravity * deltatime;
+                velocity.X += gravity * deltatime;
+
+                sourcePosition.X = initialpos.X + velocity.X * deltatime;
+                sourcePosition.Y = initialpos.Y - velocity.Y * deltatime;
+
+
+
 
                 bulletRec = new Rectangle((int)sourcePosition.X, (int)sourcePosition.Y, 15, 15);
             }
