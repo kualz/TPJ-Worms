@@ -14,7 +14,7 @@ namespace War_Square
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         private SpriteFont spriteFont;
-        private Characters Player1, Player2;
+        //private Characters Player1, Player2;
         private Crosshair MIRA;
         private Vector2 mousevector;
         private Map TesteMapa;
@@ -52,24 +52,24 @@ namespace War_Square
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             spriteFont = Content.Load<SpriteFont>("MyFont");
+            CharactersHandler.InitList(Content);
             MenusHandler.load(Content, this);
             TesteMapa = new Map();
             TesteMapa.Load(Content);
             TesteMapa.InitRectMap();
             MIRA = new Crosshair();
             MIRA.Load(Content);
-            CharactersHandler.InitList(Content);
-            Player1 = CharactersHandler.getCharacter(0);
-            Player1.SetCharacterInPlay();
-            Player2 = CharactersHandler.getCharacter(1);
-            Player1.SetCharacterPosition(new Vector2(600, 350));
-            Player1.Load(Content);
-            Collisions.characterCollisions.Add(Player1);
-            Player2.SetCharacterPosition(new Vector2(700, 350));
-            Player2.Load(Content);
-            Collisions.characterCollisions.Add(Player2);
-            CharactersHandler.AddPlayer(Player1);
-            CharactersHandler.AddPlayer(Player2);
+            //Player1 = CharactersHandler.getCharacter(0);
+            //Player1.SetCharacterInPlay();
+            //Player2 = CharactersHandler.getCharacter(1);
+            //Player1.SetCharacterPosition(new Vector2(600, 350));
+            //Player1.Load(Content);
+            //Collisions.characterCollisions.Add(Player1);
+            //Player2.SetCharacterPosition(new Vector2(700, 350));
+            //Player2.Load(Content);
+            //Collisions.characterCollisions.Add(Player2);
+            //CharactersHandler.AddPlayer(Player1);
+            //CharactersHandler.AddPlayer(Player2);
         }
 
 
@@ -94,7 +94,7 @@ namespace War_Square
                 mousevector = new Vector2(mState.X, mState.Y);
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                     gameState = GameState.Paused;
-                if (Input.IsPressed(Keys.K) && Player1.isJumping() == false && Player2.isJumping() == false)
+                if (Input.IsPressed(Keys.K) && CharactersHandler.getPlayerIN_GAME(0).isJumping() == false && CharactersHandler.getPlayerIN_GAME(1).isJumping() == false)
                     CharactersHandler.ChangeActive();
                 if (roundTime <= 0)
                 {
@@ -118,8 +118,8 @@ namespace War_Square
                 TesteMapa.secondDraw(spriteBatch);
                 spriteBatch.DrawString(spriteFont, "Time: " + roundTime, new Vector2(50, 50), Color.White);
                 MIRA.draw(spriteBatch, mousevector);
-                Player1.Draw(spriteBatch);
-                Player2.Draw(spriteBatch);
+                CharactersHandler.getPlayerIN_GAME(0).Draw(spriteBatch);
+                CharactersHandler.getPlayerIN_GAME(1).Draw(spriteBatch);
             }
             spriteBatch.End();
 

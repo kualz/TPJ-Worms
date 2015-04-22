@@ -33,6 +33,11 @@ namespace War_Square.characters
             Players.Add(cha);
         }
 
+        static public Characters getPlayerIN_GAME(int player)
+        {
+            return Players[player];
+        }
+
         static public Characters getActiveCharacter()
         {
             foreach (Characters cha in Players){
