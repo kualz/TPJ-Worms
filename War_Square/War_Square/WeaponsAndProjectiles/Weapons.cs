@@ -121,7 +121,7 @@ namespace War_Square.WeaponsAndProjectiles
                 }
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.rocket) && WeaponTypes == WeaponType.Rocket)
                 {
-                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.rocket, 200, 500, mousePos));
+                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.rocket, 20000, 500, mousePos));
                     fireRateTime = 0;
                 }
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.nade) && WeaponTypes == WeaponType.GrenadeLauncher)

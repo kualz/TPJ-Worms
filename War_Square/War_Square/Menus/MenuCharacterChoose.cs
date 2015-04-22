@@ -71,13 +71,13 @@ namespace War_Square.Menus
                                 if (characterChoosen == 0)
                                 {
                                     Player1.SetCharacterInPlay();
-                                    Player1.SetCharacterPosition(new Vector2(600, 350));
+                                    Player1.SetCharacterPosition(new Vector2(600, 200));
                                     Collisions.characterCollisions.Add(Player1);
                                     CharactersHandler.AddPlayer(Player1);
                                 }
                                 else
                                 {
-                                    Player1.SetCharacterPosition(new Vector2(700, 350));
+                                    Player1.SetCharacterPosition(new Vector2(700, 200));
                                     Collisions.characterCollisions.Add(Player1);
                                     CharactersHandler.AddPlayer(Player1);
                                 }
@@ -89,13 +89,13 @@ namespace War_Square.Menus
                                 if (characterChoosen == 0)
                                 {
                                     Player2.SetCharacterInPlay();
-                                    Player2.SetCharacterPosition(new Vector2(600, 350));
+                                    Player2.SetCharacterPosition(new Vector2(600, 200));
                                     Collisions.characterCollisions.Add(Player2);
                                     CharactersHandler.AddPlayer(Player2);
                                 }
                                 else
                                 {
-                                    Player2.SetCharacterPosition(new Vector2(700, 350));
+                                    Player2.SetCharacterPosition(new Vector2(700, 200));
                                     Collisions.characterCollisions.Add(Player2);
                                     CharactersHandler.AddPlayer(Player2);
                                 }

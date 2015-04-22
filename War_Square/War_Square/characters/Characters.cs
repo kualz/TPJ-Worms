@@ -189,19 +189,21 @@ namespace War_Square.characters
                 {
                     hasjumped = false;
                 }
-                else hasjumped = true;
+                else
+                {
+                    hasjumped = true;
+                }
                 if (hasjumped == true)
                 {
                     float i = 1;
-                    velocity.Y += 0.20f * i;
-                    if (velocity.Y >= 5f) velocity.Y = 5f;
+                    velocity.Y += 0.2f * i;
+                    if (velocity.Y > 2f) velocity.Y = 2f;
                     if (CheckCollisionsTile(Gravityaux).Count != 0)
                     {
                         hasjumped = false;
                     }
                     CharacterPos += velocity;
                 }
-                
             }
         }
 
