@@ -24,7 +24,7 @@ namespace War_Square.WeaponsAndProjectiles
         private float ratio;
         private float K = 1;
         private int distanciaPercorrida = 0;
-        float deltatime;
+        float deltatime, tempototal;
         public enum AmmoType
         {
             cal32,
@@ -49,7 +49,10 @@ namespace War_Square.WeaponsAndProjectiles
             this.direction = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
             this.ammoType = ammo;
             this.speed = speed;
-            mousePos = MousePos;          
+            mousePos = MousePos;
+            velocity.X = 40f;
+            this.tempototal = (float)Math.Abs(mousePos.X - initialpos.X) / velocity.X;
+            velocity.Y = 9.8f * tempototal / 2;
         }
 
         public void update(GameTime gameTime, Weapons weapon)
@@ -66,23 +69,9 @@ namespace War_Square.WeaponsAndProjectiles
             }
             else if (ammoType == AmmoType.rocket)
             {
-                //velocity.X += 0.20f * K;
-                //if (velocity.X > 5f) velocity.X = 5f;
-                //velocity.Y = ratio * 5f;
-                //if (distanciaPercorrida > deltaX / 2) sourcePosition.Y += velocity.Y;
-                //if (distanciaPercorrida < deltaX / 2) sourcePosition.Y -= velocity.Y;
-                //if (mousePos.X > sourcePosition.X) sourcePosition.X += velocity.X;
-                //if (mousePos.X < sourcePosition.X) sourcePosition.X -= velocity.X;
 
-               /////teste\\\\\
-
-                velocity.Y += gravity * deltatime;
-                velocity.X += gravity * deltatime;
-
-                sourcePosition.X = initialpos.X + velocity.X * deltatime;
-                sourcePosition.Y = initialpos.Y - velocity.Y * deltatime;
-
-
+                sourcePosition.X = initialpos.X + velocity.X * deltatime * direction.X;
+                sourcePosition.Y = initialpos.Y - velocity.Y * deltatime + 0.5f * gravity * (float)(Math.Pow(deltatime, 2));
 
 
                 bulletRec = new Rectangle((int)sourcePosition.X, (int)sourcePosition.Y, 15, 15);
