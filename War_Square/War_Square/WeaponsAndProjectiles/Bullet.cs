@@ -69,16 +69,13 @@ namespace War_Square.WeaponsAndProjectiles
             }
             else if (ammoType == AmmoType.rocket)
             {
-
                 sourcePosition.X = initialpos.X + velocity.X * deltatime * direction.X;
                 sourcePosition.Y = initialpos.Y - velocity.Y * deltatime + 0.5f * gravity * (float)(Math.Pow(deltatime, 2));
-
-
                 bulletRec = new Rectangle((int)sourcePosition.X, (int)sourcePosition.Y, 15, 15);
             }
             else if (ammoType == AmmoType.nade)
             {
-
+                //nades update method!
             }
             if (CheckCollisionsProjectile(bulletRec) != new Rectangle(0, 0, 0, 0))
             {

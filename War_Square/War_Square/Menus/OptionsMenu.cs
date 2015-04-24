@@ -52,7 +52,7 @@ namespace War_Square.Menus
                 //numero de casos necessarios!
                 switch (selectedOption)
                 {
-                    case 0:
+                    case 0: 
                         break;
                     case 1:
                         game.gameState = Game1.GameState.Menu;
@@ -67,8 +67,8 @@ namespace War_Square.Menus
             for (int i = 0; i < Options.Count; i++)
             {
                 if (selectedOption != i)
-                    spriteBatch.DrawString(spriteFont, Options[i], new Vector2(100, 100 + i * 4), Color.White);
-                else spriteBatch.DrawString(spriteFont, Options[i], new Vector2(100, 100 + i * 4), Color.Orange);
+                    spriteBatch.DrawString(spriteFont, Options[i], new Vector2(100, 100 + i * 40), Color.White);
+                else spriteBatch.DrawString(spriteFont, Options[i], new Vector2(100, 100 + i * 40), Color.Orange);
             }
         }
     }
