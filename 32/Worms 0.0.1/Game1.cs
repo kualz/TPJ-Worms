@@ -20,6 +20,8 @@ namespace Worms_0._0._1
         Crosshair MIRA;
         Vector2 mousevector;
         Map TesteMapa;
+        private Camera2D Camera;
+        public int CameraFocusAux = 0;
 
         public Game1()
             : base()
@@ -29,6 +31,8 @@ namespace Worms_0._0._1
             graphics.PreferredBackBufferHeight = 700;
             graphics.PreferredBackBufferWidth = 1000;
             Content.RootDirectory = "Content";
+            Camera = new Camera2D(this);
+            Components.Add(Camera);
         }
 
        
@@ -40,6 +44,7 @@ namespace Worms_0._0._1
         
         protected override void LoadContent()
         {
+            Camera.Scale = 0.7f;
             TesteMapa = new Map();
             TesteMapa.Load(Content);
             TesteMapa.InitRectMap();
@@ -72,11 +77,19 @@ namespace Worms_0._0._1
             TesteMapa.update(gameTime);
             Input.Update();
             MouseState mState = Mouse.GetState();
+            Camera.Focus = CharactersHandler.Players[CameraFocusAux];
             mousevector = new Vector2(mState.X, mState.Y);
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if (Input.IsPressed(Keys.K) && Player1.isJumping() == false && Player2.isJumping() == false) CharactersHandler.ChangeActive();
+            if (Input.IsPressed(Keys.K) )
+            {
+                CameraFocusAux++;
+                if (CameraFocusAux > CharactersHandler.Players.Count-1) CameraFocusAux = 0;
+                Camera.Focus = CharactersHandler.Players[CameraFocusAux];
+                CharactersHandler.ChangeActive();
+
+            }
             CharactersHandler.updatePlayers(gameTime);
             //Player1.Update(gameTime);  
             //Player2.Update(gameTime);
@@ -88,7 +101,8 @@ namespace Worms_0._0._1
         {
             
             GraphicsDevice.Clear(Color.Black);
-            spriteBatch.Begin();
+
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Camera.Transform);
             //int aux = 0;
             //if (aux == 0)
             //{

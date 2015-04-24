@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Worms_0._0._1;
 
 namespace Worms_0._0._1
 {
@@ -261,15 +262,8 @@ namespace Worms_0._0._1
 
 
 
-        public Vector2 Position
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        Vector2 IFocusable.Position
-        {
-            get { throw new NotImplementedException(); }
-        }
+      
+        
 
         public List<Rectangle> CheckCollisionsTile(Vector2 pos)
         {
@@ -286,6 +280,10 @@ namespace Worms_0._0._1
             return collidingWith;
         }
 
+        public Vector2 Position
+        {
+            get { return this.CharacterPos; }
+        }
         
 
     }
