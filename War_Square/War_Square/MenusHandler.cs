@@ -32,9 +32,9 @@ namespace War_Square
                 menuPrincipal.update(gameTime, game);
                 return;
             }
-            if (game.gameState == Game1.GameState.running)
+            if (game.gameState == Game1.GameState.Paused)
             {
-                menuInGame.update(gameTime);
+                menuInGame.update(gameTime, game);
                 return;
             }
             if (game.gameState == Game1.GameState.Options)
@@ -51,7 +51,7 @@ namespace War_Square
 
         static public void draw(SpriteBatch spriteBatch, Game1 game)
         {
-            if (game.gameState == Game1.GameState.running)
+            if (game.gameState == Game1.GameState.Paused)
             {
                 menuInGame.draw(spriteBatch);
                 return;

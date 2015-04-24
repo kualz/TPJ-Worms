@@ -93,7 +93,9 @@ namespace War_Square
                 MouseState mState = Mouse.GetState();
                 mousevector = new Vector2(mState.X, mState.Y);
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                {
                     gameState = GameState.Paused;
+                }
                 if (Input.IsPressed(Keys.K) && CharactersHandler.getPlayerIN_GAME(0).isJumping() == false && CharactersHandler.getPlayerIN_GAME(1).isJumping() == false)
                     CharactersHandler.ChangeActive();
                 if (roundTime <= 0)
