@@ -24,7 +24,7 @@ namespace War_Square.WeaponsAndProjectiles
         private float ratio;
         private float K = 1;
         private int distanciaPercorrida = 0;
-        float deltatime, tempototal;
+        float deltatime, tempototal, drag;
         public enum AmmoType
         {
             cal32,
@@ -51,8 +51,16 @@ namespace War_Square.WeaponsAndProjectiles
             this.speed = speed;
             mousePos = MousePos;
             velocity.X = 40f;
-            this.tempototal = (float)Math.Abs(mousePos.X - initialpos.X) / velocity.X;
-            velocity.Y = 9.8f * tempototal / 2;
+            this.drag = initialpos.Y - mousePos.Y;
+
+            if (mousePos.X > initialpos.X) this.tempototal = (float)Math.Abs((mousePos.X - initialpos.X) + drag*1.5) / velocity.X;
+            if (mousePos.X < initialpos.X) this.tempototal = (float)Math.Abs((mousePos.X - initialpos.X) - drag * 1.5) / velocity.X;
+            //float a = 0.5f * gravity;
+            //float b = 9.8f * (float)(Math.Abs(mousePos.X - initialpos.X) / velocity.X);
+            //float c = (float)Math.Abs(mousePos.Y - initialpos.Y);
+            //this.tempototal = (- b + (float)Math.Sqrt(b * b - 4 * a * c)) / 2 * a;
+            velocity.Y = gravity * tempototal/2;
+            //Console.WriteLine("" + tempototal);
         }
 
         public void update(GameTime gameTime, Weapons weapon)
@@ -69,8 +77,11 @@ namespace War_Square.WeaponsAndProjectiles
             }
             else if (ammoType == AmmoType.rocket)
             {
+
                 sourcePosition.X = initialpos.X + velocity.X * deltatime * direction.X;
                 sourcePosition.Y = initialpos.Y - velocity.Y * deltatime + 0.5f * gravity * (float)(Math.Pow(deltatime, 2));
+
+
                 bulletRec = new Rectangle((int)sourcePosition.X, (int)sourcePosition.Y, 15, 15);
             }
             else if (ammoType == AmmoType.nade)

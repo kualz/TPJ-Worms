@@ -29,7 +29,7 @@ namespace War_Square
         private int slideX; //para fazer slide para o lado este numero de pixeis                  |
         private int slideY; //nem sei se vamos usar este XD                                       | 
         private int height; //tamanho dos retangulos (altura) em relaçao a figura que vamos usar! |
-        private int width; //tamanho dos retangulos (largura) em relaçao a figura que vamos usar!|
+        private int width; //tamanho dos retangulos (largura) em relaçao a figura que vamos usar! |
         //-----------------------------------------------------------------------------------------
 
         public Animations(string asset, int frameNumber, Vector2 instantialPosition, int imageHeight, int imageWidth, AnimationType animationType, int AnimationSpeed)
@@ -63,8 +63,13 @@ namespace War_Square
             }
             //-------------------------------------------------------------------
             //quando a animaçao tem uma mudança de scale!
-            if(animationType == AnimationType.scaled)
+            if (animationType == AnimationType.scaled)
+            {
                 this.scale -= (float)gameTime.ElapsedGameTime.TotalSeconds / 2f;
+                if (this.scale <= 1){
+                    this.scale = 1;
+                }
+            }
             //quando a animaçao tem uma mudança de posiçao!
             if (animationType == AnimationType.slide)
                 this.position.X += position.X + AnimationSpeed * (deltaTime * 0.8f);
