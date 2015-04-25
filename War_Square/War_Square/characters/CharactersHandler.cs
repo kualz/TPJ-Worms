@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using War_Square.WeaponsAndProjectiles;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace War_Square.characters
 {
@@ -12,7 +13,7 @@ namespace War_Square.characters
     {
         static private List<Characters> Barracks = new List<Characters>();
         static public List<Characters> Players = new List<Characters>();
-        static public int JogadorActivo = 0;
+        static public int JogadorActivo = 1;
 
         static public void InitList(ContentManager content)
         {
@@ -21,6 +22,7 @@ namespace War_Square.characters
             Barracks.Add(new Characters("Klipper"));
             Barracks.Add(new Characters("Zjeh"));
             Barracks.Add(new Characters("Saber"));
+            Barracks.Add(new Characters("GhostCharacter"));
         }
 
         static public Characters getCharacter(int Character)
@@ -71,18 +73,44 @@ namespace War_Square.characters
         {
             Players[JogadorActivo].SetCharacterInPlay();
             JogadorActivo++;
-            if (JogadorActivo >= Players.Count) JogadorActivo = 0;
+            if (JogadorActivo >= Players.Count ) JogadorActivo = 1;
             Players[JogadorActivo].SetCharacterInPlay();
         }
 
         static public void updatePlayers(GameTime gameTime)
         {
             foreach (Characters cha in Players){
-                cha.Update(gameTime);
-                    if (cha.isActive()){
-                        cha.GetActiveWeapon().Update(gameTime,cha);
+                if (cha.returnName() != "GhostCharacter")
+                {
+                    cha.Update(gameTime);
+                    if (cha.isActive())
+                    {
+                        cha.GetActiveWeapon().Update(gameTime, cha);
+                    }
                 }
             }
         }
+
+        static public void DrawPlayers(SpriteBatch spritebatch)
+        {
+            foreach (Characters cha in Players)
+            {
+                if (cha.returnName() != "GhostCharacter")
+                    cha.Draw(spritebatch);
+            }
+        }
+
+        static public void RemoveGhostCharacter()
+        {
+            foreach (Characters cha in Players)
+            {
+                if (cha.returnName() == "GhostCharacter")
+                {
+                    Players.Remove(cha);
+                }
+            }
+        }
+
+
     }
 }
