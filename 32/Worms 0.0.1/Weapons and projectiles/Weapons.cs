@@ -45,6 +45,7 @@ namespace Worms_0._0._1
         private Texture2D flatSquare;
         private Vector2 auxVector;
         static public bool Sexplosion = false;
+        float rot = (float)Math.PI;
         private SpriteEffects flip;
 
         public Weapons() { }
@@ -112,7 +113,7 @@ namespace Worms_0._0._1
                 timerExplosion = 0;
             }
 
-            if (mState.LeftButton == ButtonState.Pressed)
+            if (Input.IsDown(Keys.Space))
             {
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.cal32) && WeaponTypes == WeaponType.MachineGun)
                 {
@@ -131,36 +132,51 @@ namespace Worms_0._0._1
                 }
                 else fireRateTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
-            float y = (float)mousePos.Y - (PositionRelativeToCharacter.Y + helperYCharPos);
-            float x = (float)(PositionRelativeToCharacter.X + helperXCharPos) - mousePos.X;
-            float rot = (float)Math.Atan2(x,y);
-            rot += (float)Math.PI/2f;
+            //float y = (float)mousePos.Y - (PositionRelativeToCharacter.Y + helperYCharPos);
+            //float x = (float)(PositionRelativeToCharacter.X + helperXCharPos) - mousePos.X;
+            //float rot = (float)Math.Atan2(x,y);
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) && rotation + 0.1f < 3* (float)Math.PI / 2f)
+            {
+                rot += (float)Math.PI / 100f;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Down) && rotation - 0.1f > (float)Math.PI / 2f)
+            {
+                rot -= (float)Math.PI / 100f;
+            }
+            
+
             rotation = rot;
             rec = new Rectangle((int)PositionRelativeToCharacter.X, (int)PositionRelativeToCharacter.Y, 10, 15);
             updateBullets(gameTime);
             updateDeleteBullets(gameTime);
-            float mouseX = (float)PositionRelativeToCharacter.X - mousePos.X;
-            if (mousePos.X > PositionRelativeToCharacter.X)
+
+          
+            
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Characters ActiveChar, SpriteEffects flip)
+        {
+            if (flip == SpriteEffects.FlipHorizontally)
             {
-                flip = SpriteEffects.FlipHorizontally;
+                //rot = 0;
                 helperX = 0;
                 helperXpos = 0;
                 helperXCharPos = 0;
                 helperYCharPos = 35;
             }
-            if (mousePos.X < PositionRelativeToCharacter.X)
+
+            if (flip == SpriteEffects.None)
             {
-                flip = SpriteEffects.None;
+                //rot = (float)Math.PI;
                 helperX = -20;
                 helperXpos = 35;
                 helperXCharPos = 30;
                 helperYCharPos = 35;
             }
-            auxVector = new Vector2(helperXCharPos,helperYCharPos);
-        }
 
-        public void Draw(SpriteBatch spriteBatch, Characters ActiveChar)
-        {
+            auxVector = new Vector2(helperXCharPos, helperYCharPos);
             spriteBatch.Draw(this.textura, new Vector2(ActiveChar.CharacterPosition().X + 5 + helperXpos, ActiveChar.CharacterPosition().Y + 45), null, Color.White, this.rotation+(float)Math.PI/2, new Vector2((float)45 + helperX, (float)40), 1f, flip, 0f);
             spriteBatch.DrawString(font, "Weapon Name: " + CharactersHandler.getActiveWeapon().getName(), new Vector2(500f, 500f), Color.White);
             spriteBatch.DrawString(font, "Weapon Type: " + CharactersHandler.getActiveWeapon().getWeaponType(), new Vector2(500f, 525f), Color.White);

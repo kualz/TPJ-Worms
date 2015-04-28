@@ -10,7 +10,7 @@ using Worms_0._0._1;
 
 namespace Worms_0._0._1
 {
-    class Characters : IFocusable
+    class Characters 
     {
         private Texture2D textura, Hitbox;
         protected bool SpecialWeapon, CharacterInPlay, hasjumped;
@@ -141,11 +141,12 @@ namespace Worms_0._0._1
                 //rodar personagem
                 mousePos = mState.Position;
                 float x = (float)CharacterPos.X - mousePos.X;
-                if (mousePos.X > CharacterPos.X) flip = SpriteEffects.FlipHorizontally;
-                else flip = SpriteEffects.None;
+                //if (mousePos.X > CharacterPos.X) flip = SpriteEffects.FlipHorizontally;
+                //else flip = SpriteEffects.None;
                 if (Keyboard.GetState().IsKeyDown(Keys.A))
                 {
                     nextpos = new Vector2(CharacterPos.X - 3f, CharacterPos.Y);
+                    flip = SpriteEffects.None;
                     if (CheckCollisionsTile(nextpos).Count == 0)
                         CharacterPos = nextpos;
                 }
@@ -153,6 +154,7 @@ namespace Worms_0._0._1
                 if (Keyboard.GetState().IsKeyDown(Keys.D))
                 {
                     nextpos = new Vector2(CharacterPos.X + 3f, CharacterPos.Y);
+                    flip = SpriteEffects.FlipHorizontally;
                     if (CheckCollisionsTile(nextpos).Count == 0)
                         CharacterPos = nextpos;
                 }
@@ -201,7 +203,7 @@ namespace Worms_0._0._1
             /// tipo aqui so tens a weapon selecionada a fazer draw...nao sei se queres optimizar isto!!!
             /// </summary>
             // if(this.isActive())
-            Arsenal[weaponCodeChosen].Draw(spritebatch, this);
+            Arsenal[weaponCodeChosen].Draw(spritebatch, this, flip);
         }
 
         public Vector2 CharacterPosition()

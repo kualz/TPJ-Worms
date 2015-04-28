@@ -27,9 +27,9 @@ namespace Worms_0._0._1
             : base()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.IsFullScreen = false;
             graphics.PreferredBackBufferHeight = 700;
             graphics.PreferredBackBufferWidth = 1000;
+            graphics.IsFullScreen = false;
             Content.RootDirectory = "Content";
             Camera = new Camera2D(this);
             Components.Add(Camera);
@@ -76,17 +76,18 @@ namespace Worms_0._0._1
         {
             TesteMapa.update(gameTime);
             Input.Update();
+            MIRA.update();
             MouseState mState = Mouse.GetState();
-            Camera.Focus = CharactersHandler.Players[CameraFocusAux];
+            Camera.Focus = MIRA;
             mousevector = new Vector2(mState.X, mState.Y);
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             if (Input.IsPressed(Keys.K) )
             {
-                CameraFocusAux++;
-                if (CameraFocusAux > CharactersHandler.Players.Count-1) CameraFocusAux = 0;
-                Camera.Focus = CharactersHandler.Players[CameraFocusAux];
+                //CameraFocusAux++;
+                //if (CameraFocusAux > CharactersHandler.Players.Count-1) CameraFocusAux = 0;
+                //Camera.Focus = CharactersHandler.Players[CameraFocusAux];
                 CharactersHandler.ChangeActive();
 
             }
