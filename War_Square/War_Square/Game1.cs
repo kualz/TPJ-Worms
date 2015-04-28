@@ -22,6 +22,7 @@ namespace War_Square
         private Camera2D Camera;
         public int CameraFocusAux = 1;
         private Characters GhostCharacter;
+        private int cameraX = 400;
         public enum GameState
         {
             running,
@@ -67,21 +68,11 @@ namespace War_Square
             MIRA.Load(Content);
             GhostCharacter = CharactersHandler.getCharacter(5);
             //////mudar esta posicao para a posicao do menu!\\\\\\\\\\\\\\\\\
-            GhostCharacter.SetCharacterPosition(new Vector2(400, 350));
+            GhostCharacter.SetCharacterPosition(new Vector2(cameraX, 350));
             CharactersHandler.AddPlayer(GhostCharacter);
             Camera.Focus = CharactersHandler.Players[0];
             GhostCharacter.Load(Content);
-            //Player1 = CharactersHandler.getCharacter(0);
-            //Player1.SetCharacterInPlay();
-            //Player2 = CharactersHandler.getCharacter(1);
-            //Player1.SetCharacterPosition(new Vector2(600, 350));
-            //Player1.Load(Content);
-            //Collisions.characterCollisions.Add(Player1);
-            //Player2.SetCharacterPosition(new Vector2(700, 350));
-            //Player2.Load(Content);
-            //Collisions.characterCollisions.Add(Player2);
-            //CharactersHandler.AddPlayer(Player1);
-            //CharactersHandler.AddPlayer(Player2);
+            
         }
 
 
@@ -100,31 +91,26 @@ namespace War_Square
             }
             else
             {
-                Camera.Scale = 0.7f;
-                Camera.Focus = CharactersHandler.Players[CameraFocusAux];
+                Camera.Scale = 0.7f;            
                 roundTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
                 TesteMapa.update(gameTime);
-                MouseState mState = Mouse.GetState();
-                mousevector = new Vector2(mState.X, mState.Y);
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 {
                     gameState = GameState.Paused;
                 }
                 if (Input.IsPressed(Keys.K) && CharactersHandler.getPlayerIN_GAME(0).isJumping() == false && CharactersHandler.getPlayerIN_GAME(1).isJumping() == false)
-                {
-                    CameraFocusAux++;
-                    if (CameraFocusAux > CharactersHandler.Players.Count - 1) CameraFocusAux = 1;
-                    Camera.Focus = CharactersHandler.Players[CameraFocusAux];
+                {          
                     CharactersHandler.ChangeActive();
                 }
                 if (roundTime <= 0)
-                {
-                    CameraFocusAux++;
-                    if (CameraFocusAux > CharactersHandler.Players.Count - 1) CameraFocusAux = 1;
-                    Camera.Focus = CharactersHandler.Players[CameraFocusAux];
+                {                 
                     CharactersHandler.ChangeActive();
                     roundTime = 20;
                 }
+                if (Input.IsDown(Keys.Right)) cameraX += 10;
+                if (Input.IsDown(Keys.Left)) cameraX -= 10;
+
+                GhostCharacter.SetCharacterPosition(new Vector2(cameraX, 350));
                 CharactersHandler.updatePlayers(gameTime);
             }
             base.Update(gameTime);

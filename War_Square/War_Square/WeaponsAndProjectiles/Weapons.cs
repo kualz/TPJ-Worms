@@ -27,7 +27,7 @@ namespace War_Square.WeaponsAndProjectiles
         protected Texture2D textura;
         private SpriteFont font;
         private Rectangle rec;
-        protected bool activeState;
+        protected bool activeState, justflipped = false;
         protected int weaponCodeChoosen = 0, helperX = 0, helperXpos = 0, helperXCharPos = 0, helperYCharPos = 0;
         protected int TextureWidth = 10, TextureWheight = 15;
         private List<Bullet> createdAmmo = new List<Bullet>();
@@ -45,7 +45,7 @@ namespace War_Square.WeaponsAndProjectiles
         private Texture2D flatSquare;
         private Vector2 auxVector;
         public bool Sexplosion = false;
-        private SpriteEffects flip;
+        float rot = (float)Math.PI;
 
         public Weapons() { }
 
@@ -112,7 +112,7 @@ namespace War_Square.WeaponsAndProjectiles
                     currentFrame1 = 0;
                 timerExplosion = 0;
             }
-            if (mState.LeftButton == ButtonState.Pressed)
+            if (Input.IsDown(Keys.Space))
             {
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.cal32) && WeaponTypes == WeaponType.MachineGun)
                 {
@@ -131,42 +131,50 @@ namespace War_Square.WeaponsAndProjectiles
                 }
                 else fireRateTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
-            float y = (float)mousePos.Y - (PositionRelativeToCharacter.Y + helperYCharPos);
-            float x = (float)(PositionRelativeToCharacter.X + helperXCharPos) - mousePos.X;
-            float rot = (float)Math.Atan2(x, y);
-            rot += (float)Math.PI / 2f;
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Up))
+            {
+                rot += (float)Math.PI / 100f;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Down))
+            {
+                rot -= (float)Math.PI / 100f;
+            }
+
             rotation = rot;
             rec = new Rectangle((int)PositionRelativeToCharacter.X, (int)PositionRelativeToCharacter.Y, 10, 15);
             updateBullets(gameTime);
             updateDeleteBullets(gameTime);
-            float mouseX = (float)PositionRelativeToCharacter.X - mousePos.X;
-            if (mousePos.X > PositionRelativeToCharacter.X)
+           
+
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Characters ActiveChar, SpriteEffects flip)
+        {
+            if (flip == SpriteEffects.FlipHorizontally)
             {
-                flip = SpriteEffects.FlipHorizontally;
                 helperX = 0;
                 helperXpos = 0;
                 helperXCharPos = 0;
                 helperYCharPos = 35;
             }
-            if (mousePos.X < PositionRelativeToCharacter.X)
+
+            if (flip == SpriteEffects.None)
             {
-                flip = SpriteEffects.None;
                 helperX = -20;
                 helperXpos = 35;
                 helperXCharPos = 30;
                 helperYCharPos = 35;
             }
             auxVector = new Vector2(helperXCharPos, helperYCharPos);
-        }
-
-        public void Draw(SpriteBatch spriteBatch, Characters ActiveChar)
-        {
             spriteBatch.Draw(this.textura, new Vector2(ActiveChar.CharacterPosition().X + helperXCharPos + 10, ActiveChar.CharacterPosition().Y + 45), null, Color.White, this.rotation + (float)Math.PI / 2, new Vector2((float)45 + helperX, (float)40), 1f, flip, 0f);
             spriteBatch.DrawString(font, "Weapon Name: " + CharactersHandler.getActiveWeapon().getName(), new Vector2(500f, 500f), Color.White);
             spriteBatch.DrawString(font, "Weapon Type: " + CharactersHandler.getActiveWeapon().getWeaponType(), new Vector2(500f, 525f), Color.White);
             spriteBatch.DrawString(font, "test\nPress 1 - first weapon", new Vector2(200f, 550f), Color.White);
             spriteBatch.DrawString(font, "Press 2 - second weapon", new Vector2(200f, 600f), Color.White);
             spriteBatch.DrawString(font, "Press 3 - Third weapon", new Vector2(200f, 625f), Color.White);
+
             foreach (Bullet bullet in bulletsOnScreen)
             {
                 if (bullet.ammoType == Bullet.AmmoType.cal32)

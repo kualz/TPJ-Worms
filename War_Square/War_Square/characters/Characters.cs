@@ -21,7 +21,7 @@ namespace War_Square.characters
         public CharacterState WormState;
         public Vector2 velocity, nextpos;
         private float intervalo = 0.08f, timer, timer1;
-        public SpriteEffects flip;
+        public SpriteEffects flip = SpriteEffects.FlipHorizontally;
         private int currentFrame = 0;
         private Point mousePos;
         private SpriteFont font;
@@ -155,19 +155,20 @@ namespace War_Square.characters
                 //rodar personagem
                 mousePos = mState.Position;
                 float x = (float)CharacterPos.X - mousePos.X;
-                if (mousePos.X > CharacterPos.X) flip = SpriteEffects.FlipHorizontally;
-                else flip = SpriteEffects.None;
+      
 
                 if (Keyboard.GetState().IsKeyDown(Keys.A))
                 {
-                    nextpos = new Vector2(CharacterPos.X - 2f, CharacterPos.Y);
+                    nextpos = new Vector2(CharacterPos.X - 3f, CharacterPos.Y);
+                    flip = SpriteEffects.None;
                     if (CheckCollisionsTile(nextpos).Count == 0)
                         CharacterPos = nextpos;
                 }
 
                 if (Keyboard.GetState().IsKeyDown(Keys.D))
                 {
-                    nextpos = new Vector2(CharacterPos.X + 2f, CharacterPos.Y);
+                    nextpos = new Vector2(CharacterPos.X + 3f, CharacterPos.Y);
+                    flip = SpriteEffects.FlipHorizontally;
                     if (CheckCollisionsTile(nextpos).Count == 0)
                         CharacterPos = nextpos;
                 }
@@ -221,7 +222,7 @@ namespace War_Square.characters
             /// tipo aqui so tens a weapon selecionada a fazer draw...nao sei se queres optimizar isto!!!
             /// </summary>
             // if(this.isActive())
-            Arsenal[weaponCodeChosen].Draw(spritebatch, this);
+            Arsenal[weaponCodeChosen].Draw(spritebatch, this, flip);
         }
 
         public Vector2 CharacterPosition()
