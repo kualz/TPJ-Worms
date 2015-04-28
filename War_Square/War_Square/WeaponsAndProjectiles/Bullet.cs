@@ -51,14 +51,7 @@ namespace War_Square.WeaponsAndProjectiles
             this.speed = speed;
 
             velocity = new Vector2(100*(float)Math.Cos(rotation), -100*(float)Math.Sin(rotation));
-            //velocity.X = 40f;
-            //velocity.Y = (float)Math.Tan(rotation) * velocity.X;
-            //mousePos = MousePos;
-    
-            //this.drag = initialpos.Y - mousePos.Y;
-            //if (mousePos.X > initialpos.X) this.tempototal = (float)Math.Abs((mousePos.X - initialpos.X) + drag*1.5) / velocity.X;
-            //if (mousePos.X < initialpos.X) this.tempototal = (float)Math.Abs((mousePos.X - initialpos.X) - drag*1.5) / velocity.X;           
-            //velocity.Y = gravity * tempototal/2;
+            
         }
 
         public void update(GameTime gameTime, Weapons weapon)

@@ -27,7 +27,7 @@ namespace War_Square.WeaponsAndProjectiles
         protected Texture2D textura;
         private SpriteFont font;
         private Rectangle rec;
-        protected bool activeState, justflipped = false;
+        protected bool activeState;
         protected int weaponCodeChoosen = 0, helperX = 0, helperXpos = 0, helperXCharPos = 0, helperYCharPos = 0;
         protected int TextureWidth = 10, TextureWheight = 15;
         private List<Bullet> createdAmmo = new List<Bullet>();
@@ -46,6 +46,7 @@ namespace War_Square.WeaponsAndProjectiles
         private Vector2 auxVector;
         public bool Sexplosion = false;
         float rot = (float)Math.PI;
+        public SpriteEffects auxflip;
 
         public Weapons() { }
 
@@ -132,15 +133,27 @@ namespace War_Square.WeaponsAndProjectiles
                 else fireRateTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Up))
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) && auxflip == SpriteEffects.FlipHorizontally  && rot - 0.1f > 3*(float)Math.PI / 2)
+            {
+                rot -= (float)Math.PI / 100f;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Down) && auxflip == SpriteEffects.FlipHorizontally &&  rot + 0.1f < (float)Math.PI / 2  )
             {
                 rot += (float)Math.PI / 100f;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Down))
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) && auxflip == SpriteEffects.None &&  rot + 0.1f < 3 * (float)Math.PI / 2)
+            {
+                rot += (float)Math.PI / 100f;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Down) && auxflip == SpriteEffects.None && rot - 0.1f > (float)Math.PI / 2)
             {
                 rot -= (float)Math.PI / 100f;
             }
+
+            if (rot == 2 * (float)Math.PI) rot = 0;
 
             rotation = rot;
             rec = new Rectangle((int)PositionRelativeToCharacter.X, (int)PositionRelativeToCharacter.Y, 10, 15);
@@ -152,6 +165,7 @@ namespace War_Square.WeaponsAndProjectiles
 
         public void Draw(SpriteBatch spriteBatch, Characters ActiveChar, SpriteEffects flip)
         {
+            auxflip = flip;
             if (flip == SpriteEffects.FlipHorizontally)
             {
                 helperX = 0;
