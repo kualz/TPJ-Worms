@@ -57,6 +57,7 @@ namespace War_Square
         protected override void LoadContent()
         {
             Camera.Scale = 1f;
+            magzzz.initializeAmmo();
             spriteBatch = new SpriteBatch(GraphicsDevice);
             spriteFont = Content.Load<SpriteFont>("MyFont");
             CharactersHandler.InitList(Content);
@@ -72,7 +73,6 @@ namespace War_Square
             CharactersHandler.AddPlayer(GhostCharacter);
             Camera.Focus = CharactersHandler.Players[0];
             GhostCharacter.Load(Content);
-            
         }
 
 
@@ -95,18 +95,21 @@ namespace War_Square
                 roundTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
                 TesteMapa.update(gameTime);
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                {
                     gameState = GameState.Paused;
-                }
+
                 if (Input.IsPressed(Keys.K) && CharactersHandler.getPlayerIN_GAME(0).isJumping() == false && CharactersHandler.getPlayerIN_GAME(1).isJumping() == false)
-                {          
+                {
                     CharactersHandler.ChangeActive();
-                }
-                if (roundTime <= 0)
-                {                 
-                    CharactersHandler.ChangeActive();
+                    magzzz.setAllMag();
                     roundTime = 20;
                 }
+
+                if (roundTime <= 0){                 
+                    CharactersHandler.ChangeActive();
+                    roundTime = 20;
+                    magzzz.setAllMag();
+                }
+
                 if (Input.IsDown(Keys.Right)) cameraX += 10;
                 if (Input.IsDown(Keys.Left)) cameraX -= 10;
 

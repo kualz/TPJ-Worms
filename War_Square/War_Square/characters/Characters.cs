@@ -28,6 +28,7 @@ namespace War_Square.characters
         public List<Weapons> Arsenal = new List<Weapons>();
         public Weapons ActiveWeapon;
         private Rectangle rec;
+        static int ammoRifle = 6, ammoRocket = 1, ammoNade = 2;
         public enum CharacterState
         {
             GoingRight,
@@ -214,8 +215,11 @@ namespace War_Square.characters
             
             Vector2 Gravityaux = new Vector2(CharacterPos.X, CharacterPos.Y + 4f);
             spritebatch.Draw(textura, new Vector2((int)CharacterPos.X, (int)CharacterPos.Y), new Rectangle(currentFrame, 0, 50, 70), Color.White, 0f, Vector2.Zero, 1f, flip, 0f);
-            if(this.isActive())
-                spritebatch.DrawString(font, "Character Active: " + this.CharacterName, new Vector2(500f, 475f), Color.White); 
+            if (this.isActive())
+            {
+                spritebatch.DrawString(font, "Character Active: " + this.CharacterName, new Vector2(500f, 475f), Color.White);
+                spritebatch.DrawString(font, "0/" + magzzz.getmagAt(GetActiveWeaponCODE()).getMag(), new Vector2(this.CharacterPos.X - 300, this.CharacterPos.Y + 250), Color.Red);
+            }
             spritebatch.DrawString(font, "" + CharacterName, new Vector2((int)CharacterPos.X, (int)CharacterPos.Y - 40), Color.White);
             //spritebatch.Draw(Hitbox, new Rectangle((int)Math.Round(Gravityaux.X) + 12, (int)Math.Round(Gravityaux.Y), 25, 63), Color.Wheat);
             /// <summary>
@@ -262,9 +266,9 @@ namespace War_Square.characters
         /// </summary>
         public void CreatArsenal()
         {
-            Arsenal.Add(new Weapons("AR556", this, Weapons.WeaponType.MachineGun, true));
-            Arsenal.Add(new Weapons("Bazooka", this, Weapons.WeaponType.Rocket, false));
-            Arsenal.Add(new Weapons("nade Launcher", this, Weapons.WeaponType.GrenadeLauncher, false));
+            Arsenal.Add(new Weapons("AR556", this, Weapons.WeaponType.MachineGun, true, magzzz.getmagAt(0).getMag()));
+            Arsenal.Add(new Weapons("Bazooka", this, Weapons.WeaponType.Rocket, false, magzzz.getmagAt(1).getMag()));
+            Arsenal.Add(new Weapons("nade Launcher", this, Weapons.WeaponType.GrenadeLauncher, false, magzzz.getmagAt(2).getMag()));
         }
 
         public void getAndActivateWeapon(int weapon)
@@ -277,6 +281,20 @@ namespace War_Square.characters
         public Weapons GetActiveWeapon(){
             return ActiveWeapon;
         }
+
+
+        /// <summary>
+        /// Este metodo tou a usar no draw do character para saber a arama que esta atica num codigo de 0 a 2
+        /// </summary>
+        /// <returns></returns>
+        public int GetActiveWeaponCODE()
+        {
+            if (this.ActiveWeapon.getName() == "AR556") return 0;
+            if (this.ActiveWeapon.getName() == "Bazooka") return 1;
+            if (this.ActiveWeapon.getName() == "nade Launcher") return 2;
+            else return -1;
+        }
+
         public void UnlockSpecialWeapon(){
             SpecialWeapon = true;
         }

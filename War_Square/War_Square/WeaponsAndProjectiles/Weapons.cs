@@ -50,7 +50,7 @@ namespace War_Square.WeaponsAndProjectiles
 
         public Weapons() { }
 
-        public Weapons(string name, Characters Char, WeaponType weaponType, bool state)
+        public Weapons(string name, Characters Char, WeaponType weaponType, bool state, int Mag)
         {
             this.Name = name;
             this.PositionRelativeToCharacter = new Vector2(Char.CharacterPosition().X, Char.CharacterPosition().Y);
@@ -117,17 +117,23 @@ namespace War_Square.WeaponsAndProjectiles
             {
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.cal32) && WeaponTypes == WeaponType.MachineGun)
                 {
-                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.cal32, 300, 800));
+                    if(magzzz.getmagAt(0).getMag() > 0)
+                        bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.cal32, 300, 800));
+                    magzzz.decMag(0);
                     fireRateTime = 0;
                 }
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.rocket) && WeaponTypes == WeaponType.Rocket)
                 {
-                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.rocket, 20000, 500));
+                    if (magzzz.getmagAt(1).getMag() > 0)
+                        bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.rocket, 20000, 500));
+                    magzzz.decMag(1);
                     fireRateTime = 0;
                 }
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.nade) && WeaponTypes == WeaponType.GrenadeLauncher)
                 {
-                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector,(rotation + (getRandom())),Bullet.AmmoType.nade, 500, 150));
+                    if (magzzz.getmagAt(2).getMag() > 0)
+                        bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector,(rotation + (getRandom())),Bullet.AmmoType.nade, 500, 150));
+                    magzzz.decMag(2);
                     fireRateTime = 0;
                 }
                 else fireRateTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
