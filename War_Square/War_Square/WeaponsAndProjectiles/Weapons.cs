@@ -27,7 +27,7 @@ namespace War_Square.WeaponsAndProjectiles
         protected Texture2D textura;
         private SpriteFont font;
         private Rectangle rec;
-        protected bool activeState;
+        protected bool activeState, justflippedright = true, justflippedleft = false;
         protected int weaponCodeChoosen = 0, helperX = 0, helperXpos = 0, helperXCharPos = 0, helperYCharPos = 0;
         protected int TextureWidth = 10, TextureWheight = 15;
         private List<Bullet> createdAmmo = new List<Bullet>();
@@ -46,7 +46,7 @@ namespace War_Square.WeaponsAndProjectiles
         private Vector2 auxVector;
         public bool Sexplosion = false;
         float rot = (float)Math.PI;
-        public SpriteEffects auxflip;
+        public SpriteEffects auxflip, lasteffect = SpriteEffects.None;
 
         public Weapons() { }
 
@@ -117,50 +117,61 @@ namespace War_Square.WeaponsAndProjectiles
             {
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.cal32) && WeaponTypes == WeaponType.MachineGun)
                 {
-                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.cal32, 300, 800, mousePos));
+                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.cal32, 300, 800));
                     fireRateTime = 0;
                 }
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.rocket) && WeaponTypes == WeaponType.Rocket)
                 {
-                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.rocket, 20000, 500, mousePos));
+                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.rocket, 20000, 500));
                     fireRateTime = 0;
                 }
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.nade) && WeaponTypes == WeaponType.GrenadeLauncher)
                 {
-                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector,(rotation + (getRandom())),Bullet.AmmoType.nade, 500, 150, mousePos));
+                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector,(rotation + (getRandom())),Bullet.AmmoType.nade, 500, 150));
                     fireRateTime = 0;
                 }
                 else fireRateTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Up) && auxflip == SpriteEffects.FlipHorizontally  && rot - 0.1f > 3*(float)Math.PI / 2)
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) && auxflip == SpriteEffects.FlipHorizontally && rot - 0.1f > -(float)Math.PI / 2)
             {
                 rot -= (float)Math.PI / 100f;
+                justflippedleft = false;
+                justflippedright = false;
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Down) && auxflip == SpriteEffects.FlipHorizontally &&  rot + 0.1f < (float)Math.PI / 2  )
             {
                 rot += (float)Math.PI / 100f;
+                justflippedleft = false;
+                justflippedright = false;
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Up) && auxflip == SpriteEffects.None &&  rot + 0.1f < 3 * (float)Math.PI / 2)
             {
                 rot += (float)Math.PI / 100f;
+                justflippedleft = false;
+                justflippedright = false;
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Down) && auxflip == SpriteEffects.None && rot - 0.1f > (float)Math.PI / 2)
             {
                 rot -= (float)Math.PI / 100f;
+                justflippedleft = false;
+                justflippedright = false;
             }
 
-            if (rot == 2 * (float)Math.PI) rot = 0;
+
+            if (justflippedright) rot = 0;
+            if (justflippedleft) rot = (float)Math.PI;
+
+            if (rot >= 2 * (float)Math.PI) rot = 0;
 
             rotation = rot;
             rec = new Rectangle((int)PositionRelativeToCharacter.X, (int)PositionRelativeToCharacter.Y, 10, 15);
             updateBullets(gameTime);
             updateDeleteBullets(gameTime);
            
-
         }
 
         public void Draw(SpriteBatch spriteBatch, Characters ActiveChar, SpriteEffects flip)
@@ -180,6 +191,17 @@ namespace War_Square.WeaponsAndProjectiles
                 helperXpos = 35;
                 helperXCharPos = 30;
                 helperYCharPos = 35;
+            }
+
+            if (lasteffect == SpriteEffects.None && flip == SpriteEffects.FlipHorizontally)
+            {
+                justflippedleft = false;
+                justflippedright = true;
+            }
+            if (lasteffect == SpriteEffects.FlipHorizontally && flip == SpriteEffects.None) 
+            {
+                justflippedleft = true;
+                justflippedright = false;
             }
             auxVector = new Vector2(helperXCharPos, helperYCharPos);
             spriteBatch.Draw(this.textura, new Vector2(ActiveChar.CharacterPosition().X + helperXCharPos + 10, ActiveChar.CharacterPosition().Y + 45), null, Color.White, this.rotation + (float)Math.PI / 2, new Vector2((float)45 + helperX, (float)40), 1f, flip, 0f);
@@ -209,6 +231,9 @@ namespace War_Square.WeaponsAndProjectiles
             }
             Sexplosion = false;
             //spriteBatch.Draw(flatSquare, new Vector2(PositionRelativeToCharacter.X + helperXCharPos, PositionRelativeToCharacter.Y + helperYCharPos), Color.White);
+
+
+            lasteffect = flip;
         }
 
         public float getRandom()
