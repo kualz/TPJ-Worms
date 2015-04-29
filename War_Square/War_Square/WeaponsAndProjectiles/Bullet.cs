@@ -39,8 +39,7 @@ namespace War_Square.WeaponsAndProjectiles
                       float rotation,
                       AmmoType ammo,
                       int range,
-                      float speed,
-                      Point MousePos)
+                      float speed)
         {
             this.range = range;
             this.sourcePosition = sourcePosition;
@@ -67,9 +66,8 @@ namespace War_Square.WeaponsAndProjectiles
             else if (ammoType == AmmoType.rocket)
             {
 
-                sourcePosition.X = initialpos.X + velocity.X * deltatime * direction.X;
+                sourcePosition.X = initialpos.X + velocity.X * deltatime;
                 sourcePosition.Y = initialpos.Y - velocity.Y * deltatime + 0.5f * gravity * (float)(Math.Pow(deltatime, 2));
-
 
                 bulletRec = new Rectangle((int)sourcePosition.X, (int)sourcePosition.Y, 15, 15);
             }
