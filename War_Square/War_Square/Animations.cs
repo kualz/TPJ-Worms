@@ -15,7 +15,7 @@ namespace War_Square
         private Vector2 position;
         private float scale = 5f;
         private int currentFrame;
-        private float timer, positionTimer;
+        private float timer; /*positionTimer*/
         private float intervalo = 0.05f;
         private int Frames;
         private int AnimationSpeed;
@@ -26,14 +26,34 @@ namespace War_Square
         }
         private AnimationType animationType;
         //se formos usar um retangulo para passar os frames da imagem------------------------------
-        private int slideX; //para fazer slide para o lado este numero de pixeis                  |
-        private int slideY; //nem sei se vamos usar este XD                                       | 
+        //slide square para as frames                                                             |
+        private int squareSlideX; //para fazer slide para o lado este numero de pixeis            |
+        //private int slideY; //nem sei se vamos usar este XD                                     | 
         private int height; //tamanho dos retangulos (altura) em relaçao a figura que vamos usar! |
         private int width; //tamanho dos retangulos (largura) em relaçao a figura que vamos usar! |
         //-----------------------------------------------------------------------------------------
 
-        public Animations(string asset, int frameNumber, Vector2 instantialPosition, int imageHeight, int imageWidth, AnimationType animationType, int AnimationSpeed)
+        /// <summary>
+        /// suqareSlide: How many pixels that frames Rectangle will slide in the animationFrame image
+        /// asset: image name
+        /// frameNumber: number of images that the square has to slide
+        /// instantialPosition: animation start posistion
+        /// imageHeight: aplies to every frame square to slide
+        /// imageWidth: aplies to every frame square to slide 
+        /// animationType: animation type choose between slide or scale in or out
+        /// animationSpeed: ´the speed that animation will run
+        /// </summary>
+        /// <param name="squareSlide"></param>
+        /// <param name="asset"></param>
+        /// <param name="frameNumber"></param>
+        /// <param name="instantialPosition"></param>
+        /// <param name="imageHeight"></param>
+        /// <param name="imageWidth"></param>
+        /// <param name="animationType"></param>
+        /// <param name="AnimationSpeed"></param>
+        public Animations(int squareSlide,string asset, int frameNumber, Vector2 instantialPosition, int imageHeight, int imageWidth, AnimationType animationType, int AnimationSpeed)
         {
+            this.squareSlideX = squareSlide;
             this.assets = asset;
             this.Frames = frameNumber;
             this.position = instantialPosition;
@@ -55,7 +75,7 @@ namespace War_Square
             timer += deltaTime;
             if (timer >= intervalo)
             {
-                currentFrame = currentFrame + slideX;//para usar com o retangulo o  slide se nao usa-se ++!
+                currentFrame += squareSlideX;//para usar com o retangulo o  slide se nao usa-se ++!
                 //currentFrame++;
                 if (currentFrame >= (Frames))
                     currentFrame = 0;
@@ -63,7 +83,7 @@ namespace War_Square
             }
             //-------------------------------------------------------------------
             //quando a animaçao tem uma mudança de scale!
-            if (animationType == AnimationType.scaled)
+            if (this.animationType == AnimationType.scaled)
             {
                 this.scale -= (float)gameTime.ElapsedGameTime.TotalSeconds / 2f;
                 if (this.scale <= 1){
@@ -71,7 +91,7 @@ namespace War_Square
                 }
             }
             //quando a animaçao tem uma mudança de posiçao!
-            if (animationType == AnimationType.slide)
+            if (this.animationType == AnimationType.slide)
                 this.position.X += position.X + AnimationSpeed * (deltaTime * 0.8f);
         }
 
@@ -81,7 +101,7 @@ namespace War_Square
             {
                 //os draws tao sempre a dar erros ja tou aqui a deitar peidos pela cabeça!
                 //isto do draw e tao gay acrescentas mais cenas e da erro ok! depois vemos isto!
-                //spriteBatch.Draw(assets, position, new Rectangle(currentFrame, 0, this.width, this.heightheight), Color.White, 0f, new Vector2(0f), scale, SpriteEffects.None, 0f);
+                //spriteBatch.Draw(assets, position, new Rectangle(currentFrame, 0, new Vector2(this.width, this.heightheight), Color.White, 0f, new Vector2(0f), scale, SpriteEffects.None, 0f);
             }
             if(animationType == AnimationType.slide)
             {
