@@ -17,7 +17,7 @@ namespace War_Square.Menus
         private Texture2D textura;
         private Texture2D squareSelected;
         private float timer = 0;
-        private int chooseOption = 0, characterChoosen = 0;
+        private int chooseOption = 0, characterChoosen = 0, playerCount = 0;
         private Characters Player1, Player2, Player3, Player4, Player5;
 
         public MenuCharacterChoose() { }
@@ -59,6 +59,18 @@ namespace War_Square.Menus
                 chooseOption--;
                 if (chooseOption < 0)
                     chooseOption = options.Count - 1;
+            }
+            if (Input.IsPressed(Keys.Up))
+            {
+                playerCount++;
+                if (playerCount > 5)
+                    playerCount = 5;
+            }
+            if (Input.IsPressed(Keys.Down))
+            {
+                playerCount--;
+                if (playerCount < 0)
+                    playerCount = 0;
             }
             if (timer > 2f)
             {
@@ -157,7 +169,7 @@ namespace War_Square.Menus
                             }
                             break;
                     }
-                    if (characterChoosen == 2)
+                    if (characterChoosen >= playerCount)
                     {
                         game.gameState = Game1.GameState.running;
                     }
@@ -172,7 +184,8 @@ namespace War_Square.Menus
             spriteBatch.DrawString(font, options[2], new Vector2(300, 25), Color.White);
             spriteBatch.DrawString(font, options[4], new Vector2(400, 25), Color.White);
             spriteBatch.DrawString(font, options[3], new Vector2(500, 25), Color.White);
-            spriteBatch.DrawString(font, "Escolhidos: " + characterChoosen,new Vector2(700, 50), Color.White);
+            spriteBatch.DrawString(font, "Escolhidos: " + characterChoosen,new Vector2(650, 50), Color.White);
+            spriteBatch.DrawString(font, "Character count: " + playerCount, new Vector2(650, 100), Color.White);
             for (int i = 0; i < options.Count; i++)
             {
                 if (i != chooseOption)

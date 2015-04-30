@@ -71,8 +71,7 @@ namespace War_Square.WeaponsAndProjectiles
 
                 bulletRec = new Rectangle((int)sourcePosition.X, (int)sourcePosition.Y, 15, 15);
             }
-            else if (ammoType == AmmoType.nade)
-            {
+            else if (ammoType == AmmoType.nade){
                 //nades update method!
             }
             if (CheckCollisionsProjectile(bulletRec) != new Rectangle(0, 0, 0, 0))
