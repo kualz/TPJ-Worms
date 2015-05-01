@@ -184,11 +184,6 @@ namespace War_Square.WeaponsAndProjectiles
         {           
             auxVector = new Vector2(helperXCharPos, helperYCharPos);
             spriteBatch.Draw(this.textura, new Vector2(ActiveChar.CharacterPosition().X + helperXCharPos + 10, ActiveChar.CharacterPosition().Y + 45), null, Color.White, this.rotation + (float)Math.PI / 2, new Vector2((float)45 + helperX, (float)40), 1f, flip, 0f);
-            spriteBatch.DrawString(font, "Weapon Name: " + CharactersHandler.getActiveWeapon().getName(), new Vector2(500f, 500f), Color.White);
-            spriteBatch.DrawString(font, "Weapon Type: " + CharactersHandler.getActiveWeapon().getWeaponType(), new Vector2(500f, 525f), Color.White);
-            spriteBatch.DrawString(font, "test\nPress 1 - first weapon", new Vector2(200f, 550f), Color.White);
-            spriteBatch.DrawString(font, "Press 2 - second weapon", new Vector2(200f, 600f), Color.White);
-            spriteBatch.DrawString(font, "Press 3 - Third weapon", new Vector2(200f, 625f), Color.White);
 
             auxflip = flip;
 

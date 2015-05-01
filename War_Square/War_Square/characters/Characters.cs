@@ -38,8 +38,7 @@ namespace War_Square.characters
         };
         private int weaponCodeChosen = 0, previousWeapon = 0;
 
-        public Characters()
-        { }
+        public Characters() { }
 
         public Characters(string name)
         {
@@ -93,8 +92,6 @@ namespace War_Square.characters
 
                 /// <summary>
                 /// aqui o input para trocar de arma a funcionar...
-                /// o problema e quando tens dois jogadores...as informacoes do segundo sobrepoem as do 1' 
-                /// mas isso e simples de se ver
                 /// </summary>
                 if (Keyboard.GetState().IsKeyDown(Keys.D1))
                 {
@@ -216,10 +213,7 @@ namespace War_Square.characters
             Vector2 Gravityaux = new Vector2(CharacterPos.X, CharacterPos.Y + 4f);
             spritebatch.Draw(textura, new Vector2((int)CharacterPos.X, (int)CharacterPos.Y), new Rectangle(currentFrame, 0, 50, 70), Color.White, 0f, Vector2.Zero, 1f, flip, 0f);
             if (this.isActive())
-            {
-                spritebatch.DrawString(font, "Character Active: " + this.CharacterName, new Vector2(500f, 475f), Color.White);
-                spritebatch.DrawString(font, "0/" + magzzz.getmagAt(GetActiveWeaponCODE()).getMag(), new Vector2(this.CharacterPos.X - 300, this.CharacterPos.Y + 250), Color.Red);
-            }
+                spritebatch.DrawString(font, "0/" + magzzz.getmagAt(GetActiveWeaponCODE()).getMag(), new Vector2(this.CharacterPos.X - 45, this.CharacterPos.Y), Color.Red);
             spritebatch.DrawString(font, "" + CharacterName, new Vector2((int)CharacterPos.X, (int)CharacterPos.Y - 40), Color.White);
             //spritebatch.Draw(Hitbox, new Rectangle((int)Math.Round(Gravityaux.X) + 12, (int)Math.Round(Gravityaux.Y), 25, 63), Color.Wheat);
             /// <summary>

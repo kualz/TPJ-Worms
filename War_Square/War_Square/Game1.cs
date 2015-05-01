@@ -18,11 +18,11 @@ namespace War_Square
         private Crosshair MIRA;
         private Vector2 mousevector;
         private Map TesteMapa;
-        private float roundTime = 20;
         private Camera2D Camera;
         public int CameraFocusAux = 1;
         private Characters GhostCharacter;
         private int cameraX = 400;
+        private hud Interface = new hud();
         public enum GameState
         {
             running,
@@ -73,6 +73,7 @@ namespace War_Square
             CharactersHandler.AddPlayer(GhostCharacter);
             Camera.Focus = CharactersHandler.Players[0];
             GhostCharacter.Load(Content);
+            Interface.load(Content);
         }
 
 
@@ -91,9 +92,10 @@ namespace War_Square
             }
             else
             {
+                Interface.update(gameTime);
                 Camera.Scale = 0.7f;            
-                roundTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
                 TesteMapa.update(gameTime);
+
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                     gameState = GameState.Paused;
 
@@ -101,13 +103,13 @@ namespace War_Square
                 {
                     CharactersHandler.ChangeActive();
                     magzzz.setAllMag();
-                    roundTime = 20;
+                    Interface.ResetlRoundTime();
                 }
 
-                if (roundTime <= 0){                 
+                if (Interface.getRoundTime() <= 0){                 
                     CharactersHandler.ChangeActive();
-                    roundTime = 20;
                     magzzz.setAllMag();
+                    Interface.ResetlRoundTime();
                 }
 
                 if (Input.IsDown(Keys.Right)) cameraX += 10;
@@ -125,13 +127,15 @@ namespace War_Square
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Camera.Transform);
             if (gameState != GameState.running)
-                MenusHandler.draw(spriteBatch, this);
+            {
+                MenusHandler.draw(spriteBatch, this, GhostCharacter);
+            }
             else
             {
                 TesteMapa.secondDraw(spriteBatch);
-                spriteBatch.DrawString(spriteFont, "Time: " + roundTime, new Vector2(50, 50), Color.White);
                 MIRA.draw(spriteBatch, mousevector);
                 CharactersHandler.DrawPlayers(spriteBatch);
+                Interface.draw(spriteBatch, Camera, CharactersHandler.getActiveCharacter());
             }
             spriteBatch.End();
 

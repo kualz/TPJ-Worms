@@ -49,11 +49,11 @@ namespace War_Square
             }
         }
 
-        static public void draw(SpriteBatch spriteBatch, Game1 game)
+        static public void draw(SpriteBatch spriteBatch, Game1 game, characters.Characters Char)
         {
             if (game.gameState == Game1.GameState.Paused)
             {
-                menuInGame.draw(spriteBatch);
+                menuInGame.draw(spriteBatch, Char);
                 return;
             }
             if (game.gameState == Game1.GameState.Options)

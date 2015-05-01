@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using War_Square.characters;
 
 namespace War_Square.Menus
 {
@@ -53,14 +54,14 @@ namespace War_Square.Menus
             }
         }
 
-        public void draw(SpriteBatch spriteBatch)
+        public void draw(SpriteBatch spriteBatch, Characters Char)
         {
-            spriteBatch.Draw(textura, new Rectangle(80, 90, 159, 150), Color.BlueViolet);
+            spriteBatch.Draw(textura, new Rectangle((int)Char.CharacterPosition().X - 300, 100, 200, 150), Color.BlueViolet);
             for (int i = 0; i < options.Count; i++)
             {
                 if (i != escolha)
-                    spriteBatch.DrawString(font, options[i], new Vector2(100, 100 + i * 40), Color.White);
-                else spriteBatch.DrawString(font, options[i], new Vector2(100, 100 + i * 40), Color.OrangeRed);
+                    spriteBatch.DrawString(font, options[i], new Vector2(Char.CharacterPosition().X - 300, 100 + i * 40),Color.White, 0f, new Vector2(0,0), 2f, SpriteEffects.None, 0f);
+                else spriteBatch.DrawString(font, options[i], new Vector2(Char.CharacterPosition().X - 300, 100 + i * 40), Color.OrangeRed, 0f, new Vector2(0, 0), 2f, SpriteEffects.None, 0f);
             }
         }
     }
