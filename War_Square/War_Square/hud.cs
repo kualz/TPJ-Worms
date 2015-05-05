@@ -13,7 +13,7 @@ namespace War_Square
     {
         private SpriteFont font;
         private List<string> assets = new List<string>();
-        private float roundTime = 20;
+        static public float roundTime = 7;
         private Color color;
 
         /// <summary>
@@ -48,12 +48,8 @@ namespace War_Square
             batch.DrawString(font, assets[2] + roundTime, new Vector2(cam.Position.X - 700, cam.Position.Y - 450), color);
         }
 
-        public float getRoundTime(){
-            return this.roundTime;
-        }
-
         public void ResetlRoundTime(){
-            roundTime = 20;
+            roundTime = 7;
         }
     }
 }

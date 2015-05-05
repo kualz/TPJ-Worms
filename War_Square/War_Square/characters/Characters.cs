@@ -73,7 +73,9 @@ namespace War_Square.characters
         public void Update(GameTime gameTime)
         {
             Vector2 Gravityaux = new Vector2(CharacterPos.X, CharacterPos.Y + 2f);
-            if (isActive())
+            if(isActive())
+                Arsenal[weaponCodeChosen].Update(gameTime, this);
+            if (isActive() && hud.roundTime >= 0)
             {
                 float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
                 timer += deltaTime;
@@ -116,7 +118,6 @@ namespace War_Square.characters
                 /// se fores ao codigo da weapon aquilo ja nem usa a weapons handler
                 /// simplesmente carrega direto as variaveis
                 /// </summary>
-                Arsenal[weaponCodeChosen].Update(gameTime, this);
 
                 if (Keyboard.GetState().IsKeyDown(Keys.W) && hasjumped == false)
                 {

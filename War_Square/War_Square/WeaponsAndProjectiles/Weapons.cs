@@ -113,6 +113,7 @@ namespace War_Square.WeaponsAndProjectiles
                     currentFrame1 = 0;
                 timerExplosion = 0;
             }
+
             if (Input.IsDown(Keys.Space))
             {
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.cal32) && WeaponTypes == WeaponType.MachineGun)

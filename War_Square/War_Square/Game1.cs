@@ -99,14 +99,13 @@ namespace War_Square
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                     gameState = GameState.Paused;
 
-                if (Input.IsPressed(Keys.K) && CharactersHandler.getPlayerIN_GAME(0).isJumping() == false && CharactersHandler.getPlayerIN_GAME(1).isJumping() == false)
-                {
+                if (Input.IsPressed(Keys.K) && CharactersHandler.getActiveCharacter().GetActiveWeapon().bulletsOnScreen.Count == 0){
                     CharactersHandler.ChangeActive();
                     magzzz.setAllMag();
                     Interface.ResetlRoundTime();
                 }
 
-                if (Interface.getRoundTime() <= 0){                 
+                if (hud.roundTime <= 0 && CharactersHandler.getActiveCharacter().GetActiveWeapon().bulletsOnScreen.Count == 0){                 
                     CharactersHandler.ChangeActive();
                     magzzz.setAllMag();
                     Interface.ResetlRoundTime();
