@@ -104,18 +104,18 @@ namespace War_Square.WeaponsAndProjectiles
         {
             List<Vector2> explosionrange = new List<Vector2>();
             Vector2 comparison;
-            Vector2 aux1 = new Vector2(rect.X - 15, rect.Y);
-            Vector2 aux2 = new Vector2(rect.X - 30, rect.Y);
-            Vector2 aux3 = new Vector2(rect.X + 15, rect.Y);
-            Vector2 aux4 = new Vector2(rect.X + 30, rect.Y);
-            Vector2 aux5 = new Vector2(rect.X, rect.Y + 15);
-            Vector2 aux6 = new Vector2(rect.X, rect.Y + 30);
-            Vector2 aux7 = new Vector2(rect.X, rect.Y - 15);
-            Vector2 aux8 = new Vector2(rect.X, rect.Y - 30);
-            Vector2 aux9 = new Vector2(rect.X + 15, rect.Y + 15);
-            Vector2 aux10 = new Vector2(rect.X - 15, rect.Y - 15);
-            Vector2 aux11 = new Vector2(rect.X - 15, rect.Y + 15);
-            Vector2 aux12 = new Vector2(rect.X + 15, rect.Y - 15);
+            Vector2 aux1 = new Vector2(rect.X - 20, rect.Y);
+            Vector2 aux2 = new Vector2(rect.X - 40, rect.Y);
+            Vector2 aux3 = new Vector2(rect.X + 20, rect.Y);
+            Vector2 aux4 = new Vector2(rect.X + 40, rect.Y);
+            Vector2 aux5 = new Vector2(rect.X, rect.Y + 20);
+            Vector2 aux6 = new Vector2(rect.X, rect.Y + 40);
+            Vector2 aux7 = new Vector2(rect.X, rect.Y - 20);
+            Vector2 aux8 = new Vector2(rect.X, rect.Y - 40);
+            Vector2 aux9 = new Vector2(rect.X + 20, rect.Y + 20);
+            Vector2 aux10 = new Vector2(rect.X - 20, rect.Y - 20);
+            Vector2 aux11 = new Vector2(rect.X - 20, rect.Y + 20);
+            Vector2 aux12 = new Vector2(rect.X + 20, rect.Y - 20);
 
             explosionrange.Add(aux1);
             explosionrange.Add(aux2);
