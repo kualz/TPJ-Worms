@@ -81,6 +81,7 @@ namespace War_Square.WeaponsAndProjectiles
             {
                 weapon.Sexplosion = true;
                 Collisions.tilesCollisions.Remove(CheckCollisionsProjectile(bulletRec));
+                ExplosionTileRemove(CheckCollisionsProjectile(bulletRec));
                 weapon.bulletsOnScreen.Remove(this);
             }
         }
@@ -99,6 +100,48 @@ namespace War_Square.WeaponsAndProjectiles
             return new Rectangle(0, 0, 0, 0);
         }
 
+        public void ExplosionTileRemove(Rectangle rect)
+        {
+            List<Vector2> explosionrange = new List<Vector2>();
+            Vector2 comparison;
+            Vector2 aux1 = new Vector2(rect.X - 15, rect.Y);
+            Vector2 aux2 = new Vector2(rect.X - 30, rect.Y);
+            Vector2 aux3 = new Vector2(rect.X + 15, rect.Y);
+            Vector2 aux4 = new Vector2(rect.X + 30, rect.Y);
+            Vector2 aux5 = new Vector2(rect.X, rect.Y + 15);
+            Vector2 aux6 = new Vector2(rect.X, rect.Y + 30);
+            Vector2 aux7 = new Vector2(rect.X, rect.Y - 15);
+            Vector2 aux8 = new Vector2(rect.X, rect.Y - 30);
+            Vector2 aux9 = new Vector2(rect.X + 15, rect.Y + 15);
+            Vector2 aux10 = new Vector2(rect.X - 15, rect.Y - 15);
+            Vector2 aux11 = new Vector2(rect.X - 15, rect.Y + 15);
+            Vector2 aux12 = new Vector2(rect.X + 15, rect.Y - 15);
+
+            explosionrange.Add(aux1);
+            explosionrange.Add(aux2);
+            explosionrange.Add(aux3);
+            explosionrange.Add(aux4);
+            explosionrange.Add(aux5);
+            explosionrange.Add(aux6);
+            explosionrange.Add(aux7);
+            explosionrange.Add(aux8);
+            explosionrange.Add(aux9);
+            explosionrange.Add(aux10);
+            explosionrange.Add(aux11);
+            explosionrange.Add(aux12);
+
+            foreach (Rectangle rectangle in Collisions.tilesCollisions)
+            {
+                comparison = new Vector2(rectangle.X, rectangle.Y);
+                for (int i = 0; i < 12; i++)
+			    {
+			        if (comparison == explosionrange[i] )
+                     {
+                         Collisions.tilesCollisions.Remove(rectangle);1 
+                     }
+			    }
+            }
+        }
         public Rectangle getRectangle()
         {
             return this.bulletRec;
