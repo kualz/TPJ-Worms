@@ -16,13 +16,14 @@ namespace War_Square
         private SpriteFont spriteFont;
         //private Characters Player1, Player2;
         private Crosshair MIRA;
-        private Vector2 mousevector;
+        static public int SelectedMap;
         private Map TesteMapa;
         private Camera2D Camera;
         public int CameraFocusAux = 1;
         private Characters GhostCharacter;
         private int cameraX = 400;
         private hud Interface = new hud();
+        private bool auxMapa = false;
         public enum GameState
         {
             running,
@@ -64,7 +65,6 @@ namespace War_Square
             MenusHandler.load(Content, this);
             TesteMapa = new Map();
             TesteMapa.Load(Content);
-            TesteMapa.InitRectMap();
             MIRA = new Crosshair();
             MIRA.Load(Content);
             GhostCharacter = CharactersHandler.getCharacter(5);
@@ -92,6 +92,11 @@ namespace War_Square
             }
             else
             {
+                if (auxMapa == false)
+                {
+                    TesteMapa.InitRectMap();
+                    auxMapa = true;
+                }
                 Interface.update(gameTime);
                 Camera.Scale = 0.7f;            
                 TesteMapa.update(gameTime);
@@ -132,7 +137,6 @@ namespace War_Square
             else
             {
                 TesteMapa.secondDraw(spriteBatch);
-                MIRA.draw(spriteBatch, mousevector);
                 CharactersHandler.DrawPlayers(spriteBatch);
                 Interface.draw(spriteBatch, Camera, CharactersHandler.getActiveCharacter());
             }

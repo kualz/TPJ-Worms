@@ -11,43 +11,47 @@ namespace War_Square
 {
     class Map
     {
-        static int SelectedMap;
         static public List<int[,]> WorldMaps = new List<int[,]>();
         static public List<string> MapList = new List<string>();
         public Texture2D Wall;
-        public int[,] mapa1; 
+        public int[,] mapa1;
+        public int[,] mapa2;
 
 
-        public void loadData(string FilePath)
+        public int[,] loadData(string FilePath, int[,] map)
         {
             string[] fileData = File.ReadAllLines(FilePath);
             for (int x = 0; x < fileData.Length; x++){
                 for (int y = 0; y < fileData[x].Length; y++){
-                    if (mapa1 == null) mapa1 = new int[fileData.Length, fileData[x].Length];
+                    if (map == null) map = new int[fileData.Length, fileData[x].Length];
                     int converted = Convert.ToInt32(fileData[x][y]);
                     switch (converted)
                     {
                         case 48:
-                            mapa1[x,y] = 0;
+                            map[x,y] = 0;
                             break;
                         case 49:
-                            mapa1[x,y] = 1;
+                            map[x,y] = 1;
                             break;
                         default:
                             break;
                     }
-                    Console.Write(mapa1[x, y]);
+                    Console.Write(map[x, y]);
                 }
                 Console.WriteLine();
 			}
+            return map;
         }
 
         public void Load(ContentManager content)
         {
-            MapList.Add("maps/map1.dat");
-            loadData(MapList[0]);
-            WorldMaps.Add(mapa1);
             Wall = content.Load<Texture2D>("Hand Painted Metal_Diffuse");
+            MapList.Add("maps/map1.dat");
+            MapList.Add("maps/map2.dat");
+            mapa1 = loadData(MapList[0], mapa1);
+            mapa2 = loadData(MapList[1], mapa2);
+            WorldMaps.Add(mapa1);
+            WorldMaps.Add(mapa2);
         }
 
         public void update(GameTime gametime)
@@ -66,11 +70,12 @@ namespace War_Square
 
         public void InitRectMap()
         {
-            for (int y = 0; y < mapa1.GetLength(0); y++)
+            int[,] aux = WorldMaps[Game1.SelectedMap];
+            for (int y = 0; y < WorldMaps[Game1.SelectedMap].GetLength(0); y++)
             {
-                for (int x = 0; x < mapa1.GetLength(1); x++)
+                for (int x = 0; x < WorldMaps[Game1.SelectedMap].GetLength(1); x++)
                 {
-                    if (mapa1[y, x] == 1)
+                    if (aux[y,x] == 1)
                     {
                         Rectangle rect = new Rectangle(x * 20,y * 20, 20, 20);
                         Collisions.tilesCollisions.Add(rect);

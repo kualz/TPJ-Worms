@@ -11,20 +11,13 @@ namespace War_Square.WeaponsAndProjectiles
 {
     class Bullet
     {
-        public float range, gravity = 9.8f;
-        public float speed;
+        public float range, gravity = 9.8f, rotation, speed;
         public Vector2 sourcePosition, initialpos;
-        private Vector2 direction;
-        private Vector2 velocity;
-        private Point mousePos;
-        private float rotation;
+        private Vector2 direction, velocity;
         private Rectangle bulletRec;
         static public Vector2 rec;
-        private float deltaX;
-        private float ratio;
-        private float K = 1;
         private int distanciaPercorrida = 0;
-        float deltatime, tempototal, drag;
+        float deltatime;
         public enum AmmoType
         {
             cal32,
@@ -74,7 +67,7 @@ namespace War_Square.WeaponsAndProjectiles
             else if (ammoType == AmmoType.nade){
                 //nades update method!
             }
-            if (CheckCollisionsProjectile(bulletRec) != new Rectangle(0, 0, 0, 0))
+            if (CheckCollisionsProjectile(bulletRec) != new Rectangle(0, 0, 0, 0) && ammoType == AmmoType.cal32)
             {
                 weapon.Sexplosion = true;
                 Collisions.tilesCollisions.Remove(CheckCollisionsProjectile(bulletRec));
@@ -83,6 +76,12 @@ namespace War_Square.WeaponsAndProjectiles
                     if (weapon.bulletsOnScreen[i] == this)
                         weapon.bulletsOnScreen.Remove(this);
                 }
+            }
+            if (CheckCollisionsProjectile(bulletRec) != new Rectangle(0, 0, 0, 0) && ammoType == AmmoType.rocket)
+            {
+                weapon.Sexplosion = true;
+                Collisions.tilesCollisions.Remove(CheckCollisionsProjectile(bulletRec));
+                weapon.bulletsOnScreen.Remove(this);
             }
         }
 

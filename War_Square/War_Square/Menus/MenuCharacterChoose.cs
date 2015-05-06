@@ -171,7 +171,7 @@ namespace War_Square.Menus
                     }
                     if (characterChoosen >= playerCount)
                     {
-                        game.gameState = Game1.GameState.running;
+                        game.gameState = Game1.GameState.MapChoose;
                     }
                 }
             }
