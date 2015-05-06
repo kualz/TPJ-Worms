@@ -137,7 +137,7 @@ namespace War_Square.WeaponsAndProjectiles
 			    {
 			        if (comparison == explosionrange[i] )
                      {
-                         Collisions.tilesCollisions.Remove(rectangle);1 
+                         Collisions.tilesCollisions.Remove(rectangle);
                      }
 			    }
             }
