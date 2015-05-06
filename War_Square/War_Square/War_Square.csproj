@@ -51,6 +51,7 @@
     <Compile Include="Input.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="MenusHandler.cs" />
+    <Compile Include="Menus\MapChooser.cs" />
     <Compile Include="Menus\MenuCharacterChoose.cs" />
     <Compile Include="Menus\MenuInGame.cs" />
     <Compile Include="Menus\MenuPrincipal.cs" />
