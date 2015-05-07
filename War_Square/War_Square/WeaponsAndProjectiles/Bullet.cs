@@ -80,8 +80,8 @@ namespace War_Square.WeaponsAndProjectiles
             if (CheckCollisionsProjectile(bulletRec) != new Rectangle(0, 0, 0, 0) && ammoType == AmmoType.rocket)
             {
                 weapon.Sexplosion = true;
-                Collisions.tilesCollisions.Remove(CheckCollisionsProjectile(bulletRec));
                 ExplosionTileRemove(CheckCollisionsProjectile(bulletRec));
+                Collisions.tilesCollisions.Remove(CheckCollisionsProjectile(bulletRec));
                 weapon.bulletsOnScreen.Remove(this);
             }
         }
@@ -130,14 +130,14 @@ namespace War_Square.WeaponsAndProjectiles
             explosionrange.Add(aux11);
             explosionrange.Add(aux12);
 
-            foreach (Rectangle rectangle in Collisions.tilesCollisions)
+            for (int i= 0; i < Collisions.tilesCollisions.Count ; i++)
             {
-                comparison = new Vector2(rectangle.X, rectangle.Y);
-                for (int i = 0; i < 12; i++)
+                comparison = new Vector2(Collisions.tilesCollisions[i].X, Collisions.tilesCollisions[i].Y);
+                for (int k = 0; k < 12; k++)
 			    {
-			        if (comparison == explosionrange[i] )
+			        if (comparison == explosionrange[k])
                      {
-                         Collisions.tilesCollisions.Remove(rectangle);
+                         Collisions.tilesCollisions.RemoveAt(i);
                      }
 			    }
             }
