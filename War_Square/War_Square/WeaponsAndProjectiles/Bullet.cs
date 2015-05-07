@@ -109,7 +109,6 @@ namespace War_Square.WeaponsAndProjectiles
             Vector2 aux3 = new Vector2(rect.X + 20, rect.Y);
             Vector2 aux4 = new Vector2(rect.X + 40, rect.Y);
             Vector2 aux5 = new Vector2(rect.X, rect.Y + 20);
-            Vector2 aux6 = new Vector2(rect.X, rect.Y + 40);
             Vector2 aux7 = new Vector2(rect.X, rect.Y - 20);
             Vector2 aux8 = new Vector2(rect.X, rect.Y - 40);
             Vector2 aux9 = new Vector2(rect.X + 20, rect.Y + 20);
@@ -133,9 +132,9 @@ namespace War_Square.WeaponsAndProjectiles
             for (int i= 0; i < Collisions.tilesCollisions.Count ; i++)
             {
                 comparison = new Vector2(Collisions.tilesCollisions[i].X, Collisions.tilesCollisions[i].Y);
-                for (int k = 0; k < 12; k++)
+                for (int k = 0; k < explosionrange.Count; k++)
 			    {
-			        if (comparison == explosionrange[k])
+			         if (comparison == explosionrange[k])
                      {
                          Collisions.tilesCollisions.RemoveAt(i);
                      }
