@@ -39,14 +39,12 @@ namespace War_Square.WeaponsAndProjectiles
         public List<Bullet> bulletsOnScreen = new List<Bullet>();
         private List<string> names = new List<string>();
         private Texture2D[] flashFiring;
-        private Texture2D[] explosion;
-        private Texture2D texturax;
-        private Texture2D texturasRocket;
+        private Texture2D texturax,texturasRocket;
         private Texture2D flatSquare;
         private Vector2 auxVector;
-        public bool Sexplosion = false;
         float rot = (float)Math.PI;
         public SpriteEffects auxflip, lasteffect = SpriteEffects.None;
+        private Texture2D[] explosion;
 
         public Weapons() { }
 
@@ -69,6 +67,8 @@ namespace War_Square.WeaponsAndProjectiles
             flashFiring[4] = content.Load<Texture2D>("flash_d_0005");
             flashFiring[5] = content.Load<Texture2D>("flash_d_0006");
 
+            flatSquare = content.Load<Texture2D>("1");
+
             explosion = new Texture2D[9];
             explosion[0] = content.Load<Texture2D>("fireball_hit_0001");
             explosion[1] = content.Load<Texture2D>("fireball_hit_0002");
@@ -79,8 +79,6 @@ namespace War_Square.WeaponsAndProjectiles
             explosion[6] = content.Load<Texture2D>("fireball_hit_0007");
             explosion[7] = content.Load<Texture2D>("fireball_hit_0008");
             explosion[8] = content.Load<Texture2D>("fireball_hit_0009");
-
-            flatSquare = content.Load<Texture2D>("1");
 
             names.Add("teste_Projetil1");
             names.Add("teste_Projetil2");
@@ -106,34 +104,27 @@ namespace War_Square.WeaponsAndProjectiles
                     currentFrame = 0;
                 timer = 0;
             }
-            if (timerExplosion >= intervalo)
-            {
-                currentFrame1++;
-                if (currentFrame1 >= (9))
-                    currentFrame1 = 0;
-                timerExplosion = 0;
-            }
 
             if (Input.IsDown(Keys.Space))
             {
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.cal32) && WeaponTypes == WeaponType.MachineGun)
                 {
                     if(magzzz.getmagAt(0).getMag() > 0)
-                        bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.cal32, 300, 800));
+                        bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.cal32, 300, 800, explosion));
                     magzzz.decMag(0);
                     fireRateTime = 0;
                 }
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.rocket) && WeaponTypes == WeaponType.Rocket)
                 {
                     if (magzzz.getmagAt(1).getMag() > 0)
-                        bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.rocket, 20000, 500));
+                        bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.rocket, 20000, 500, explosion));
                     magzzz.decMag(1);
                     fireRateTime = 0;
                 }
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.nade) && WeaponTypes == WeaponType.GrenadeLauncher)
                 {
                     if (magzzz.getmagAt(2).getMag() > 0)
-                        bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector,(rotation + (getRandom())),Bullet.AmmoType.nade, 500, 150));
+                        bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.nade, 500, 150, explosion));
                     magzzz.decMag(2);
                     fireRateTime = 0;
                 }
@@ -216,23 +207,18 @@ namespace War_Square.WeaponsAndProjectiles
             }
             foreach (Bullet bullet in bulletsOnScreen)
             {
+                bullet.draw(spriteBatch);
                 if (bullet.ammoType == Bullet.AmmoType.cal32)
                 {
                     if (fireRateTime < ammunition.getFireRate(Bullet.AmmoType.cal32))
-                        //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------pus este 260 a sorte e deu GG--------------------
                         spriteBatch.Draw(flashFiring[currentFrame], new Vector2(this.PositionRelativeToCharacter.X + 5 + helperXpos, this.PositionRelativeToCharacter.Y + 45), null, Color.White, rotation, new Vector2((float)0, (float)260), .15f, SpriteEffects.None, 0f);
                     spriteBatch.Draw(texturax, new Vector2(bullet.sourcePosition.X, bullet.sourcePosition.Y + 10), null, Color.White, rotation, new Vector2((float)5, (float)2.5), 1f, SpriteEffects.None, 0f);
                 }
-                else if (bullet.ammoType == Bullet.AmmoType.rocket)
+                if (bullet.ammoType == Bullet.AmmoType.rocket)
                     spriteBatch.Draw(texturasRocket, new Vector2(bullet.sourcePosition.X, bullet.sourcePosition.Y + 7), null, Color.White, rotation, new Vector2((float)5, (float)3.5), 1f, SpriteEffects.None, 0f);
-                else if (bullet.ammoType == Bullet.AmmoType.nade)
+                if (bullet.ammoType == Bullet.AmmoType.nade)
                 { }
             }
-            if (Sexplosion)
-            {
-                spriteBatch.Draw(explosion[currentFrame1], new Vector2(Bullet.rec.X, Bullet.rec.Y), null, Color.White, 0f, new Vector2((float)5, (float)5), 0.05f, SpriteEffects.None, 0f);
-            }
-            Sexplosion = false;
             //spriteBatch.Draw(flatSquare, new Vector2(PositionRelativeToCharacter.X + helperXCharPos, PositionRelativeToCharacter.Y + helperYCharPos), Color.White);
 
 

@@ -11,13 +11,15 @@ namespace War_Square.WeaponsAndProjectiles
 {
     class Bullet
     {
-        public float range, gravity = 9.8f, rotation, speed;
+        public float range, gravity = 9.8f, rotation, speed, timerExplosion, intervalo = 0.05f, explosionScale = 0.05f;
         public Vector2 sourcePosition, initialpos;
         private Vector2 direction, velocity;
         private Rectangle bulletRec;
         static public Vector2 rec;
-        private int distanciaPercorrida = 0;
+        private Texture2D[] explosion;
+        private int distanciaPercorrida = 0, currentFrame1 = 0;
         float deltatime;
+        bool sexplosion = false;
         public enum AmmoType
         {
             cal32,
@@ -32,7 +34,7 @@ namespace War_Square.WeaponsAndProjectiles
                       float rotation,
                       AmmoType ammo,
                       int range,
-                      float speed)
+                      float speed, Texture2D[] explosion)
         {
             this.range = range;
             this.sourcePosition = sourcePosition;
@@ -41,15 +43,25 @@ namespace War_Square.WeaponsAndProjectiles
             this.direction = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
             this.ammoType = ammo;
             this.speed = speed;
-
             velocity = new Vector2(100*(float)Math.Cos(rotation), -100*(float)Math.Sin(rotation));
-            
+            this.explosion = explosion;
         }
 
         public void update(GameTime gameTime, Weapons weapon)
         {
             deltatime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             distanciaPercorrida++;
+
+            if (timerExplosion >= intervalo && sexplosion)
+            {
+                currentFrame1++;
+                if (currentFrame1 >= (9))
+                {
+                    currentFrame1 = 0;
+                    sexplosion = false;
+                }
+                timerExplosion = 0;
+            }
 
             if (ammoType == AmmoType.cal32)
             {
@@ -69,7 +81,6 @@ namespace War_Square.WeaponsAndProjectiles
             }
             if (CheckCollisionsProjectile(bulletRec) != new Rectangle(0, 0, 0, 0) && ammoType == AmmoType.cal32)
             {
-                weapon.Sexplosion = true;
                 Collisions.tilesCollisions.Remove(CheckCollisionsProjectile(bulletRec));
                 for (int i = weapon.bulletsOnScreen.Count - 1; i >= 0; i--)
                 {
@@ -79,11 +90,15 @@ namespace War_Square.WeaponsAndProjectiles
             }
             if (CheckCollisionsProjectile(bulletRec) != new Rectangle(0, 0, 0, 0) && ammoType == AmmoType.rocket)
             {
-                weapon.Sexplosion = true;
                 ExplosionTileRemove(CheckCollisionsProjectile(bulletRec));
                 Collisions.tilesCollisions.Remove(CheckCollisionsProjectile(bulletRec));
                 weapon.bulletsOnScreen.Remove(this);
             }
+        }
+
+        public void draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(explosion[currentFrame1], new Vector2(rec.X, rec.Y), null, Color.White, 0f, new Vector2((float)5, (float)5), explosionScale, SpriteEffects.None, 0f);
         }
 
         public Rectangle CheckCollisionsProjectile(Rectangle rect)
@@ -109,7 +124,8 @@ namespace War_Square.WeaponsAndProjectiles
             Vector2 aux3 = new Vector2(rect.X + 20, rect.Y);
             Vector2 aux4 = new Vector2(rect.X + 40, rect.Y);
             Vector2 aux5 = new Vector2(rect.X, rect.Y + 20);
-            Vector2 aux7 = new Vector2(rect.X, rect.Y - 20);
+            Vector2 aux6 = new Vector2(rect.X, rect.Y - 20);
+            Vector2 aux7 = new Vector2(rect.X, rect.Y + 40);
             Vector2 aux8 = new Vector2(rect.X, rect.Y - 40);
             Vector2 aux9 = new Vector2(rect.X + 20, rect.Y + 20);
             Vector2 aux10 = new Vector2(rect.X - 20, rect.Y - 20);
@@ -129,16 +145,16 @@ namespace War_Square.WeaponsAndProjectiles
             explosionrange.Add(aux11);
             explosionrange.Add(aux12);
 
-            for (int i= 0; i < Collisions.tilesCollisions.Count ; i++)
+            for (int i = Collisions.tilesCollisions.Count - 1; i >= 0; i--)
             {
                 comparison = new Vector2(Collisions.tilesCollisions[i].X, Collisions.tilesCollisions[i].Y);
-                for (int k = 0; k < explosionrange.Count; k++)
-			    {
-			         if (comparison == explosionrange[k])
-                     {
-                         Collisions.tilesCollisions.RemoveAt(i);
-                     }
-			    }
+                foreach (Vector2 vector in explosionrange)
+                {
+                    if (comparison == vector)
+                    {
+                        Collisions.tilesCollisions.RemoveAt(i);
+                    }   
+                }
             }
         }
         public Rectangle getRectangle()
@@ -157,9 +173,9 @@ namespace War_Square.WeaponsAndProjectiles
             else return 0;
         }
 
-        public void DontNeverDuwides()
+        public void DontNeverDuwides(float scale)
         {
-
+            this.explosionScale = scale;
         }
     }
 }
