@@ -11,15 +11,15 @@ namespace War_Square.WeaponsAndProjectiles
 {
     class Bullet
     {
-        public float range, gravity = 9.8f, rotation, speed, timerExplosion, intervalo = 0.05f, explosionScale = 0.05f;
+        public float range, gravity = 9.8f, rotation, speed, timerExplosion, intervalo = 20f,intervaloRifle = 1f, explosionScale = 0.05f;
         public Vector2 sourcePosition, initialpos;
         private Vector2 direction, velocity;
         private Rectangle bulletRec;
         static public Vector2 rec;
         private Texture2D[] explosion;
-        private int distanciaPercorrida = 0, currentFrame1 = 0;
+        private int currentFrame1 = 0;
         float deltatime;
-        bool sexplosion = false;
+        bool RocketExplosion = false, RifleExplosion = false;
         public enum AmmoType
         {
             cal32,
@@ -50,25 +50,48 @@ namespace War_Square.WeaponsAndProjectiles
         public void update(GameTime gameTime, Weapons weapon)
         {
             deltatime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            distanciaPercorrida++;
+            timerExplosion += deltatime;
 
-            if (timerExplosion >= intervalo && sexplosion)
+            if (timerExplosion > intervaloRifle && RifleExplosion)
             {
                 currentFrame1++;
+                if (currentFrame1 == 4)
+                {                
+                    Collisions.tilesCollisions.Remove(CheckCollisionsProjectile(bulletRec));
+                }
                 if (currentFrame1 >= (9))
                 {
                     currentFrame1 = 0;
-                    sexplosion = false;
+                    weapon.bulletsOnScreen.Remove(this);
+                    RifleExplosion = false;
                 }
                 timerExplosion = 0;
             }
 
-            if (ammoType == AmmoType.cal32)
+
+            if (timerExplosion > intervalo && RocketExplosion)
+            {
+                currentFrame1++;
+                if (currentFrame1 == 7)
+                {
+                    ExplosionTileRemove(CheckCollisionsProjectile(bulletRec));
+                    Collisions.tilesCollisions.Remove(CheckCollisionsProjectile(bulletRec));
+                }
+                if (currentFrame1 >= (9))
+                {
+                    currentFrame1 = 0;
+                    weapon.bulletsOnScreen.Remove(this);
+                    RocketExplosion = false;
+                }
+                timerExplosion = 0;
+            }
+
+            if (ammoType == AmmoType.cal32 && CheckCollisionsProjectile(bulletRec) == new Rectangle(0, 0, 0, 0) && RifleExplosion == false)
             {
                 sourcePosition = sourcePosition + direction * speed * ((float)gameTime.ElapsedGameTime.TotalSeconds * 1.5f);
                 bulletRec = new Rectangle((int)sourcePosition.X, (int)sourcePosition.Y, 15, 15);
             }
-            else if (ammoType == AmmoType.rocket)
+            else if (ammoType == AmmoType.rocket && CheckCollisionsProjectile(bulletRec) == new Rectangle(0, 0, 0, 0) && RocketExplosion == false)
             {
 
                 sourcePosition.X = initialpos.X + velocity.X * deltatime;
@@ -81,24 +104,22 @@ namespace War_Square.WeaponsAndProjectiles
             }
             if (CheckCollisionsProjectile(bulletRec) != new Rectangle(0, 0, 0, 0) && ammoType == AmmoType.cal32)
             {
-                Collisions.tilesCollisions.Remove(CheckCollisionsProjectile(bulletRec));
-                for (int i = weapon.bulletsOnScreen.Count - 1; i >= 0; i--)
-                {
-                    if (weapon.bulletsOnScreen[i] == this)
-                        weapon.bulletsOnScreen.Remove(this);
-                }
+                explosionScale = 0.05f;
+                RifleExplosion = true;           
             }
             if (CheckCollisionsProjectile(bulletRec) != new Rectangle(0, 0, 0, 0) && ammoType == AmmoType.rocket)
             {
-                ExplosionTileRemove(CheckCollisionsProjectile(bulletRec));
-                Collisions.tilesCollisions.Remove(CheckCollisionsProjectile(bulletRec));
-                weapon.bulletsOnScreen.Remove(this);
+                explosionScale = 0.2f;
+                RocketExplosion = true;
             }
         }
 
         public void draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(explosion[currentFrame1], new Vector2(rec.X, rec.Y), null, Color.White, 0f, new Vector2((float)5, (float)5), explosionScale, SpriteEffects.None, 0f);
+            if (RocketExplosion)
+                spriteBatch.Draw(explosion[currentFrame1], new Vector2(rec.X - 30 , rec.Y - 30 ), null, Color.White, 0f, new Vector2((float)5, (float)5), explosionScale, SpriteEffects.None, 0f);
+            if (RifleExplosion)
+                spriteBatch.Draw(explosion[currentFrame1], new Vector2(rec.X, rec.Y), null, Color.White, 0f, new Vector2((float)5, (float)5), explosionScale, SpriteEffects.None, 0f);
         }
 
         public Rectangle CheckCollisionsProjectile(Rectangle rect)

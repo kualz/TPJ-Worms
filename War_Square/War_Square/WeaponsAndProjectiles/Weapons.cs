@@ -207,7 +207,7 @@ namespace War_Square.WeaponsAndProjectiles
             }
             foreach (Bullet bullet in bulletsOnScreen)
             {
-                bullet.draw(spriteBatch);
+                
                 if (bullet.ammoType == Bullet.AmmoType.cal32)
                 {
                     if (fireRateTime < ammunition.getFireRate(Bullet.AmmoType.cal32))
@@ -218,6 +218,7 @@ namespace War_Square.WeaponsAndProjectiles
                     spriteBatch.Draw(texturasRocket, new Vector2(bullet.sourcePosition.X, bullet.sourcePosition.Y + 7), null, Color.White, rotation, new Vector2((float)5, (float)3.5), 1f, SpriteEffects.None, 0f);
                 if (bullet.ammoType == Bullet.AmmoType.nade)
                 { }
+                bullet.draw(spriteBatch);
             }
             //spriteBatch.Draw(flatSquare, new Vector2(PositionRelativeToCharacter.X + helperXCharPos, PositionRelativeToCharacter.Y + helperYCharPos), Color.White);
 
