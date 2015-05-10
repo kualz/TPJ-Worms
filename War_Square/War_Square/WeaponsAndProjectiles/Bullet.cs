@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using War_Square.characters;
 
 namespace War_Square.WeaponsAndProjectiles
 {
@@ -62,7 +63,7 @@ namespace War_Square.WeaponsAndProjectiles
                 if (currentFrame1 >= (9))
                 {
                     currentFrame1 = 0;
-                    weapon.bulletsOnScreen.Remove(this);
+                    Collisions.bulletsOnScreen.Remove(this);
                     RifleExplosion = false;
                 }
                 timerExplosion = 0;
@@ -80,18 +81,18 @@ namespace War_Square.WeaponsAndProjectiles
                 if (currentFrame1 >= (9))
                 {
                     currentFrame1 = 0;
-                    weapon.bulletsOnScreen.Remove(this);
+                    Collisions.bulletsOnScreen.Remove(this);
                     RocketExplosion = false;
                 }
                 timerExplosion = 0;
             }
 
-            if (ammoType == AmmoType.cal32 && CheckCollisionsProjectile(bulletRec) == new Rectangle(0, 0, 0, 0) && RifleExplosion == false)
+            if (ammoType == AmmoType.cal32 && CheckCollisionsProjectile(bulletRec) == new Rectangle(0, 0, 0, 0) && RifleExplosion == false )
             {
                 sourcePosition = sourcePosition + direction * speed * ((float)gameTime.ElapsedGameTime.TotalSeconds * 1.5f);
                 bulletRec = new Rectangle((int)sourcePosition.X, (int)sourcePosition.Y, 15, 15);
             }
-            else if (ammoType == AmmoType.rocket && CheckCollisionsProjectile(bulletRec) == new Rectangle(0, 0, 0, 0) && RocketExplosion == false)
+            else if (ammoType == AmmoType.rocket && CheckCollisionsProjectile(bulletRec) == new Rectangle(0, 0, 0, 0) && RocketExplosion == false )
             {
 
                 sourcePosition.X = initialpos.X + velocity.X * deltatime;
@@ -102,12 +103,12 @@ namespace War_Square.WeaponsAndProjectiles
             else if (ammoType == AmmoType.nade){
                 //nades update method!
             }
-            if (CheckCollisionsProjectile(bulletRec) != new Rectangle(0, 0, 0, 0) && ammoType == AmmoType.cal32)
+            if ((CheckCollisionsProjectile(bulletRec) != new Rectangle(0, 0, 0, 0) || CheckCollisionsCharacters(bulletRec) != new Rectangle(0, 0, 0, 0)) && ammoType == AmmoType.cal32)
             {
                 explosionScale = 0.05f;
                 RifleExplosion = true;           
             }
-            if (CheckCollisionsProjectile(bulletRec) != new Rectangle(0, 0, 0, 0) && ammoType == AmmoType.rocket)
+            if ((CheckCollisionsProjectile(bulletRec) != new Rectangle(0, 0, 0, 0) || CheckCollisionsCharacters(bulletRec) != new Rectangle(0, 0, 0, 0)) && ammoType == AmmoType.rocket)
             {
                 explosionScale = 0.2f;
                 RocketExplosion = true;
@@ -117,9 +118,9 @@ namespace War_Square.WeaponsAndProjectiles
         public void draw(SpriteBatch spriteBatch)
         {
             if (RocketExplosion)
-                spriteBatch.Draw(explosion[currentFrame1], new Vector2(rec.X - 30 , rec.Y - 30 ), null, Color.White, 0f, new Vector2((float)5, (float)5), explosionScale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(explosion[currentFrame1], new Vector2(bulletRec.X -30 , bulletRec.Y -30), null, Color.White, 0f, new Vector2((float)5, (float)5), explosionScale, SpriteEffects.None, 0f);
             if (RifleExplosion)
-                spriteBatch.Draw(explosion[currentFrame1], new Vector2(rec.X, rec.Y), null, Color.White, 0f, new Vector2((float)5, (float)5), explosionScale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(explosion[currentFrame1], new Vector2(bulletRec.X, bulletRec.Y), null, Color.White, 0f, new Vector2((float)5, (float)5), explosionScale, SpriteEffects.None, 0f);
         }
 
         public Rectangle CheckCollisionsProjectile(Rectangle rect)
@@ -131,6 +132,19 @@ namespace War_Square.WeaponsAndProjectiles
                 {
                     rec = new Vector2(rectangle.X, rectangle.Y);
                     return rectangle;
+                }
+            }
+            return new Rectangle(0, 0, 0, 0);
+        }
+
+        public Rectangle CheckCollisionsCharacters(Rectangle rect)
+        {
+            foreach (Characters Character in Collisions.characterCollisions)
+            {
+                if (rect.Intersects(Character.getCharRec()) && rect != Character.getCharRec() && !Character.isActive())
+                {
+                    rec = new Vector2(Character.getCharRec().X, Character.getCharRec().Y);
+                    return Character.getCharRec();
                 }
             }
             return new Rectangle(0, 0, 0, 0);

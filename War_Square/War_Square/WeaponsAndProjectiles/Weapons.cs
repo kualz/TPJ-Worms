@@ -36,7 +36,6 @@ namespace War_Square.WeaponsAndProjectiles
         private int currentFrame = 0, currentFrame1 = 0;
         private float fireRateTime = 0.3f, timer, timerExplosion, intervalo = 0.05f;
         private Random rnd;
-        public List<Bullet> bulletsOnScreen = new List<Bullet>();
         private List<string> names = new List<string>();
         private Texture2D[] flashFiring;
         private Texture2D texturax,texturasRocket;
@@ -110,21 +109,21 @@ namespace War_Square.WeaponsAndProjectiles
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.cal32) && WeaponTypes == WeaponType.MachineGun)
                 {
                     if(magzzz.getmagAt(0).getMag() > 0)
-                        bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.cal32, 300, 800, explosion));
+                        Collisions.bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.cal32, 300, 800, explosion));
                     magzzz.decMag(0);
                     fireRateTime = 0;
                 }
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.rocket) && WeaponTypes == WeaponType.Rocket)
                 {
                     if (magzzz.getmagAt(1).getMag() > 0)
-                        bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.rocket, 20000, 500, explosion));
+                        Collisions.bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.rocket, 20000, 500, explosion));
                     magzzz.decMag(1);
                     fireRateTime = 0;
                 }
                 if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.nade) && WeaponTypes == WeaponType.GrenadeLauncher)
                 {
                     if (magzzz.getmagAt(2).getMag() > 0)
-                        bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.nade, 500, 150, explosion));
+                        Collisions.bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.nade, 500, 150, explosion));
                     magzzz.decMag(2);
                     fireRateTime = 0;
                 }
@@ -205,7 +204,7 @@ namespace War_Square.WeaponsAndProjectiles
                 justflippedleft = true;
                 justflippedright = false;
             }
-            foreach (Bullet bullet in bulletsOnScreen)
+            foreach (Bullet bullet in Collisions.bulletsOnScreen)
             {
                 
                 if (bullet.ammoType == Bullet.AmmoType.cal32)
@@ -279,18 +278,18 @@ namespace War_Square.WeaponsAndProjectiles
 
         public void updateBullets(GameTime gameTime)
         {
-            for (int i = bulletsOnScreen.Count - 1; i >= 0; i--)
+            for (int i = Collisions.bulletsOnScreen.Count - 1; i >= 0; i--)
             {
-                bulletsOnScreen[i].update(gameTime, this);
+                Collisions.bulletsOnScreen[i].update(gameTime, this);
             }
         }
 
         public void updateDeleteBullets(GameTime gameTime)
         {
-            for (int i = 0; i < bulletsOnScreen.Count; i++)
+            for (int i = 0; i < Collisions.bulletsOnScreen.Count; i++)
             {
-                if ((bulletsOnScreen[i].sourcePosition - this.PositionRelativeToCharacter).Length() > bulletsOnScreen[i].range)
-                    bulletsOnScreen.Remove(bulletsOnScreen[i]);
+                if ((Collisions.bulletsOnScreen[i].sourcePosition - this.PositionRelativeToCharacter).Length() > Collisions.bulletsOnScreen[i].range)
+                    Collisions.bulletsOnScreen.Remove(Collisions.bulletsOnScreen[i]);
             }
         }
     }

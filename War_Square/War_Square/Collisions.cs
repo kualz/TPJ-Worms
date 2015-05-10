@@ -13,6 +13,7 @@ namespace War_Square
         public static List<Rectangle> tilesCollisions { get; protected set; }
         public static List<Rectangle> bulletCollisions { get; protected set; }
         public static List<Characters> characterCollisions { get; protected set; }
+        public static List<Bullet> bulletsOnScreen = new List<Bullet>();
 
         static Collisions()
         {
