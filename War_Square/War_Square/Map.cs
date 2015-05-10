@@ -20,7 +20,17 @@ namespace War_Square
 
         public int[,] loadData(string FilePath, int[,] map)
         {
-            string[] fileData = File.ReadAllLines(FilePath);
+            string[] fileData;
+            try
+            {
+                fileData = File.ReadAllLines(FilePath);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Erro ao Carregar " + FilePath);
+                throw;
+            }
+            Console.WriteLine("{0} Carregado com sucesso", FilePath);
             for (int x = 0; x < fileData.Length; x++){
                 for (int y = 0; y < fileData[x].Length; y++){
                     if (map == null) map = new int[fileData.Length, fileData[x].Length];
@@ -36,10 +46,9 @@ namespace War_Square
                         default:
                             break;
                     }
-                    Console.Write(map[x, y]);
                 }
-                Console.WriteLine();
 			}
+            Console.Write("");
             return map;
         }
 
@@ -52,6 +61,7 @@ namespace War_Square
             mapa2 = loadData(MapList[1], mapa2);
             WorldMaps.Add(mapa1);
             WorldMaps.Add(mapa2);
+            Console.WriteLine("Map Loaded");
         }
 
         public void update(GameTime gametime)
@@ -65,6 +75,7 @@ namespace War_Square
             {
                 spritebatch.Draw(Wall, new Rectangle(rect.X, rect.Y, 20, 20), new Rectangle(230, 500, 50, 50), Color.White);
             }
+            //Console.WriteLine("All Tiles Loaded");
         }
 
 
@@ -82,12 +93,14 @@ namespace War_Square
                     }
                 }
             }
+            Console.WriteLine("Colisoes Mapa: " + Game1.SelectedMap + " - carregadas com sucesso");
         }
 
         public void UpdateMapRect()
         {
             Collisions.tilesCollisions.Clear();
             InitRectMap();
+            Console.WriteLine("Tile Updated");
         }
 
         public void DestroySquare(Vector2 pos)

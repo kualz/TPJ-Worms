@@ -108,12 +108,14 @@ namespace War_Square
                     CharactersHandler.ChangeActive();
                     magzzz.setAllMag();
                     Interface.ResetlRoundTime();
+                    Collisions.bulletsTagged.Clear();
                 }
 
                 if (hud.roundTime <= 0 && Collisions.bulletsOnScreen.Count == 0){                 
                     CharactersHandler.ChangeActive();
                     magzzz.setAllMag();
                     Interface.ResetlRoundTime();
+                    Collisions.bulletsTagged.Clear();
                 }
 
                 if (Input.IsDown(Keys.Right)) cameraX += 10;

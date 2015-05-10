@@ -31,9 +31,8 @@ namespace War_Square.WeaponsAndProjectiles
         protected int weaponCodeChoosen = 0, helperX = 0, helperXpos = 0, helperXCharPos = 0, helperYCharPos = 0;
         protected int TextureWidth = 10, TextureWheight = 15;
         private List<Bullet> createdAmmo = new List<Bullet>();
-        private Bullet ammunition = new Bullet();
         private Point mousePos;
-        private int currentFrame = 0, currentFrame1 = 0;
+        private int currentFrame = 0;
         private float fireRateTime = 0.3f, timer, timerExplosion, intervalo = 0.05f;
         private Random rnd;
         private List<string> names = new List<string>();
@@ -106,24 +105,24 @@ namespace War_Square.WeaponsAndProjectiles
 
             if (Input.IsDown(Keys.Space))
             {
-                if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.cal32) && WeaponTypes == WeaponType.MachineGun)
+                if (fireRateTime >= Bullet.getFireRate(Bullet.AmmoType.cal32) && WeaponTypes == WeaponType.MachineGun)
                 {
                     if(magzzz.getmagAt(0).getMag() > 0)
-                        Collisions.bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.cal32, 300, 800, explosion));
+                        Collisions.bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.cal32, 300, 800, explosion, 7));
                     magzzz.decMag(0);
                     fireRateTime = 0;
                 }
-                if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.rocket) && WeaponTypes == WeaponType.Rocket)
+                if (fireRateTime >= Bullet.getFireRate(Bullet.AmmoType.rocket) && WeaponTypes == WeaponType.Rocket)
                 {
                     if (magzzz.getmagAt(1).getMag() > 0)
-                        Collisions.bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.rocket, 20000, 500, explosion));
+                        Collisions.bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.rocket, 2000, 500, explosion, 30));
                     magzzz.decMag(1);
                     fireRateTime = 0;
                 }
-                if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.nade) && WeaponTypes == WeaponType.GrenadeLauncher)
+                if (fireRateTime >= Bullet.getFireRate(Bullet.AmmoType.nade) && WeaponTypes == WeaponType.GrenadeLauncher)
                 {
                     if (magzzz.getmagAt(2).getMag() > 0)
-                        Collisions.bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.nade, 500, 150, explosion));
+                        Collisions.bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.nade, 500, 150, explosion, 25));
                     magzzz.decMag(2);
                     fireRateTime = 0;
                 }
@@ -209,7 +208,7 @@ namespace War_Square.WeaponsAndProjectiles
                 
                 if (bullet.ammoType == Bullet.AmmoType.cal32)
                 {
-                    if (fireRateTime < ammunition.getFireRate(Bullet.AmmoType.cal32))
+                    if (fireRateTime < Bullet.getFireRate(Bullet.AmmoType.cal32))
                         spriteBatch.Draw(flashFiring[currentFrame], new Vector2(this.PositionRelativeToCharacter.X + 5 + helperXpos, this.PositionRelativeToCharacter.Y + 45), null, Color.White, rotation, new Vector2((float)0, (float)260), .15f, SpriteEffects.None, 0f);
                     spriteBatch.Draw(texturax, new Vector2(bullet.sourcePosition.X, bullet.sourcePosition.Y + 10), null, Color.White, rotation, new Vector2((float)5, (float)2.5), 1f, SpriteEffects.None, 0f);
                 }
@@ -220,8 +219,6 @@ namespace War_Square.WeaponsAndProjectiles
                 bullet.draw(spriteBatch);
             }
             //spriteBatch.Draw(flatSquare, new Vector2(PositionRelativeToCharacter.X + helperXCharPos, PositionRelativeToCharacter.Y + helperYCharPos), Color.White);
-
-
             lasteffect = flip;
         }
 

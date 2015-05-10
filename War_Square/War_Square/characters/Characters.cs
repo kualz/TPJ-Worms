@@ -16,19 +16,18 @@ namespace War_Square.characters
         private Texture2D textura, Hitbox;
         protected bool SpecialWeapon, CharacterInPlay, hasjumped;
         protected string CharacterName;
-        protected Vector2 CharacterPos;
+        protected Vector2 CharacterPos, pos;
         protected float speed;
         public CharacterState WormState;
         public Vector2 velocity, nextpos;
         private float intervalo = 0.08f, timer, timer1;
         public SpriteEffects flip = SpriteEffects.FlipHorizontally;
-        private int currentFrame = 0;
+        private int currentFrame = 0, Hp;
         private Point mousePos;
         private SpriteFont font;
         public List<Weapons> Arsenal = new List<Weapons>();
         public Weapons ActiveWeapon;
         private Rectangle rec;
-        static int ammoRifle = 6, ammoRocket = 1, ammoNade = 2;
         public enum CharacterState
         {
             GoingRight,
@@ -50,6 +49,7 @@ namespace War_Square.characters
             hasjumped = false;
             CreatArsenal();
             ActiveWeapon = Arsenal[0];
+            Hp = 100;
         }
 
         public void Load(ContentManager content)
@@ -73,8 +73,9 @@ namespace War_Square.characters
         public void Update(GameTime gameTime)
         {
             Vector2 Gravityaux = new Vector2(CharacterPos.X, CharacterPos.Y + 2f);
-            if(isActive())
-                Arsenal[weaponCodeChosen].Update(gameTime, this);
+            float deltaTime1 = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if(isActive()) Arsenal[weaponCodeChosen].Update(gameTime, this);
             if (isActive() && hud.roundTime >= 0)
             {
                 float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -185,25 +186,30 @@ namespace War_Square.characters
                 rec = new Rectangle((int)CharacterPos.X, (int)CharacterPos.Y, 40, 70);
             }
             else
-            {
-                if (CheckCollisionsTile(Gravityaux).Count != 0)
-                {
-                    hasjumped = false;
-                }
-                else
-                {
-                    hasjumped = true;
-                }
-                if (hasjumped == true)
-                {
+            {                         
+                if (CheckCollisionsTile(Gravityaux).Count != 0) hasjumped = false;
+                else hasjumped = true;
+
+                if (hasjumped == true){
                     float i = 1;
                     velocity.Y += 0.2f * i;
                     if (velocity.Y > 2f) velocity.Y = 2f;
                     if (CheckCollisionsTile(Gravityaux).Count != 0)
-                    {
                         hasjumped = false;
-                    }
                     CharacterPos += velocity;
+                }
+
+                for (int i = Collisions.bulletsOnScreen.Count - 1 ; i >= 0 ; i--)
+                {
+                    if (CheckCollisionsCharacters(Collisions.bulletsOnScreen[i].getRectangle()) != new Rectangle(0, 0, 0, 0))
+                    {
+                        if (!Collisions.bulletsTagged.Contains(Collisions.bulletsOnScreen[i]))
+                        {
+                            this.changeHp(-Collisions.bulletsOnScreen[i].getDamage());
+                            Collisions.bulletsTagged.Add(Collisions.bulletsOnScreen[i]);
+                        }
+                    }
+                    Console.WriteLine("" + this.Hp + "  " + this.CharacterName);
                 }
             }
         }
@@ -253,6 +259,14 @@ namespace War_Square.characters
         {
             return rec;
         }
+        public int getHp()
+        { return this.Hp; }
+        /// <summary>
+        /// usar value negativo para retirar e positivo para somar 
+        /// </summary>
+        /// <param name="value"></param>
+        public void changeHp(int value)
+        { this.Hp += value; }
 
 
         /// <summary>
@@ -307,6 +321,19 @@ namespace War_Square.characters
                 }
             }
             return collidingWith;
+        }
+
+        public Rectangle CheckCollisionsCharacters(Rectangle rect)
+        {
+            foreach (Characters Character in Collisions.characterCollisions)
+            {
+                if (rect.Intersects(Character.getCharRec()) && rect != Character.getCharRec() && !Character.isActive())
+                {
+                    pos = new Vector2(this.rec.X, this.rec.Y);
+                    return Character.getCharRec();
+                }
+            }
+            return new Rectangle(0, 0, 0, 0);
         }
 
         public Vector2 Position

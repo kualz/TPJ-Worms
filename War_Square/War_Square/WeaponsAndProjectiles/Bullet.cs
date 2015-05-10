@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using War_Square.characters;
 
 namespace War_Square.WeaponsAndProjectiles
@@ -18,9 +14,10 @@ namespace War_Square.WeaponsAndProjectiles
         private Rectangle bulletRec;
         static public Vector2 rec;
         private Texture2D[] explosion;
-        private int currentFrame1 = 0;
-        float deltatime;
-        bool RocketExplosion = false, RifleExplosion = false;
+        private int currentFrame1 = 0, damage;
+        private float deltatime;
+        private bool RocketExplosion = false, RifleExplosion = false;
+        static public int DMGdAtRETA;
         public enum AmmoType
         {
             cal32,
@@ -29,13 +26,13 @@ namespace War_Square.WeaponsAndProjectiles
         }
         public AmmoType ammoType;
 
-        public Bullet() { }
+        //public Bullet() { }
 
         public Bullet(Vector2 sourcePosition,
                       float rotation,
                       AmmoType ammo,
                       int range,
-                      float speed, Texture2D[] explosion)
+                      float speed, Texture2D[] explosion, int damage)
         {
             this.range = range;
             this.sourcePosition = sourcePosition;
@@ -46,6 +43,7 @@ namespace War_Square.WeaponsAndProjectiles
             this.speed = speed;
             velocity = new Vector2(100*(float)Math.Cos(rotation), -100*(float)Math.Sin(rotation));
             this.explosion = explosion;
+            this.damage = damage;
         }
 
         public void update(GameTime gameTime, Weapons weapon)
@@ -103,10 +101,11 @@ namespace War_Square.WeaponsAndProjectiles
             else if (ammoType == AmmoType.nade){
                 //nades update method!
             }
+            DMGdAtRETA = 0;
             if ((CheckCollisionsProjectile(bulletRec) != new Rectangle(0, 0, 0, 0) || CheckCollisionsCharacters(bulletRec) != new Rectangle(0, 0, 0, 0)) && ammoType == AmmoType.cal32)
             {
                 explosionScale = 0.05f;
-                RifleExplosion = true;           
+                RifleExplosion = true;
             }
             if ((CheckCollisionsProjectile(bulletRec) != new Rectangle(0, 0, 0, 0) || CheckCollisionsCharacters(bulletRec) != new Rectangle(0, 0, 0, 0)) && ammoType == AmmoType.rocket)
             {
@@ -197,7 +196,12 @@ namespace War_Square.WeaponsAndProjectiles
             return this.bulletRec;
         }
 
-        public float getFireRate(AmmoType ammo)
+        public int getDamage()
+        {
+            return this.damage;
+        }
+
+        static public float getFireRate(AmmoType ammo)
         {
             if (ammo == AmmoType.cal32)
                 return 0.3f;

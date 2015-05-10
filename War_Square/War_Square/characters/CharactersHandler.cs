@@ -33,6 +33,7 @@ namespace War_Square.characters
         static public void AddPlayer(Characters cha)
         {
             Players.Add(cha);
+            Console.WriteLine("Player Inserido " + cha.returnName());
         }
 
         static public Characters getPlayerIN_GAME(int player)
