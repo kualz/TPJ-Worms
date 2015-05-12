@@ -24,6 +24,7 @@ namespace War_Square
         private int cameraX = 400;
         private hud Interface = new hud();
         private bool auxMapa = false;
+        private Background background = new Background();
         public enum GameState
         {
             running,
@@ -57,6 +58,7 @@ namespace War_Square
 
         protected override void LoadContent()
         {
+            background.Load(Content);
             Camera.Scale = 1f;
             magzzz.initializeAmmo();
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -86,6 +88,7 @@ namespace War_Square
         protected override void Update(GameTime gameTime)
         {
             Input.Update();
+            background.Update(gameTime);
             if (gameState != GameState.running)
             {
                 MenusHandler.Update(gameTime, this);
@@ -132,12 +135,14 @@ namespace War_Square
         {
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Camera.Transform);
+            
             if (gameState != GameState.running)
             {
                 MenusHandler.draw(spriteBatch, this, GhostCharacter);
             }
             else
             {
+                background.Draw(spriteBatch);
                 TesteMapa.secondDraw(spriteBatch);
                 CharactersHandler.DrawPlayers(spriteBatch);
                 Interface.draw(spriteBatch, Camera, CharactersHandler.getActiveCharacter());
