@@ -80,92 +80,107 @@ namespace War_Square.Menus
                     {
                         case 0:
                             {
-                                if (characterChoosen == 0)
+                                if (!Player1.isActive())
                                 {
-                                    Player1.SetCharacterInPlay();
-                                    Player1.SetCharacterPosition(new Vector2(600, 200));
-                                    Collisions.characterCollisions.Add(Player1);
-                                    CharactersHandler.AddPlayer(Player1);
+                                    if (characterChoosen == 0)
+                                    {
+                                        Player1.SetCharacterInPlay();
+                                        Player1.SetCharacterPosition(new Vector2(600, 200));
+                                        Collisions.characterCollisions.Add(Player1);
+                                        CharactersHandler.AddPlayer(Player1);
+                                    }
+                                    else
+                                    {
+                                        Player1.SetCharacterPosition(new Vector2(700, 200));
+                                        Collisions.characterCollisions.Add(Player1);
+                                        CharactersHandler.AddPlayer(Player1);
+                                    }
+                                    characterChoosen++;
                                 }
-                                else
-                                {
-                                    Player1.SetCharacterPosition(new Vector2(700, 200));
-                                    Collisions.characterCollisions.Add(Player1);
-                                    CharactersHandler.AddPlayer(Player1);
-                                }
-                                characterChoosen++;
                             }
                             break;
                         case 1:
                             {
-                                if (characterChoosen == 0)
+                                if (!Player2.isActive())
                                 {
-                                    Player2.SetCharacterInPlay();
-                                    Player2.SetCharacterPosition(new Vector2(600, 200));
-                                    Collisions.characterCollisions.Add(Player2);
-                                    CharactersHandler.AddPlayer(Player2);
+                                    if (characterChoosen == 0)
+                                    {
+                                        Player2.SetCharacterInPlay();
+                                        Player2.SetCharacterPosition(new Vector2(600, 200));
+                                        Collisions.characterCollisions.Add(Player2);
+                                        CharactersHandler.AddPlayer(Player2);
+                                    }
+                                    else
+                                    {
+                                        Player2.SetCharacterPosition(new Vector2(700, 200));
+                                        Collisions.characterCollisions.Add(Player2);
+                                        CharactersHandler.AddPlayer(Player2);
+                                    }
+                                    characterChoosen++;
                                 }
-                                else
-                                {
-                                    Player2.SetCharacterPosition(new Vector2(700, 200));
-                                    Collisions.characterCollisions.Add(Player2);
-                                    CharactersHandler.AddPlayer(Player2);
-                                }
-                                characterChoosen++;
                             }
                             break;
                         case 2:
                             {
-                                if (characterChoosen == 0)
+                                if (!Player3.isActive())
                                 {
-                                    Player3.SetCharacterInPlay();
-                                    Player3.SetCharacterPosition(new Vector2(600, 350));
-                                    Collisions.characterCollisions.Add(Player3);
-                                    CharactersHandler.AddPlayer(Player3);
-                                }
-                                else
-                                {
-                                    Player3.SetCharacterPosition(new Vector2(700, 350));
-                                    Collisions.characterCollisions.Add(Player3);
-                                    CharactersHandler.AddPlayer(Player3);
-                                }
+                                    if (characterChoosen == 0)
+                                    {
+                                        Player3.SetCharacterInPlay();
+                                        Player3.SetCharacterPosition(new Vector2(600, 350));
+                                        Collisions.characterCollisions.Add(Player3);
+                                        CharactersHandler.AddPlayer(Player3);
+                                    }
+                                    else
+                                    {
+                                        Player3.SetCharacterPosition(new Vector2(700, 350));
+                                        Collisions.characterCollisions.Add(Player3);
+                                        CharactersHandler.AddPlayer(Player3);
+                                    }
                                     characterChoosen++;
+                                }
                             }
                             break;
                         case 3:
                             {
-                                if (characterChoosen == 0)
+                                if (!Player4.isActive())
                                 {
-                                    Player4.SetCharacterInPlay();
-                                    Player4.SetCharacterPosition(new Vector2(600, 350));
-                                    Collisions.characterCollisions.Add(Player4);
-                                    CharactersHandler.AddPlayer(Player4);
+                                    if (characterChoosen == 0)
+                                    {
+                                        Player4.SetCharacterInPlay();
+                                        Player4.SetCharacterPosition(new Vector2(600, 350));
+                                        Collisions.characterCollisions.Add(Player4);
+                                        CharactersHandler.AddPlayer(Player4);
+                                    }
+                                    else
+                                    {
+                                        Player4.SetCharacterPosition(new Vector2(700, 350));
+                                        Collisions.characterCollisions.Add(Player4);
+                                        CharactersHandler.AddPlayer(Player4);
+                                    }
+                                    characterChoosen++;
                                 }
-                                else
-                                {
-                                    Player4.SetCharacterPosition(new Vector2(700, 350));
-                                    Collisions.characterCollisions.Add(Player4);
-                                    CharactersHandler.AddPlayer(Player4);
-                                }
-                                characterChoosen++;
                             }
                             break;
                         case 4:
                             {
-                                if (characterChoosen == 0)
+                                if (!Player5.isActive())
                                 {
-                                    Player5.SetCharacterInPlay();
-                                    Player5.SetCharacterPosition(new Vector2(600, 350));
-                                    Collisions.characterCollisions.Add(Player5);
-                                    CharactersHandler.AddPlayer(Player5);
+                                    if (characterChoosen == 0)
+                                    {
+                                        Player5.SetCharacterInPlay();
+                                        Player5.SetCharacterPosition(new Vector2(600, 350));
+                                        Collisions.characterCollisions.Add(Player5);
+                                        CharactersHandler.AddPlayer(Player5);
+                                    }
+                                    else
+                                    {
+                                        Player5.SetCharacterPosition(new Vector2(700, 350));
+                                        Collisions.characterCollisions.Add(Player5);
+                                        CharactersHandler.AddPlayer(Player5);
+                                    }
+                                    characterChoosen++;
                                 }
-                                else
-                                {
-                                    Player5.SetCharacterPosition(new Vector2(700, 350));
-                                    Collisions.characterCollisions.Add(Player5);
-                                    CharactersHandler.AddPlayer(Player5);
-                                }
-                                characterChoosen++;
                             }
                             break;
                     }

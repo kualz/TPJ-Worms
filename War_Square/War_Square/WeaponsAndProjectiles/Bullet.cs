@@ -16,7 +16,7 @@ namespace War_Square.WeaponsAndProjectiles
         private Texture2D[] explosion;
         private int currentFrame1 = 0, damage;
         private float deltatime;
-        private bool RocketExplosion = false, RifleExplosion = false;
+        private bool RocketExplosion = false, RifleExplosion = false, characterhit = false;
         static public int DMGdAtRETA;
         public enum AmmoType
         {
@@ -73,7 +73,8 @@ namespace War_Square.WeaponsAndProjectiles
                 currentFrame1++;
                 if (currentFrame1 == 7)
                 {
-                    ExplosionTileRemove(CheckCollisionsProjectile(bulletRec));
+                    if (characterhit == false)
+                         ExplosionTileRemove(CheckCollisionsProjectile(bulletRec));
                     Collisions.tilesCollisions.Remove(CheckCollisionsProjectile(bulletRec));
                 }
                 if (currentFrame1 >= (9))
@@ -107,10 +108,17 @@ namespace War_Square.WeaponsAndProjectiles
                 explosionScale = 0.05f;
                 RifleExplosion = true;
             }
-            if ((CheckCollisionsProjectile(bulletRec) != new Rectangle(0, 0, 0, 0) || CheckCollisionsCharacters(bulletRec) != new Rectangle(0, 0, 0, 0)) && ammoType == AmmoType.rocket)
+            if (CheckCollisionsProjectile(bulletRec) != new Rectangle(0, 0, 0, 0) && ammoType == AmmoType.rocket)
             {
                 explosionScale = 0.2f;
                 RocketExplosion = true;
+                characterhit = false;
+            }
+            if (CheckCollisionsCharacters(bulletRec) != new Rectangle(0, 0, 0, 0) && ammoType == AmmoType.rocket)
+            {
+                explosionScale = 0.2f;
+                RocketExplosion = true;
+                characterhit = true;
             }
         }
 
@@ -142,6 +150,11 @@ namespace War_Square.WeaponsAndProjectiles
             {
                 if (rect.Intersects(Character.getCharRec()) && rect != Character.getCharRec() && !Character.isActive())
                 {
+                    if (!Collisions.bulletsTagged.Contains(this))
+                                {
+                                    Character.changeHp(-this.damage);
+                                    Collisions.bulletsTagged.Add(this);
+                                }
                     rec = new Vector2(Character.getCharRec().X, Character.getCharRec().Y);
                     return Character.getCharRec();
                 }

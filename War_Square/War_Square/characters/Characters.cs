@@ -199,18 +199,18 @@ namespace War_Square.characters
                     CharacterPos += velocity;
                 }
 
-                for (int i = Collisions.bulletsOnScreen.Count - 1 ; i >= 0 ; i--)
-                {
-                    if (CheckCollisionsCharacters(Collisions.bulletsOnScreen[i].getRectangle()) != new Rectangle(0, 0, 0, 0))
-                    {
-                        if (!Collisions.bulletsTagged.Contains(Collisions.bulletsOnScreen[i]))
-                        {
-                            this.changeHp(-Collisions.bulletsOnScreen[i].getDamage());
-                            Collisions.bulletsTagged.Add(Collisions.bulletsOnScreen[i]);
-                        }
-                    }
-                    Console.WriteLine("" + this.Hp + "  " + this.CharacterName);
-                }
+                //for (int i = Collisions.bulletsOnScreen.Count - 1 ; i >= 0 ; i--)
+                //{
+                //    if (CheckCollisionsCharacters(Collisions.bulletsOnScreen[i].getRectangle()) != new Rectangle(0, 0, 0, 0))
+                //    {
+                //        if (!Collisions.bulletsTagged.Contains(Collisions.bulletsOnScreen[i]))
+                //        {
+                //            this.changeHp(-Collisions.bulletsOnScreen[i].getDamage());
+                //            Collisions.bulletsTagged.Add(Collisions.bulletsOnScreen[i]);
+                //        }
+                //    }
+                //    Console.WriteLine("" + this.Hp + "  " + this.CharacterName);
+                //}
             }
         }
 
