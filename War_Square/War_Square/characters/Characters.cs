@@ -14,16 +14,13 @@ namespace War_Square.characters
     class Characters : IFocusable
     {
         private Texture2D textura, Hitbox;
-        protected bool SpecialWeapon, CharacterInPlay, hasjumped;
+        protected bool SpecialWeapon, CharacterInPlay, hasjumped, isAlive = true;
         protected string CharacterName;
-        protected Vector2 CharacterPos, pos;
-        protected float speed;
+        public Vector2 CharacterPos, pos, velocity, nextpos;
+        private float speed, intervalo = 0.08f, timer;
         public CharacterState WormState;
-        public Vector2 velocity, nextpos;
-        private float intervalo = 0.08f, timer, timer1;
         public SpriteEffects flip = SpriteEffects.FlipHorizontally;
         private int currentFrame = 0, Hp;
-        private Point mousePos;
         private SpriteFont font;
         public List<Weapons> Arsenal = new List<Weapons>();
         public Weapons ActiveWeapon;
@@ -72,162 +69,154 @@ namespace War_Square.characters
 
         public void Update(GameTime gameTime)
         {
-            Vector2 Gravityaux = new Vector2(CharacterPos.X, CharacterPos.Y + 2f);
-            float deltaTime1 = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            if(isActive()) Arsenal[weaponCodeChosen].Update(gameTime, this);
-            if (isActive() && hud.roundTime >= 0)
+            if (isAlive)
             {
-                float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-                timer += deltaTime;
-                MouseState mState = Mouse.GetState();
-                Vector2 nextPos = CharacterPos;
+                Vector2 Gravityaux = new Vector2(CharacterPos.X, CharacterPos.Y + 2f);
+                float deltaTime1 = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                if (timer >= intervalo)
+                if (isActive()) Arsenal[weaponCodeChosen].Update(gameTime, this);
+                if (isActive() && hud.roundTime >= 0)
                 {
-                    currentFrame = currentFrame + 58;
-                    if (currentFrame >= 290)
+                    float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    timer += deltaTime;
+                    MouseState mState = Mouse.GetState();
+                    Vector2 nextPos = CharacterPos;
+
+                    if (timer >= intervalo)
                     {
-                        currentFrame = 0;
+                        currentFrame = currentFrame + 58;
+                        if (currentFrame >= 290)
+                        {
+                            currentFrame = 0;
+                        }
+                        timer = 0;
                     }
-                    timer = 0;
-                }
 
-                /// <summary>
-                /// aqui o input para trocar de arma a funcionar...
-                /// </summary>
-                if (Keyboard.GetState().IsKeyDown(Keys.D1))
-                {
-                    weaponCodeChosen = 0;
-                    getAndActivateWeapon(weaponCodeChosen);
-                    previousWeapon = 0;
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.D2))
-                {
-                    weaponCodeChosen = 1;
-                    getAndActivateWeapon(weaponCodeChosen);
-                    previousWeapon = 1;
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.D3))
-                {
-                    weaponCodeChosen = 2;
-                    getAndActivateWeapon(weaponCodeChosen);
-                    previousWeapon = 2;
-                }
-                /// <summary>
-                /// aqui tbem e simples basicamente ele pega na arma que esta ativa e faz o update dela com as suas informacoes
-                /// se fores ao codigo da weapon aquilo ja nem usa a weapons handler
-                /// simplesmente carrega direto as variaveis
-                /// </summary>
+                    /// <summary>
+                    /// aqui o input para trocar de arma a funcionar...
+                    /// </summary>
+                    if (Keyboard.GetState().IsKeyDown(Keys.D1))
+                    {
+                        weaponCodeChosen = 0;
+                        getAndActivateWeapon(weaponCodeChosen);
+                        previousWeapon = 0;
+                    }
+                    if (Keyboard.GetState().IsKeyDown(Keys.D2))
+                    {
+                        weaponCodeChosen = 1;
+                        getAndActivateWeapon(weaponCodeChosen);
+                        previousWeapon = 1;
+                    }
+                    if (Keyboard.GetState().IsKeyDown(Keys.D3))
+                    {
+                        weaponCodeChosen = 2;
+                        getAndActivateWeapon(weaponCodeChosen);
+                        previousWeapon = 2;
+                    }
+                    /// <summary>
+                    /// aqui tbem e simples basicamente ele pega na arma que esta ativa e faz o update dela com as suas informacoes
+                    /// se fores ao codigo da weapon aquilo ja nem usa a weapons handler
+                    /// simplesmente carrega direto as variaveis
+                    /// </summary>
 
-                if (Keyboard.GetState().IsKeyDown(Keys.W) && hasjumped == false)
-                {
-                    CharacterPos.Y -= 5f;
-                    velocity.Y = -3f;
-                    hasjumped = true;
+                    if (Keyboard.GetState().IsKeyDown(Keys.W) && hasjumped == false)
+                    {
+                        CharacterPos.Y -= 5f;
+                        velocity.Y = -3f;
+                        hasjumped = true;
 
-                }
-                if ((hasjumped == true) && (CheckCollisionsTile(Gravityaux).Count == 0))
-                {
-                    float i = 1;
-                    velocity.Y += 0.2f * i;
-                    if (velocity.Y > 1f) velocity.Y = 1f;
-                }
+                    }
+                    if ((hasjumped == true) && (CheckCollisionsTile(Gravityaux).Count == 0))
+                    {
+                        float i = 1;
+                        velocity.Y += 0.2f * i;
+                        if (velocity.Y > 1f) velocity.Y = 1f;
+                    }
 
-                nextpos = new Vector2(CharacterPos.X, CharacterPos.Y - 5f);
+                    nextpos = new Vector2(CharacterPos.X, CharacterPos.Y - 5f);
 
-                if (CheckCollisionsTile(nextpos).Count != 0) velocity.Y = 1f;
+                    if (CheckCollisionsTile(nextpos).Count != 0) velocity.Y = 1f;
 
-                if (CheckCollisionsTile(Gravityaux).Count == 0)
-                {
-                    hasjumped = true;
-                }
-                if (CheckCollisionsTile(Gravityaux).Count != 0)
-                {
-                    hasjumped = false;
-                }
-                if (hasjumped == false)
-                    velocity.Y = 0f;
-               
-                CharacterPos += velocity;
-               
-
-                //rodar personagem
-                mousePos = mState.Position;
-                float x = (float)CharacterPos.X - mousePos.X;
-      
-
-                if (Keyboard.GetState().IsKeyDown(Keys.A))
-                {
-                    nextpos = new Vector2(CharacterPos.X - 3f, CharacterPos.Y);
-                    flip = SpriteEffects.None;
-                    if (CheckCollisionsTile(nextpos).Count == 0)
-                        CharacterPos = nextpos;
-                }
-
-                if (Keyboard.GetState().IsKeyDown(Keys.D))
-                {
-                    nextpos = new Vector2(CharacterPos.X + 3f, CharacterPos.Y);
-                    flip = SpriteEffects.FlipHorizontally;
-                    if (CheckCollisionsTile(nextpos).Count == 0)
-                        CharacterPos = nextpos;
-                }
-
-                if (CheckCollisionsTile(Gravityaux).Count == 0)
-                {
-                    hasjumped = true;
-                }
-                if (CheckCollisionsTile(Gravityaux).Count != 0)
-                {
-                    hasjumped = false;
-                }
-                else velocity.X = 0f;
-                CharacterPos += velocity;
-                rec = new Rectangle((int)CharacterPos.X, (int)CharacterPos.Y, 40, 70);
-            }
-            else
-            {                         
-                if (CheckCollisionsTile(Gravityaux).Count != 0) hasjumped = false;
-                else hasjumped = true;
-
-                if (hasjumped == true){
-                    float i = 1;
-                    velocity.Y += 0.2f * i;
-                    if (velocity.Y > 2f) velocity.Y = 2f;
+                    if (CheckCollisionsTile(Gravityaux).Count == 0)
+                    {
+                        hasjumped = true;
+                    }
                     if (CheckCollisionsTile(Gravityaux).Count != 0)
+                    {
                         hasjumped = false;
-                    CharacterPos += velocity;
-                }
+                    }
+                    if (hasjumped == false)
+                        velocity.Y = 0f;
 
-                //for (int i = Collisions.bulletsOnScreen.Count - 1 ; i >= 0 ; i--)
-                //{
-                //    if (CheckCollisionsCharacters(Collisions.bulletsOnScreen[i].getRectangle()) != new Rectangle(0, 0, 0, 0))
-                //    {
-                //        if (!Collisions.bulletsTagged.Contains(Collisions.bulletsOnScreen[i]))
-                //        {
-                //            this.changeHp(-Collisions.bulletsOnScreen[i].getDamage());
-                //            Collisions.bulletsTagged.Add(Collisions.bulletsOnScreen[i]);
-                //        }
-                //    }
-                //    Console.WriteLine("" + this.Hp + "  " + this.CharacterName);
-                //}
+                    CharacterPos += velocity;
+
+                    if (Keyboard.GetState().IsKeyDown(Keys.A))
+                    {
+                        nextpos = new Vector2(CharacterPos.X - 3f, CharacterPos.Y);
+                        flip = SpriteEffects.None;
+                        if (CheckCollisionsTile(nextpos).Count == 0)
+                            CharacterPos = nextpos;
+                    }
+
+                    if (Keyboard.GetState().IsKeyDown(Keys.D))
+                    {
+                        nextpos = new Vector2(CharacterPos.X + 3f, CharacterPos.Y);
+                        flip = SpriteEffects.FlipHorizontally;
+                        if (CheckCollisionsTile(nextpos).Count == 0)
+                            CharacterPos = nextpos;
+                    }
+
+                    if (CheckCollisionsTile(Gravityaux).Count == 0)
+                    {
+                        hasjumped = true;
+                    }
+                    if (CheckCollisionsTile(Gravityaux).Count != 0)
+                    {
+                        hasjumped = false;
+                    }
+                    else velocity.X = 0f;
+                    CharacterPos += velocity;
+                    rec = new Rectangle((int)CharacterPos.X, (int)CharacterPos.Y, 40, 70);
+                }
+                else
+                {
+                    if (CheckCollisionsTile(Gravityaux).Count != 0) hasjumped = false;
+                    else hasjumped = true;
+
+                    if (hasjumped == true)
+                    {
+                        float i = 1;
+                        velocity.Y += 0.2f * i;
+                        if (velocity.Y > 2f) velocity.Y = 2f;
+                        if (CheckCollisionsTile(Gravityaux).Count != 0)
+                            hasjumped = false;
+                        CharacterPos += velocity;
+                    }
+                }
+            }
+            if (this.Hp < 0){
+                this.isAlive = false;
+                Collisions.characterCollisions.Remove(this);
             }
         }
 
         public void Draw(SpriteBatch spritebatch)
         {
-            
-            Vector2 Gravityaux = new Vector2(CharacterPos.X, CharacterPos.Y + 4f);
-            spritebatch.Draw(textura, new Vector2((int)CharacterPos.X, (int)CharacterPos.Y), new Rectangle(currentFrame, 0, 50, 70), Color.White, 0f, Vector2.Zero, 1f, flip, 0f);
-            if (this.isActive())
-                spritebatch.DrawString(font, "0/" + magzzz.getmagAt(GetActiveWeaponCODE()).getMag(), new Vector2(this.CharacterPos.X - 45, this.CharacterPos.Y), Color.Red);
-            spritebatch.DrawString(font, "" + CharacterName, new Vector2((int)CharacterPos.X, (int)CharacterPos.Y - 40), Color.White);
-            //spritebatch.Draw(Hitbox, new Rectangle((int)Math.Round(Gravityaux.X) + 12, (int)Math.Round(Gravityaux.Y), 25, 63), Color.Wheat);
-            /// <summary>
-            /// tipo aqui so tens a weapon selecionada a fazer draw...nao sei se queres optimizar isto!!!
-            /// </summary>
-            // if(this.isActive())
-            Arsenal[weaponCodeChosen].Draw(spritebatch, this, flip);
+            if (this.isAlive)
+            {
+                Vector2 Gravityaux = new Vector2(CharacterPos.X, CharacterPos.Y + 4f);
+                spritebatch.Draw(textura, new Vector2((int)CharacterPos.X, (int)CharacterPos.Y), new Rectangle(currentFrame, 0, 50, 70), Color.White, 0f, Vector2.Zero, 1f, flip, 0f);
+                if (this.isActive())
+                    spritebatch.DrawString(font, "0/" + magzzz.getmagAt(GetActiveWeaponCODE()).getMag(), new Vector2(this.CharacterPos.X - 45, this.CharacterPos.Y), Color.Red);
+                spritebatch.DrawString(font, "" + CharacterName, new Vector2((int)CharacterPos.X, (int)CharacterPos.Y - 40), Color.White);
+                //spritebatch.Draw(Hitbox, new Rectangle((int)Math.Round(Gravityaux.X) + 12, (int)Math.Round(Gravityaux.Y), 25, 63), Color.Wheat);
+                /// <summary>
+                /// tipo aqui so tens a weapon selecionada a fazer draw...nao sei se queres optimizar isto!!!
+                /// </summary>
+                if (this.isActive())
+                    Arsenal[weaponCodeChosen].Draw(spritebatch, this, flip);
+            }
+            else spritebatch.Draw(Hitbox, this.CharacterPos, Color.White);
         }
 
         public Vector2 CharacterPosition()

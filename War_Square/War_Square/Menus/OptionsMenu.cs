@@ -45,7 +45,7 @@ namespace War_Square.Menus
             {
                 selectedOption--;
                 if (selectedOption < 0)
-                    selectedOption = Options.Count;
+                    selectedOption = Options.Count - 1;
             }
             if (Input.IsPressed(Keys.Enter))
             {

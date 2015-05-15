@@ -81,11 +81,9 @@ namespace War_Square.characters
         static public void updatePlayers(GameTime gameTime)
         {
             foreach (Characters cha in Players){
-                if (cha.returnName() != "GhostCharacter")
-                {
+                if (cha.returnName() != "GhostCharacter"){
                     cha.Update(gameTime);
-                    if (cha.isActive())
-                    {
+                    if (cha.isActive() && cha.getHp() > 0){
                         cha.GetActiveWeapon().Update(gameTime, cha);
                     }
                 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using War_Square.characters;
 using War_Square.WeaponsAndProjectiles;
 
@@ -46,6 +47,7 @@ namespace War_Square
             graphics.PreferredBackBufferWidth = 1000;
             Content.RootDirectory = "Content";
             Camera = new Camera2D(this);
+            Camera.Position = (new Vector2(cameraX, 350));
             Components.Add(Camera);
         }
 
@@ -121,9 +123,10 @@ namespace War_Square
                     Collisions.bulletsTagged.Clear();
                 }
 
-                if (Input.IsDown(Keys.Right)) cameraX += 10;
-                if (Input.IsDown(Keys.Left)) cameraX -= 10;
+                if (Input.IsDown(Keys.Right) && cameraX < 2210) cameraX += 10;
+                if (Input.IsDown(Keys.Left) && cameraX > 370) cameraX -= 10;
 
+                Console.WriteLine(cameraX);
                 GhostCharacter.SetCharacterPosition(new Vector2(cameraX, 350));
                 CharactersHandler.updatePlayers(gameTime);
             }

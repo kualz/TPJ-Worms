@@ -46,7 +46,7 @@ namespace War_Square.Menus
                 if (selectedOption < 0)
                     selectedOption = Options.Count - 1;
             }
-            if (Input.IsDown(Keys.Enter))
+            if (Input.IsPressed(Keys.Enter))
             {
                 switch (selectedOption)
                 {

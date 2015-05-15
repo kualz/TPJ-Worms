@@ -204,8 +204,7 @@ namespace War_Square.WeaponsAndProjectiles
                 justflippedright = false;
             }
             foreach (Bullet bullet in Collisions.bulletsOnScreen)
-            {
-                
+            {           
                 if (bullet.ammoType == Bullet.AmmoType.cal32)
                 {
                     if (fireRateTime < Bullet.getFireRate(Bullet.AmmoType.cal32))
