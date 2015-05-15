@@ -73,8 +73,12 @@ namespace War_Square.characters
         static public void ChangeActive()
         {
             Players[JogadorActivo].SetCharacterInPlay();
+
             JogadorActivo++;
             if (JogadorActivo >= Players.Count ) JogadorActivo = 1;
+            while(Players[JogadorActivo].getHp() <= 0){
+                JogadorActivo++;
+            }
             Players[JogadorActivo].SetCharacterInPlay();
         }
 
