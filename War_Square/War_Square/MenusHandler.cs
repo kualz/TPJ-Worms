@@ -16,10 +16,12 @@ namespace War_Square
         static public MenuInGame menuInGame = new MenuInGame();
         static public MenuCharacterChoose characterChoose = new MenuCharacterChoose();
         static public MapChoose mapChooser = new MapChoose();
+        static public OpeningCutScene OpeningCutScene = new OpeningCutScene();
 
 
         static public void load(ContentManager content, Game1 game)
         {
+            OpeningCutScene.load(content);
             menuInGame.load(content);
             optionsMenu.Load(content);
             menuPrincipal.load(content);
@@ -54,6 +56,11 @@ namespace War_Square
                 mapChooser.update(gameTime, game);
                 return;
             }
+            if (game.gameState == Game1.GameState.OpeningCutScene)
+            {
+                OpeningCutScene.Update(gameTime, game);
+                return;
+            }
         }
 
         static public void draw(SpriteBatch spriteBatch, Game1 game, characters.Characters Char)
@@ -81,6 +88,11 @@ namespace War_Square
             if (game.gameState == Game1.GameState.MapChoose)
             {
                 mapChooser.draw(spriteBatch);
+                return;
+            }
+            if (game.gameState == Game1.GameState.OpeningCutScene)
+            {
+                OpeningCutScene.Draw(spriteBatch);
                 return;
             }
         }

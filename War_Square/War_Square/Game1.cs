@@ -34,9 +34,10 @@ namespace War_Square
             Menu,
             Options,
             MapChoose,
-            CharacterChoose
+            CharacterChoose,
+            OpeningCutScene
         }
-        public GameState gameState = GameState.Menu;
+        public GameState gameState = GameState.OpeningCutScene;
 
         public Game1()
             : base()
