@@ -18,7 +18,7 @@ namespace War_Square.Menus
         public List<string> Options = new List<string>();
         private int selectedOption = 0;
         private SpriteFont spriteFont;
-        private Texture2D texture, backGround;
+        private Texture2D texture, backGround, selected, unselected;
 
         public MenuPrincipal()
         { }
@@ -31,6 +31,8 @@ namespace War_Square.Menus
             Options.Add("Exit");
             texture = content.Load<Texture2D>("1");
             backGround = content.Load<Texture2D>("MenuTest");
+            selected = content.Load<Texture2D>("Selected");
+            unselected = content.Load<Texture2D>("unselected");
         }
 
         public void update(GameTime gameTime, Game1 game)
@@ -66,13 +68,20 @@ namespace War_Square.Menus
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(backGround, new Vector2(-350, 0), null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0f); 
-            spriteBatch.Draw(texture, new Rectangle(-125, 80, 425, 150), Color.DarkSlateGray);
+            //spriteBatch.Draw(texture, new Rectangle(-125, 80, 425, 150), Color.DarkSlateGray);
             spriteBatch.DrawString(spriteFont, "Version 0.9 Phaktumn Kualz Klipper", new Vector2(500, 650), Color.White);
             for (int i = 0; i < Options.Count; i++)
             {
                 if (selectedOption != i)
-                    spriteBatch.DrawString(spriteFont, Options[i], new Vector2(100, 100 + i * 40), Color.White);
-                else spriteBatch.DrawString(spriteFont, Options[i], new Vector2(100, 100 + i * 40), Color.Orange);
+                {
+                    spriteBatch.Draw(unselected, new Rectangle(90, 97 + i * 40, 200, 30), Color.White);
+                    spriteBatch.DrawString(spriteFont, Options[i], new Vector2(100, 100 + i * 40), Color.Black);
+                }
+                else
+                {
+                    spriteBatch.Draw(selected, new Rectangle(90, 97 + i * 40, 200, 30), Color.White);
+                    spriteBatch.DrawString(spriteFont, Options[i], new Vector2(100, 100 + i * 40), Color.Black);
+                }
             }
         }
     }

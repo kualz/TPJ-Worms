@@ -17,7 +17,7 @@ namespace War_Square.Menus
         private List<string> Options = new List<string>();
         private int selectedOption;
         private SpriteFont spriteFont;
-        private Texture2D texture;
+        private Texture2D texture, backGround;
 
         public OptionsMenu()
         { }
@@ -26,6 +26,7 @@ namespace War_Square.Menus
         {
             spriteFont = content.Load<SpriteFont>("MyFont");
             texture = content.Load<Texture2D>("1");
+            backGround = content.Load<Texture2D>("MenuTest");
             //escolher niveis
             //e stuff do som se for necessario!
             //e mais coisas ta tudo no txt! ate se carregava de la XD
@@ -63,6 +64,7 @@ namespace War_Square.Menus
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Draw(backGround, new Vector2(-350, 0), null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0f); 
             spriteBatch.Draw(texture, new Rectangle(80, 80, 190, 150), Color.CadetBlue);
             for (int i = 0; i < Options.Count; i++)
             {
