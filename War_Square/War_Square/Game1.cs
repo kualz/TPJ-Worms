@@ -129,6 +129,8 @@ namespace War_Square
                 Console.WriteLine(cameraX);
                 GhostCharacter.SetCharacterPosition(new Vector2(cameraX, 350));
                 CharactersHandler.updatePlayers(gameTime);
+                if (CharactersHandler.isWinner() == true)
+                    gameState = GameState.gameOver;
             }
             base.Update(gameTime);
         }
@@ -139,12 +141,15 @@ namespace War_Square
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Camera.Transform);
             
-            if (gameState != GameState.running)
+            if (gameState != GameState.running && gameState != GameState.gameOver)
             {
                 MenusHandler.draw(spriteBatch, this, GhostCharacter);
             }
             else
             {
+                if(gameState == GameState.gameOver){
+                     MenusHandler.draw(spriteBatch, this, GhostCharacter);
+                }
                 background.Draw(spriteBatch);
                 TesteMapa.secondDraw(spriteBatch);
                 CharactersHandler.DrawPlayers(spriteBatch);

@@ -14,8 +14,7 @@ namespace War_Square.Menus
     {
         private List<String> options = new List<string>();
         private SpriteFont font;
-        private Texture2D textura;
-        private Texture2D squareSelected;
+        private Texture2D textura,squareSelected, backGround;
         private float timer = 0;
         private int chooseOption = 0, characterChoosen = 0, playerCount = 2;
         private Characters Player1, Player2, Player3, Player4, Player5;
@@ -47,6 +46,7 @@ namespace War_Square.Menus
             //imagens dos characters!
             squareSelected = content.Load<Texture2D>("1");
             textura = content.Load<Texture2D>("character");
+            backGround = content.Load<Texture2D>("MenuTest");
         }
 
         public void Update(GameTime gametime, Game1 game)
@@ -202,6 +202,7 @@ namespace War_Square.Menus
                             break;
                     }
                     if (characterChoosen >= playerCount && characterChoosen >= 2){
+                        Console.WriteLine(CharactersHandler.Players.Count);
                         game.gameState = Game1.GameState.MapChoose;
                     }
                 }
@@ -210,6 +211,8 @@ namespace War_Square.Menus
 
         public void draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Draw(backGround, new Vector2(-350, 0), null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(squareSelected, new Rectangle(20, 145, 555, 100), Color.DimGray);
             spriteBatch.DrawString(font, options[1], new Vector2(25, 25), corolelitos[0]);
             spriteBatch.DrawString(font, options[0], new Vector2(190 - 75, 25), corolelitos[1]);
             spriteBatch.DrawString(font, options[2], new Vector2(300 - 75, 25), corolelitos[2]);
@@ -221,6 +224,7 @@ namespace War_Square.Menus
             spriteBatch.DrawString(font, "Press Enter to select Player.", new Vector2(100 - 75, 200), Color.White);
             spriteBatch.DrawString(font, "Escolhidos: " + characterChoosen,new Vector2(650, 50), Color.White);
             spriteBatch.DrawString(font, "Character count: " + playerCount, new Vector2(650, 100), Color.White);
+            spriteBatch.DrawString(font, "Version 0.9 Phaktumn Kualz Klipper", new Vector2(500, 650), Color.White);
             for (int i = 0; i < options.Count; i++)
             {
                 if (i != chooseOption)

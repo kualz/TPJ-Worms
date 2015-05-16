@@ -70,6 +70,19 @@ namespace War_Square.characters
             return null;
         }
 
+        static public bool isWinner(){
+            int aux = 0;
+            foreach (Characters Char in Players){
+                if (Char.getHp() <= 0 && Char.returnName() != "GhostCharacter"){
+                    aux++;
+                }
+            }
+            if (aux == Players.Count - 2){
+                return true;
+            }
+            else return false;
+        }
+
         static public void ChangeActive()
         {
             Players[JogadorActivo].SetCharacterInPlay();
@@ -78,6 +91,10 @@ namespace War_Square.characters
             if (JogadorActivo >= Players.Count ) JogadorActivo = 1;
             while(Players[JogadorActivo].getHp() <= 0){
                 JogadorActivo++;
+                if (JogadorActivo >= Players.Count){
+                    JogadorActivo = 1;
+                    break;
+                }
             }
             Players[JogadorActivo].SetCharacterInPlay();
         }

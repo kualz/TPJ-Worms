@@ -58,7 +58,7 @@ namespace War_Square
 
         static public void draw(SpriteBatch spriteBatch, Game1 game, characters.Characters Char)
         {
-            if (game.gameState == Game1.GameState.Paused)
+            if (game.gameState == Game1.GameState.Paused || game.gameState == Game1.GameState.gameOver)
             {
                 menuInGame.draw(spriteBatch, Char);
                 return;

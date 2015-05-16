@@ -18,7 +18,7 @@ namespace War_Square.Menus
         public List<string> Options = new List<string>();
         private int selectedOption = 0;
         private SpriteFont spriteFont;
-        private Texture2D texture;
+        private Texture2D texture, backGround;
 
         public MenuPrincipal()
         { }
@@ -30,6 +30,7 @@ namespace War_Square.Menus
             Options.Add("Options");
             Options.Add("Exit");
             texture = content.Load<Texture2D>("1");
+            backGround = content.Load<Texture2D>("MenuTest");
         }
 
         public void update(GameTime gameTime, Game1 game)
@@ -64,11 +65,13 @@ namespace War_Square.Menus
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Rectangle(80, 80, 190, 150), Color.CadetBlue);
+            spriteBatch.Draw(backGround, new Vector2(-350, 0), null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0f); 
+            spriteBatch.Draw(texture, new Rectangle(-125, 80, 425, 150), Color.DarkSlateGray);
+            spriteBatch.DrawString(spriteFont, "Version 0.9 Phaktumn Kualz Klipper", new Vector2(500, 650), Color.White);
             for (int i = 0; i < Options.Count; i++)
             {
                 if (selectedOption != i)
-                    spriteBatch.DrawString(spriteFont, Options[i], new Vector2(100, 100 + i * 40), Color.Black);
+                    spriteBatch.DrawString(spriteFont, Options[i], new Vector2(100, 100 + i * 40), Color.White);
                 else spriteBatch.DrawString(spriteFont, Options[i], new Vector2(100, 100 + i * 40), Color.Orange);
             }
         }
