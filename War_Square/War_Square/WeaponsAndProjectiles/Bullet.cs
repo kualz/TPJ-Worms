@@ -114,12 +114,13 @@ namespace War_Square.WeaponsAndProjectiles
                 RocketExplosion = true;
                 characterhit = false;
             }
-            if (CheckCollisionsCharacters(bulletRec) != new Rectangle(0, 0, 0, 0) && ammoType == AmmoType.rocket)
+            if (CheckCollisionsCharacters(bulletRec) != new Rectangle(0, 0, 0, 0) || !IsInsideMap(sourcePosition) && ammoType == AmmoType.rocket)
             {
                 explosionScale = 0.2f;
                 RocketExplosion = true;
                 characterhit = true;
             }
+            Console.WriteLine(sourcePosition.X);
         }
 
         public void draw(SpriteBatch spriteBatch)
@@ -228,6 +229,14 @@ namespace War_Square.WeaponsAndProjectiles
         public void DontNeverDuwides(float scale)
         {
             this.explosionScale = scale;
+        }
+
+        public bool IsInsideMap(Vector2 position)
+        {
+            int MapSizeMaxX = 2900, MapSizeMinX = -350, MapSizeMaxY = 950, MapSizeMinY = -155;
+
+            if (position.X > MapSizeMaxX - 20 || position.X < MapSizeMinX + 20 || position.Y > MapSizeMaxY - 20 || position.Y < MapSizeMinY) return false;
+            else return true;
         }
     }
 }

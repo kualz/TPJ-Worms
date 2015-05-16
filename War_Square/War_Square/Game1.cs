@@ -127,7 +127,7 @@ namespace War_Square
                 if (Input.IsDown(Keys.Right) && cameraX < 2210) cameraX += 10;
                 if (Input.IsDown(Keys.Left) && cameraX > 370) cameraX -= 10;
 
-                Console.WriteLine(cameraX);
+                
                 GhostCharacter.SetCharacterPosition(new Vector2(cameraX, 350));
                 CharactersHandler.updatePlayers(gameTime);
                 if (CharactersHandler.isWinner() == true)
