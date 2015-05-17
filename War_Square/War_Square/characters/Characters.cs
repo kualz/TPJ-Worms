@@ -16,7 +16,7 @@ namespace War_Square.characters
         private Texture2D textura, Hitbox;
         protected bool SpecialWeapon, CharacterInPlay, hasjumped, isAlive = true;
         protected string CharacterName;
-        public Vector2 CharacterPos, pos, velocity, nextpos;
+        public Vector2 CharacterPos, pos, velocity, nextpos, DeadPos;
         private float speed, intervalo = 0.08f, timer;
         public CharacterState WormState;
         public SpriteEffects flip = SpriteEffects.FlipHorizontally;
@@ -25,6 +25,7 @@ namespace War_Square.characters
         public List<Weapons> Arsenal = new List<Weapons>();
         public Weapons ActiveWeapon;
         private Rectangle rec;
+        private int AuxDead = 0;
         public enum CharacterState
         {
             GoingRight,
@@ -53,7 +54,7 @@ namespace War_Square.characters
         {
             textura = content.Load<Texture2D>("character");
             font = content.Load<SpriteFont>("MyFont");
-            Hitbox = content.Load<Texture2D>("1");
+            Hitbox = content.Load<Texture2D>("DeadCross");
             /// <summary>
             /// esta parte aqui nao sei mesmo sera a melhor forma assim?
             /// :o
@@ -193,11 +194,31 @@ namespace War_Square.characters
                         CharacterPos += velocity;
                     }
                 }
+                DeadPos = CharacterPos;
             }
             if (this.Hp < 0){
                 this.isAlive = false;
                 Collisions.characterCollisions.Remove(this);
             }
+            if (this.isAlive == false)
+            {
+                if (hasjumped == false && AuxDead == 0)
+                {
+                    DeadPos.Y -= 5f;
+                    velocity.Y = -3f;
+                    hasjumped = true;
+                    AuxDead = 1;
+                }
+                if (hasjumped == true)
+                {
+                    velocity.Y += 0.2f;
+                    DeadPos += velocity;
+                }               
+                rec = new Rectangle((int)DeadPos.X, (int)DeadPos.Y, 40, 70);
+                Vector2 Gravityaux = new Vector2(DeadPos.X, DeadPos.Y-35f);
+                if (CheckCollisionsTile(Gravityaux).Count != 0) hasjumped = false;
+            }
+
         }
 
         public void Draw(SpriteBatch spritebatch)
@@ -216,7 +237,7 @@ namespace War_Square.characters
                 if (this.isActive())
                     Arsenal[weaponCodeChosen].Draw(spritebatch, this, flip);
             }
-            else spritebatch.Draw(Hitbox, this.CharacterPos, Color.White);
+            else spritebatch.Draw(Hitbox, DeadPos,null, Color.White,0, Vector2.Zero,0.05f,SpriteEffects.None,0);
         }
 
         public Vector2 CharacterPosition()
