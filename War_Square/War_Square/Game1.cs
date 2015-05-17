@@ -95,6 +95,12 @@ namespace War_Square
             if (gameState != GameState.running)
             {
                 MenusHandler.Update(gameTime, this);
+                if (gameState != GameState.Paused)
+                {
+                    cameraX = 400;
+                    Camera.Position = new Vector2(cameraX, 350);
+                    Camera.Scale = 1f;
+                }
             }
             else
             {
