@@ -43,12 +43,12 @@ namespace War_Square.Menus
             totalTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (deltaTime < 0.5f){
-                opacity -= 0.1f;
+                opacity -= 0.05f;
                 if (opacity < 0.3f)
                     opacity = 0.3f;
             }
             if (deltaTime > 0.5f && deltaTime < 0.75f){
-                opacity += 0.1f;
+                opacity += 0.05f;
                 if (opacity > 1f)
                     opacity = 1f;
             }

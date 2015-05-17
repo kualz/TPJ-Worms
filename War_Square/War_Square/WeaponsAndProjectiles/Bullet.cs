@@ -114,7 +114,7 @@ namespace War_Square.WeaponsAndProjectiles
                 RocketExplosion = true;
                 characterhit = false;
             }
-            if (CheckCollisionsCharacters(bulletRec) != new Rectangle(0, 0, 0, 0) || !IsInsideMap(sourcePosition) && ammoType == AmmoType.rocket)
+            if ((CheckCollisionsCharacters(bulletRec) != new Rectangle(0, 0, 0, 0) || !IsInsideMap(sourcePosition)) && ammoType == AmmoType.rocket)
             {
                 explosionScale = 0.2f;
                 RocketExplosion = true;
