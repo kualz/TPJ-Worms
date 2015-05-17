@@ -139,10 +139,10 @@ namespace War_Square
         {
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Camera.Transform);
-            
-            if (gameState != GameState.running)
+
+            if (gameState != GameState.running && gameState != GameState.Paused)
             {
-                MenusHandler.draw(spriteBatch, this, GhostCharacter);
+                MenusHandler.draw(spriteBatch, this, GhostCharacter, Camera);
             }
             else
             {
@@ -150,6 +150,9 @@ namespace War_Square
                 TesteMapa.secondDraw(spriteBatch);
                 CharactersHandler.DrawPlayers(spriteBatch);
                 Interface.draw(spriteBatch, Camera, CharactersHandler.getActiveCharacter());
+                if (gameState == GameState.Paused){
+                    MenusHandler.draw(spriteBatch, this, CharactersHandler.getActiveCharacter(), Camera);
+                }
             }
             spriteBatch.End();
 

@@ -34,7 +34,7 @@ namespace War_Square.Menus
             backGround = content.Load<Texture2D>("MenuTest");
             selected = content.Load<Texture2D>("Selected");
             unselected = content.Load<Texture2D>("unselected");
-            nameSprite = content.Load<Texture2D>("WarSquare");
+            nameSprite = content.Load<Texture2D>("WarSquareteste3");
         }
 
         public void update(GameTime gameTime, Game1 game)
@@ -71,7 +71,10 @@ namespace War_Square.Menus
                 switch (selectedOption)
                 {
                     case 0:
-                        game.gameState = Game1.GameState.CharacterChoose;
+                        {
+                            CharactersHandler.Players.Clear();
+                            game.gameState = Game1.GameState.CharacterChoose;
+                        }
                         break;
                     case 1:
                         game.gameState = Game1.GameState.Options;
@@ -85,7 +88,7 @@ namespace War_Square.Menus
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(backGround, new Vector2(-350, 0), null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(nameSprite, new Vector2(90, 225), Color.White);
+            spriteBatch.Draw(nameSprite, new Vector2(90, 225), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(texture, new Rectangle(-125, 80, 425, 150), Color.DarkSlateGray);
             spriteBatch.DrawString(spriteFont, "Version 0.9 Phaktumn Kualz Klipper", new Vector2(500, 650), Color.White);
             for (int i = 0; i < Options.Count; i++)
@@ -93,12 +96,12 @@ namespace War_Square.Menus
                 if (selectedOption != i)
                 {
                     //spriteBatch.Draw(unselected, new Rectangle(90, 97 + i * 40, 200, 30), Color.White);
-                    spriteBatch.DrawString(spriteFont, Options[i], new Vector2(100, 100 + i * 40), Color.DarkGray);
+                    spriteBatch.DrawString(spriteFont, Options[i], new Vector2(500, 300 + i * 40), Color.DarkGray);
                 }
                 else
                 {
-                    spriteBatch.Draw(selected, new Rectangle(80, 90 + i * 40, 250, 45),null , Color.White * opacity, 0f, Vector2.Zero, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(spriteFont, Options[i], new Vector2(100, 100 + i * 40), Color.White, 0f, Vector2.Zero, 1.1f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(selected, new Rectangle(480, 290 + i * 40, 250, 45),null , Color.White * opacity, 0f, Vector2.Zero, SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(spriteFont, Options[i], new Vector2(500, 300 + i * 40), Color.White, 0f, Vector2.Zero, 1.1f, SpriteEffects.None, 0f);
                 }
             }
         }
