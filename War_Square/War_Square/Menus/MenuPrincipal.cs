@@ -72,7 +72,7 @@ namespace War_Square.Menus
                 {
                     case 0:
                         {
-                            CharactersHandler.Players.Clear();
+                            //CharactersHandler.Players.Clear();
                             game.gameState = Game1.GameState.CharacterChoose;
                         }
                         break;
