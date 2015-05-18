@@ -51,7 +51,7 @@ namespace War_Square
         {
             foreach (Characters CHARACTER in CharactersHandler.Players){
                 if (CHARACTER.returnName() != "GhostCharacter") 
-                    batch.Draw(HpBar, new Rectangle((int)CHARACTER.CharacterPos.X, (int)CHARACTER.CharacterPos.Y - 15, (50 - ((100 - CHARACTER.getHp())/2)), 5), Color.Green);   
+                    batch.Draw(HpBar, new Rectangle((int)CHARACTER.CharacterPos.X, (int)CHARACTER.CharacterPos.Y - 15, (50 - ((CHARACTER.getMaximumHp() - CHARACTER.getHp())/2)), 5), Color.Green);   
             }
             batch.DrawString(font, assets[0] + Char.returnName(), new Vector2(cam.Position.X - 700, cam.Position.Y- 500), Color.White);
             batch.DrawString(font, assets[1] + Char.getHp(), new Vector2(cam.Position.X - 480, cam.Position.Y - 500), Color.White);

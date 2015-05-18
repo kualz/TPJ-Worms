@@ -29,7 +29,7 @@ namespace War_Square
             mapChooser.load(content);
         }
 
-        static public void Update(GameTime gameTime, Game1 game)
+        static public void Update(GameTime gameTime, Game1 game, ContentManager content)
         {
             if (game.gameState == Game1.GameState.Menu)
             {
@@ -38,7 +38,7 @@ namespace War_Square
             }
             if (game.gameState == Game1.GameState.Paused)
             {
-                menuInGame.update(gameTime, game);
+                menuInGame.update(gameTime, game, content);
                 return;
             }
             if (game.gameState == Game1.GameState.Options)

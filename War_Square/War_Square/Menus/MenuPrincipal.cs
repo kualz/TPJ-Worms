@@ -43,14 +43,12 @@ namespace War_Square.Menus
             totalTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (deltaTime < 0.5f){
-                opacity -= 0.05f;
-                if (opacity < 0.3f)
-                    opacity = 0.3f;
+                opacity -= 0.04f;
+                if (opacity < 0.1f)
+                    opacity = 0.1f;
             }
-            if (deltaTime > 0.5f && deltaTime < 0.75f){
-                opacity += 0.05f;
-                if (opacity > 1f)
-                    opacity = 1f;
+            if (deltaTime > 0.5f && deltaTime < 1f){
+                opacity += 0.035f;
             }
             if (deltaTime > 1f) deltaTime = 0f;
 
@@ -70,10 +68,14 @@ namespace War_Square.Menus
             {
                 switch (selectedOption)
                 {
-                    case 0:
-                        {
-                            //CharactersHandler.Players.Clear();
+                        //'e importante nao dar reset aqui logo da lista de players
+                        //in game
+                        //caso isso aconteca aqui basicamente ao correr o draw do menu inicial da erro
+                        //o reset dos players escolhidos acontece quando das input do enter
+                        //para passar do menu principal para o menu de escolheres as personagens
+                    case 0:{
                             game.gameState = Game1.GameState.CharacterChoose;
+                            CharactersHandler.resetPlayersList(Game1.firstEntry);
                         }
                         break;
                     case 1:

@@ -6,16 +6,18 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using War_Square.WeaponsAndProjectiles;
 using Microsoft.Xna.Framework.Graphics;
+using War_Square.Menus;
 
 namespace War_Square.characters
 {
     class CharactersHandler : Characters
     {
-        static private List<Characters> Barracks = new List<Characters>();
+        static public List<Characters> Barracks = new List<Characters>();
         static public List<Characters> Players = new List<Characters>();
         static public int JogadorActivo = 1;
+        static private int initialPlayer = 1;
 
-        static public void InitList(ContentManager content)
+        static public void InitList()
         {
             Barracks.Add(new Characters("Kualz"));
             Barracks.Add(new Characters("Phaktumn"));
@@ -25,8 +27,7 @@ namespace War_Square.characters
             Barracks.Add(new Characters("GhostCharacter"));
         }
 
-        static public Characters getCharacter(int Character)
-        {
+        static public Characters getCharacter(int Character){
             return Barracks[Character];
         }
 
@@ -85,14 +86,18 @@ namespace War_Square.characters
 
         static public void ChangeActive()
         {
+            if (Game1.firstEntry == false) initialPlayer = 0;
+
             Players[JogadorActivo].SetCharacterInPlay();
 
             JogadorActivo++;
-            if (JogadorActivo >= Players.Count ) JogadorActivo = 1;
-            while(Players[JogadorActivo].getHp() <= 0){
+            //atencao apos todos os resets o jogador inicial nao 'e o 1 mas sim o 0;
+            if (JogadorActivo >= Players.Count) JogadorActivo = initialPlayer;
+            while (Players[JogadorActivo].getHp() <= 0)
+            {
                 JogadorActivo++;
                 if (JogadorActivo >= Players.Count){
-                    JogadorActivo = 1;
+                    JogadorActivo = initialPlayer;
                     break;
                 }
             }
@@ -124,13 +129,22 @@ namespace War_Square.characters
         {
             foreach (Characters cha in Players)
             {
-                if (cha.returnName() == "GhostCharacter")
-                {
+                if (cha.returnName() == "GhostCharacter"){
                     Players.Remove(cha);
                 }
             }
         }
 
-
+        /// <summary>
+        /// basicamente da reset para poderes iniciar um novo jogo
+        /// da reset ao necessario aqui!!!
+        /// </summary>
+        static public void resetPlayersList(bool isFirst)
+        {
+            Barracks.Clear();
+            InitList();
+            if(isFirst ==  false)
+                JogadorActivo = 0;
+        }
     }
 }

@@ -20,7 +20,7 @@ namespace War_Square.characters
         private float speed, intervalo = 0.08f, timer;
         public CharacterState WormState;
         public SpriteEffects flip = SpriteEffects.FlipHorizontally;
-        private int currentFrame = 0, Hp;
+        private int currentFrame = 0, Hp, PLAYER_MAXIMUM_HP = 1000;
         private SpriteFont font;
         public List<Weapons> Arsenal = new List<Weapons>();
         public Weapons ActiveWeapon;
@@ -47,7 +47,7 @@ namespace War_Square.characters
             hasjumped = false;
             CreatArsenal();
             ActiveWeapon = Arsenal[0];
-            Hp = 100;
+            Hp = PLAYER_MAXIMUM_HP;
         }
 
         public void Load(ContentManager content)
@@ -269,14 +269,18 @@ namespace War_Square.characters
         {
             return rec;
         }
+        public int getMaximumHp()
+        {
+            return PLAYER_MAXIMUM_HP;
+        }
         public int getHp()
-        { return this.Hp; }
+        { return Hp; }
         /// <summary>
         /// usar value negativo para retirar e positivo para somar 
         /// </summary>
         /// <param name="value"></param>
         public void changeHp(int value)
-        { this.Hp += value; }
+        { Hp += value; }
 
 
         /// <summary>

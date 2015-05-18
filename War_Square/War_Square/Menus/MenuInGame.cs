@@ -16,6 +16,7 @@ namespace War_Square.Menus
         private SpriteFont font;
         private int escolha = 0;
         private List<string> options = new List<string>();
+        private Characters GhostCharacter;
 
 
         public void load(ContentManager content)
@@ -28,7 +29,7 @@ namespace War_Square.Menus
             selected = content.Load<Texture2D>("selected");
         }
 
-        public void update(GameTime gametime, Game1 game)
+        public void update(GameTime gametime, Game1 game, ContentManager content)
         {
             if(Input.IsPressed(Keys.Up))
             {
@@ -49,8 +50,15 @@ namespace War_Square.Menus
                     case 0:
                         game.gameState = Game1.GameState.running;
                         break;
-                    case 1: 
-                        game.gameState = Game1.GameState.Menu;
+                    case 1:
+                        {
+                            game.gameState = Game1.GameState.Menu;
+                            CharactersHandler.Players.Clear();
+                            MenuCharacterChoose.resetArrays(content);
+                            Collisions.reset();
+                            game.getMap().InitRectMap();
+                            Game1.firstEntry = false;
+                        }
                         break;
                     case 2:
                         game.Exit();

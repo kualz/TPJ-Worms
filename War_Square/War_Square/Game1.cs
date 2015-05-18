@@ -26,6 +26,7 @@ namespace War_Square
         private hud Interface = new hud();
         private bool auxMapa = false;
         private Background background = new Background();
+        static public bool firstEntry = true;
         public enum GameState
         {
             running,
@@ -66,7 +67,7 @@ namespace War_Square
             magzzz.initializeAmmo();
             spriteBatch = new SpriteBatch(GraphicsDevice);
             spriteFont = Content.Load<SpriteFont>("MyFont");
-            CharactersHandler.InitList(Content);
+            CharactersHandler.InitList();
             MenusHandler.load(Content, this);
             TesteMapa = new Map();
             TesteMapa.Load(Content);
@@ -94,7 +95,7 @@ namespace War_Square
             background.Update(gameTime);
             if (gameState != GameState.running)
             {
-                MenusHandler.Update(gameTime, this);
+                MenusHandler.Update(gameTime, this, Content);
                 if (gameState != GameState.Paused)
                 {
                     cameraX = 400;
@@ -163,6 +164,10 @@ namespace War_Square
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        internal Map getMap(){
+            return this.TesteMapa;
         }
     }
 }

@@ -16,17 +16,17 @@ namespace War_Square.Menus
         private SpriteFont font;
         private Texture2D textura,squareSelected, backGround;
         private float timer = 0;
-        private int chooseOption = 0, characterChoosen = 0, playerCount = 2;
-        private Characters Player1, Player2, Player3, Player4, Player5;
-        private bool[] lelitos = new bool[5];
-        private Color[] corolelitos = new Color[5];
+        private int playerCount = 2;
+        static private int characterChoosen = 0, chooseOption = 0;
+        static private Characters Player1, Player2, Player3, Player4, Player5;
+        static private bool[] lelitos = new bool[5];
+        static private Color[] corolelitos = new Color[5];
 
 
         public MenuCharacterChoose() { }
 
-        public void load(ContentManager content)
+        static private void LoadPlayers(ContentManager content)
         {
-            for (int i = 0; i < 5; i++) corolelitos[i] = Color.White;
             Player1 = CharactersHandler.getCharacter(0);
             Player2 = CharactersHandler.getCharacter(1);
             Player3 = CharactersHandler.getCharacter(2);
@@ -37,7 +37,13 @@ namespace War_Square.Menus
             Player3.Load(content);
             Player4.Load(content);
             Player5.Load(content);
+        }
+
+        public void load(ContentManager content)
+        {
+            for (int i = 0; i < 5; i++) corolelitos[i] = Color.White;
             font = content.Load<SpriteFont>("MyFont");
+            LoadPlayers(content);
             options.Add("Phaktumn");
             options.Add("Kualz");
             options.Add("Klipper");
@@ -235,6 +241,17 @@ namespace War_Square.Menus
                     spriteBatch.Draw(textura, new Vector2(90 + i * 100 - 75, 49), new Rectangle(0, 0, 50, 70), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                 }
             }
+        }
+
+        static public void resetArrays(ContentManager content)
+        {
+            for (int i = 0; i < 5; i++){
+                lelitos[i] = false;
+                corolelitos[i] = Color.White;
+            }
+            characterChoosen = 0;
+            chooseOption = 0;
+            LoadPlayers(content);
         }
     }
 }
