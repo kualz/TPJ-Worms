@@ -48,7 +48,7 @@ namespace War_Square
             }
             if (game.gameState == Game1.GameState.CharacterChoose)
             {
-                characterChoose.Update(gameTime, game);
+                characterChoose.Update(gameTime, game, content);
                 return;
             }
             if (game.gameState == Game1.GameState.MapChoose)

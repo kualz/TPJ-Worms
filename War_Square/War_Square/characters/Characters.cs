@@ -193,6 +193,7 @@ namespace War_Square.characters
                             hasjumped = false;
                         CharacterPos += velocity;
                     }
+                    rec = new Rectangle((int)CharacterPos.X, (int)CharacterPos.Y, 40, 70);
                 }
                 DeadPos = CharacterPos;
             }

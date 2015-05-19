@@ -14,11 +14,11 @@ namespace War_Square.Menus
     {
         private List<String> options = new List<string>();
         private SpriteFont font;
-        private Texture2D textura,squareSelected, backGround;
+        private Texture2D textura,squareSelected, backGround, caixaDeTexto;
         private float timer = 0;
         private int playerCount = 2;
         static private int characterChoosen = 0, chooseOption = 0;
-        static private Characters Player1, Player2, Player3, Player4, Player5;
+        static private Characters[] Player;
         static private bool[] lelitos = new bool[5];
         static private Color[] corolelitos = new Color[5];
 
@@ -27,16 +27,17 @@ namespace War_Square.Menus
 
         static private void LoadPlayers(ContentManager content)
         {
-            Player1 = CharactersHandler.getCharacter(0);
-            Player2 = CharactersHandler.getCharacter(1);
-            Player3 = CharactersHandler.getCharacter(2);
-            Player4 = CharactersHandler.getCharacter(3);
-            Player5 = CharactersHandler.getCharacter(4);
-            Player1.Load(content);
-            Player2.Load(content);
-            Player3.Load(content);
-            Player4.Load(content);
-            Player5.Load(content);
+            Player = new Characters[5];
+            Player[1 - 1] = CharactersHandler.getCharacter(0);
+            Player[2 - 1] = CharactersHandler.getCharacter(1);
+            Player[3 - 1] = CharactersHandler.getCharacter(2);
+            Player[4 - 1] = CharactersHandler.getCharacter(3);
+            Player[5 - 1] = CharactersHandler.getCharacter(4);
+            Player[1-1].Load(content);
+            Player[2-1].Load(content);
+            Player[3-1].Load(content);
+            Player[4-1].Load(content);
+            Player[5-1].Load(content);
         }
 
         public void load(ContentManager content)
@@ -50,12 +51,13 @@ namespace War_Square.Menus
             options.Add("Saber");
             options.Add("Zjeh");
             //imagens dos characters!
-            squareSelected = content.Load<Texture2D>("1");
+            caixaDeTexto = content.Load<Texture2D>("caixadeTexto");
+            squareSelected = content.Load<Texture2D>("CharacterSelected");
             textura = content.Load<Texture2D>("character");
             backGround = content.Load<Texture2D>("MenuTest");
         }
 
-        public void Update(GameTime gametime, Game1 game)
+        public void Update(GameTime gametime, Game1 game, ContentManager content)
         {
             timer += (float)gametime.ElapsedGameTime.TotalSeconds;
             if(Input.IsPressed(Keys.Right))
@@ -82,7 +84,14 @@ namespace War_Square.Menus
                 if (playerCount < 2)
                     playerCount = 2;
             }
-            if (Input.IsPressed(Keys.Back)) game.gameState = Game1.GameState.Menu;
+            if (Input.IsPressed(Keys.Back))
+            {
+                resetArrays(content);
+                resetPlayerInserted();
+                CharactersHandler.JogadorActivo = 0;
+                CharactersHandler.initialPlayer = 0;
+                game.gameState = Game1.GameState.Menu;
+            }
             if (timer > 2f)
             {
                 if (Input.IsPressed(Keys.Enter))
@@ -93,22 +102,11 @@ namespace War_Square.Menus
                             {
                                 if (characterChoosen == 0)
                                 {
-                                    Player1.SetCharacterInPlay();
-                                    Player1.SetCharacterPosition(new Vector2(600, 200));
-                                    Collisions.characterCollisions.Add(Player1);
-                                    CharactersHandler.AddPlayer(Player1);
-                                    lelitos[chooseOption] = true;
-                                    corolelitos[chooseOption] = Color.Red; 
-                                    characterChoosen++;
+                                    insertNewPlayer(Player[chooseOption], true);
                                 }
                                 else if (!lelitos[chooseOption])
                                 {
-                                    Player1.SetCharacterPosition(new Vector2(700, 200));
-                                    Collisions.characterCollisions.Add(Player1);
-                                    CharactersHandler.AddPlayer(Player1);
-                                    lelitos[chooseOption] = true;
-                                    corolelitos[chooseOption] = Color.Red; 
-                                    characterChoosen++;
+                                    insertNewPlayer(Player[chooseOption], false);
                                 }
                             }
                             break;
@@ -116,22 +114,11 @@ namespace War_Square.Menus
                             {
                                 if (characterChoosen == 0)
                                 {
-                                    Player2.SetCharacterInPlay();
-                                    Player2.SetCharacterPosition(new Vector2(600, 200));
-                                    Collisions.characterCollisions.Add(Player2);
-                                    CharactersHandler.AddPlayer(Player2);
-                                    corolelitos[chooseOption] = Color.Red; 
-                                    lelitos[chooseOption] = true;
-                                    characterChoosen++;
+                                    insertNewPlayer(Player[chooseOption], true);
                                 }
                                 else if (!lelitos[chooseOption])
                                 {
-                                    Player2.SetCharacterPosition(new Vector2(700, 200));
-                                    Collisions.characterCollisions.Add(Player2);
-                                    CharactersHandler.AddPlayer(Player2);
-                                    corolelitos[chooseOption] = Color.Red; 
-                                    lelitos[chooseOption] = true;
-                                    characterChoosen++;
+                                    insertNewPlayer(Player[chooseOption], false);
                                 }
                             }
                             break;
@@ -139,22 +126,11 @@ namespace War_Square.Menus
                             {
                                 if (characterChoosen == 0)
                                 {
-                                    Player3.SetCharacterInPlay();
-                                    Player3.SetCharacterPosition(new Vector2(600, 350));
-                                    Collisions.characterCollisions.Add(Player3);
-                                    CharactersHandler.AddPlayer(Player3);
-                                    lelitos[chooseOption] = true;
-                                    corolelitos[chooseOption] = Color.Red; 
-                                    characterChoosen++;
+                                    insertNewPlayer(Player[chooseOption], true);
                                 }
                                 else if (!lelitos[chooseOption])
                                 {
-                                    Player3.SetCharacterPosition(new Vector2(700, 350));
-                                    Collisions.characterCollisions.Add(Player3);
-                                    CharactersHandler.AddPlayer(Player3);
-                                    lelitos[chooseOption] = true;
-                                    corolelitos[chooseOption] = Color.Red; 
-                                    characterChoosen++;
+                                    insertNewPlayer(Player[chooseOption], false);
                                 }
                             }
                             break;
@@ -163,22 +139,11 @@ namespace War_Square.Menus
 
                                 if (characterChoosen == 0)
                                 {
-                                    Player4.SetCharacterInPlay();
-                                    Player4.SetCharacterPosition(new Vector2(600, 350));
-                                    Collisions.characterCollisions.Add(Player4);
-                                    CharactersHandler.AddPlayer(Player4);
-                                    lelitos[chooseOption] = true;
-                                    corolelitos[chooseOption] = Color.Red; 
-                                    characterChoosen++;
+                                    insertNewPlayer(Player[chooseOption], true);
                                 }
                                 else if (!lelitos[chooseOption])
                                 {
-                                    Player4.SetCharacterPosition(new Vector2(700, 350));
-                                    Collisions.characterCollisions.Add(Player4);
-                                    CharactersHandler.AddPlayer(Player4);
-                                    lelitos[chooseOption] = true;
-                                    corolelitos[chooseOption] = Color.Red; 
-                                    characterChoosen++;
+                                    insertNewPlayer(Player[chooseOption], false);
                                 }
                             }
                             break;
@@ -187,22 +152,11 @@ namespace War_Square.Menus
 
                                 if (characterChoosen == 0)
                                 {
-                                    Player5.SetCharacterInPlay();
-                                    Player5.SetCharacterPosition(new Vector2(600, 350));
-                                    Collisions.characterCollisions.Add(Player5);
-                                    CharactersHandler.AddPlayer(Player5);
-                                    lelitos[chooseOption] = true;
-                                    corolelitos[chooseOption] = Color.Red; 
-                                    characterChoosen++;
+                                    insertNewPlayer(Player[chooseOption], true);
                                 }
                                 else if (!lelitos[chooseOption])
                                 {
-                                    Player5.SetCharacterPosition(new Vector2(700, 350));
-                                    Collisions.characterCollisions.Add(Player5);
-                                    CharactersHandler.AddPlayer(Player5);
-                                    lelitos[chooseOption] = true;
-                                    corolelitos[chooseOption] = Color.Red; 
-                                    characterChoosen++;
+                                    insertNewPlayer(Player[chooseOption], false);
                                 }
                             }
                             break;
@@ -218,7 +172,7 @@ namespace War_Square.Menus
         public void draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(backGround, new Vector2(-350, 0), null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(squareSelected, new Rectangle(20, 145, 555, 100), Color.DimGray);
+            spriteBatch.Draw(caixaDeTexto, new Rectangle(0, 145, 550, 100), Color.White);
             spriteBatch.DrawString(font, options[1], new Vector2(25, 25), corolelitos[0]);
             spriteBatch.DrawString(font, options[0], new Vector2(190 - 75, 25), corolelitos[1]);
             spriteBatch.DrawString(font, options[2], new Vector2(300 - 75, 25), corolelitos[2]);
@@ -237,7 +191,7 @@ namespace War_Square.Menus
                     spriteBatch.Draw(textura, new Vector2(90 + i * 100 - 75, 55), new Rectangle(0, 0, 50, 70), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                 else
                 {
-                    spriteBatch.Draw(squareSelected, new Rectangle(90 + i * 100 - 75, 55, 60, 75), Color.BlueViolet);
+                    spriteBatch.Draw(squareSelected, new Rectangle(90 + i * 100 - 75, 55, 85, 75), Color.White);
                     spriteBatch.Draw(textura, new Vector2(90 + i * 100 - 75, 49), new Rectangle(0, 0, 50, 70), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                 }
             }
@@ -252,6 +206,22 @@ namespace War_Square.Menus
             characterChoosen = 0;
             chooseOption = 0;
             LoadPlayers(content);
+        }
+
+        private void resetPlayerInserted()
+        {
+            CharactersHandler.Players.Clear();
+        }
+
+        private void insertNewPlayer(Characters player, bool isFirst)
+        {
+            if(isFirst) player.SetCharacterInPlay();
+            player.SetCharacterPosition(new Vector2(600, 200));
+            Collisions.characterCollisions.Add(player);
+            CharactersHandler.AddPlayer(player);
+            lelitos[chooseOption] = true;
+            corolelitos[chooseOption] = Color.Red;
+            characterChoosen++;
         }
     }
 }

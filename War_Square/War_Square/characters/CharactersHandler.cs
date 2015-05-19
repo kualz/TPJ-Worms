@@ -15,7 +15,7 @@ namespace War_Square.characters
         static public List<Characters> Barracks = new List<Characters>();
         static public List<Characters> Players = new List<Characters>();
         static public int JogadorActivo = 1;
-        static private int initialPlayer = 1;
+        static public int initialPlayer = 1;
 
         static public void InitList()
         {

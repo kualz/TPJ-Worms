@@ -138,6 +138,7 @@ namespace War_Square
                 GhostCharacter.SetCharacterPosition(new Vector2(cameraX, 350));
                 CharactersHandler.updatePlayers(gameTime);
             }
+            //Console.WriteLine("X:{0}   Y:{1}", CharactersHandler.getActiveCharacterRectangle().X, CharactersHandler.getActiveCharacterRectangle().Y);
             base.Update(gameTime);
         }
 
