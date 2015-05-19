@@ -16,7 +16,10 @@ namespace Worms_0._0._1
         {
             Rocket,
             MachineGun,
-            GrenadeLauncher,
+            NobleFanthom,
+            AirStrike,
+            Hadouken,
+            
         }
         protected string Name;
         protected WeaponType WeaponTypes;
@@ -125,10 +128,15 @@ namespace Worms_0._0._1
                     bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.rocket, 200, 500));
                     fireRateTime = 0;
                 }
-                if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.nade) && WeaponTypes == WeaponType.GrenadeLauncher)
+                if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.NobleFanthom) && WeaponTypes == WeaponType.NobleFanthom)
                 {
-                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.nade, 500, 150));
+                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.cal32, 500, 150));
                     fireRateTime = 0;
+                    rot += getRandom()*3;
+                }
+                if (fireRateTime >= ammunition.getFireRate(Bullet.AmmoType.Hadouken) && WeaponTypes == WeaponType.Hadouken)
+                {
+                    bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.cal32, 500, 150));        
                 }
                 else fireRateTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
@@ -194,8 +202,7 @@ namespace Worms_0._0._1
                 }
                 else if (bullet.ammoType == Bullet.AmmoType.rocket)
                     spriteBatch.Draw(texturasRocket, new Vector2(bullet.sourcePosition.X, bullet.sourcePosition.Y + 7), null, Color.White, rotation, new Vector2((float)5, (float)3.5), 1f, SpriteEffects.None, 0f);
-                else if (bullet.ammoType == Bullet.AmmoType.nade)
-                { }
+               
             }
             if (Sexplosion)
             {

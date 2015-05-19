@@ -24,12 +24,18 @@ namespace Worms_0._0._1.Weapons_and_projectiles
         private float rotation;
         private Rectangle bulletRec;
         static public Vector2 rec;
+
+
         public enum AmmoType
         {
             cal32,
             rocket,
-            nade
+            NobleFanthom,
+            AirStrike,
+            Hadouken
         }
+
+
         public AmmoType ammoType;
 
         public Bullet() { }
@@ -59,8 +65,9 @@ namespace Worms_0._0._1.Weapons_and_projectiles
             {
                 sourcePosition = sourcePosition + direction * speed * ((float)gameTime.ElapsedGameTime.TotalSeconds * 1.5f);
                 bulletRec = new Rectangle((int)sourcePosition.X, (int)sourcePosition.Y, 15, 15);
-            }
-            else if (ammoType == AmmoType.nade) { }
+            }          
+
+
             if (CheckCollisionsProjectile(bulletRec) != new Rectangle(0,0,0,0))
             {
                 Collisions.tilesCollisions.Remove(CheckCollisionsProjectile(bulletRec));
@@ -96,8 +103,8 @@ namespace Worms_0._0._1.Weapons_and_projectiles
                 return 0.3f;
             if (ammo == AmmoType.rocket)
                 return 0.6f;
-            if (ammo == AmmoType.nade)
-                return 0.9f;
+            if (ammo == AmmoType.NobleFanthom)
+                return 0.1f;
             else return 0;
         }
 

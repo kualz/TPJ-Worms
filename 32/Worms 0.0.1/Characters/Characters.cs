@@ -245,7 +245,7 @@ namespace Worms_0._0._1
         {
             Arsenal.Add(new Weapons("AR556", this, Weapons.WeaponType.MachineGun, true));
             Arsenal.Add(new Weapons("Bazooka", this, Weapons.WeaponType.Rocket, false));
-            Arsenal.Add(new Weapons("nade Launcher", this, Weapons.WeaponType.GrenadeLauncher, false));
+            Arsenal.Add(new Weapons("nade Launcher", this, Weapons.WeaponType.NobleFanthom, false));
         }
 
         public void getAndActivateWeapon(int weapon)
