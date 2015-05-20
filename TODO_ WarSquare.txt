@@ -1,0 +1,51 @@
+Background - moving flare
+
+
+
+
+Special Weapons
+
+
+
+
+Sounds / music
+
+
+
+
+2nd Map (com background, texturas, selectpic)
+MAYBE 3rd map...
+
+
+
+
+random positions no map (5 posiçoes pre definidas)
+
+
+
+
+minor bug fixing (rotation upon switching weapons, etc...)
+
+
+
+
+Turn Ending animation (timer, movement locked, GAMESTATE)
+
+
+
+
+Colored HP bar (100-51 green, 50-11 yellow, 10-1 red)
+
+
+
+
+WinnerState
+
+
+
+
+TEXTURES: WEAPONS, BULLETS, TILES, PLAYERS.
+
+
+
+																																																							
