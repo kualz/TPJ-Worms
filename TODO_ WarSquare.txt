@@ -8,7 +8,8 @@ Special Weapons
 
 
 
-Sounds / music
+Sounds / music  (class soundManager)
+OPTIONS 	(MUSIC AND SFX LEVELS)
 
 
 
@@ -24,7 +25,7 @@ random positions no map (5 posiçoes pre definidas)
 
 
 
-minor bug fixing (rotation upon switching weapons, etc...)
+minor bug fixing (rotation upon switching weapons, explosions a esconder as bullets,  etc...)
 
 
 
@@ -45,6 +46,10 @@ WinnerState
 
 
 TEXTURES: WEAPONS, BULLETS, TILES, PLAYERS.
+
+
+
+
 
 
 
