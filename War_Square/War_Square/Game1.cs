@@ -121,6 +121,7 @@ namespace War_Square
                 }
                 else
                 {
+                    
                     if (auxMapa == false){
                         TesteMapa.InitRectMap();
                         auxMapa = true;
@@ -139,20 +140,26 @@ namespace War_Square
                     if (hud.roundTime <= 0 && Collisions.bulletsOnScreen.Count == 0)
                     {
                         gameState = GameState.CharacterChangeScene;
-                        if (CharactersHandler.isWinner()){
+                        if (CharactersHandler.isWinner()){                          
                             gameState = GameState.Win;
                             MenusHandler.winMenu.loadInGame(Camera);
                         }
                     }
+                    if (CharactersHandler.isWinner())
+                    {
+                        cameraX = (int)CharactersHandler.getWinner().CharacterPosition().X;
+                    }
 
-                    if (Input.IsDown(Keys.Right) && cameraX < 2210 && gameState == GameState.running) cameraX += 10;
-                    if (Input.IsDown(Keys.Left) && cameraX > 370 && gameState == GameState.running) cameraX -= 10;
+                    if (Input.IsDown(Keys.Right) && cameraX < 2210 && gameState == GameState.running && !CharactersHandler.isWinner()) cameraX += 10;
+                    if (Input.IsDown(Keys.Left) && cameraX > 370 && gameState == GameState.running && !CharactersHandler.isWinner()) cameraX -= 10;
 
 
                     GhostCharacter.SetCharacterPosition(new Vector2(cameraX, 350));
                     CharactersHandler.updatePlayers(gameTime);
                 }
             }
+            
+            
             //Console.WriteLine("X:{0}   Y:{1}", CharactersHandler.getActiveCharacterRectangle().X, CharactersHandler.getActiveCharacterRectangle().Y);
             base.Update(gameTime);
         }

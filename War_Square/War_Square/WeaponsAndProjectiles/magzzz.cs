@@ -8,13 +8,14 @@ namespace War_Square.WeaponsAndProjectiles
     class magzzz
     {
         static List<Mag> Ammo = new List<Mag>();
-        static int RifleAmmo = 6, RocketAmmo = 1, NadeAmmo = 2;
+        static int RifleAmmo = 6, RocketAmmo = 1, Special = 1, NoblePhantom = 3;
 
         public static void initializeAmmo()
         {
             Ammo.Add(new Mag(RifleAmmo));
             Ammo.Add(new Mag(RocketAmmo));
-            Ammo.Add(new Mag(NadeAmmo));
+            Ammo.Add(new Mag(Special));
+            Ammo.Add(new Mag(NoblePhantom));
         }
 
         /// <summary>
@@ -46,7 +47,8 @@ namespace War_Square.WeaponsAndProjectiles
         {
             Ammo[0].setMag(RifleAmmo);
             Ammo[1].setMag(RocketAmmo);
-            Ammo[2].setMag(NadeAmmo);
+            Ammo[2].setMag(Special);
+            Ammo[3].setMag(NoblePhantom);
         }
     }
 }

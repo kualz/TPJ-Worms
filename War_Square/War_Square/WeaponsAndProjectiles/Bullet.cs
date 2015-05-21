@@ -8,21 +8,21 @@ namespace War_Square.WeaponsAndProjectiles
 {
     class Bullet
     {
-        public float range, gravity = 9.8f, rotation, speed, timerExplosion, intervalo = 20f,intervaloRifle = 1f, explosionScale = 0.05f;
+        public float range, gravity = 9.8f, rotation, speed, timerExplosion, intervalo = 20f, intervaloRifle = 1f, explosionScale = 0.05f;
         public Vector2 sourcePosition, initialpos;
         private Vector2 direction, velocity;
         private Rectangle bulletRec;
         static public Vector2 rec;
         private Texture2D[] explosion;
-        private int currentFrame1 = 0, damage;
-        private float deltatime;
+        private int currentFrame1 = 0, damage, bounces = 0;
+        private float deltatime = 0;
         private bool RocketExplosion = false, RifleExplosion = false, characterhit = false;
         static public int DMGdAtRETA;
         public enum AmmoType
         {
             cal32,
             rocket,
-            nade
+            hadouken
         }
         public AmmoType ammoType;
 
@@ -41,7 +41,7 @@ namespace War_Square.WeaponsAndProjectiles
             this.direction = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
             this.ammoType = ammo;
             this.speed = speed;
-            velocity = new Vector2(100*(float)Math.Cos(rotation), -100*(float)Math.Sin(rotation));
+            velocity = new Vector2(100 * (float)Math.Cos(rotation), -100 * (float)Math.Sin(rotation));
             this.explosion = explosion;
             this.damage = damage;
         }
@@ -55,7 +55,7 @@ namespace War_Square.WeaponsAndProjectiles
             {
                 currentFrame1++;
                 if (currentFrame1 == 4)
-                {                
+                {
                     Collisions.tilesCollisions.Remove(CheckCollisionsProjectile(bulletRec));
                 }
                 if (currentFrame1 >= (9))
@@ -71,10 +71,10 @@ namespace War_Square.WeaponsAndProjectiles
             if (timerExplosion > intervalo && RocketExplosion)
             {
                 currentFrame1++;
-                if (currentFrame1 == 7)
+                if (currentFrame1 == 4)
                 {
                     if (characterhit == false)
-                         ExplosionTileRemove(CheckCollisionsProjectile(bulletRec));
+                        ExplosionTileRemove(CheckCollisionsProjectile(bulletRec));
                     Collisions.tilesCollisions.Remove(CheckCollisionsProjectile(bulletRec));
                 }
                 if (currentFrame1 >= (9))
@@ -86,12 +86,12 @@ namespace War_Square.WeaponsAndProjectiles
                 timerExplosion = 0;
             }
 
-            if (ammoType == AmmoType.cal32 && CheckCollisionsProjectile(bulletRec) == new Rectangle(0, 0, 0, 0) && RifleExplosion == false )
+            if (ammoType == AmmoType.cal32 && CheckCollisionsProjectile(bulletRec) == new Rectangle(0, 0, 0, 0) && RifleExplosion == false)
             {
                 sourcePosition = sourcePosition + direction * speed * ((float)gameTime.ElapsedGameTime.TotalSeconds * 1.5f);
                 bulletRec = new Rectangle((int)sourcePosition.X, (int)sourcePosition.Y, 15, 15);
             }
-            else if (ammoType == AmmoType.rocket && CheckCollisionsProjectile(bulletRec) == new Rectangle(0, 0, 0, 0) && RocketExplosion == false )
+            else if (ammoType == AmmoType.rocket && CheckCollisionsProjectile(bulletRec) == new Rectangle(0, 0, 0, 0) && RocketExplosion == false)
             {
 
                 sourcePosition.X = initialpos.X + velocity.X * deltatime;
@@ -99,34 +99,35 @@ namespace War_Square.WeaponsAndProjectiles
 
                 bulletRec = new Rectangle((int)sourcePosition.X, (int)sourcePosition.Y, 15, 15);
             }
-            else if (ammoType == AmmoType.nade){
-                //nades update method!
+            else if (ammoType == AmmoType.hadouken && CheckCollisionsProjectile(bulletRec) == new Rectangle(0, 0, 0, 0) && RocketExplosion == false)
+            {
+                sourcePosition = sourcePosition + direction * speed * ((float)gameTime.ElapsedGameTime.TotalSeconds * 1.5f);
+                bulletRec = new Rectangle((int)sourcePosition.X, (int)sourcePosition.Y, 15, 15);
             }
             DMGdAtRETA = 0;
-            if ((CheckCollisionsProjectile(bulletRec) != new Rectangle(0, 0, 0, 0) || CheckCollisionsCharacters(bulletRec) != new Rectangle(0, 0, 0, 0)) && ammoType == AmmoType.cal32)
+            if (((CheckCollisionsProjectile(bulletRec) != new Rectangle(0, 0, 0, 0) || CheckCollisionsCharacters(bulletRec) != new Rectangle(0, 0, 0, 0)) || !IsInsideMap(sourcePosition)) && ammoType == AmmoType.cal32)
             {
                 explosionScale = 0.05f;
                 RifleExplosion = true;
             }
-            if (CheckCollisionsProjectile(bulletRec) != new Rectangle(0, 0, 0, 0) && ammoType == AmmoType.rocket)
+            if (CheckCollisionsProjectile(bulletRec) != new Rectangle(0, 0, 0, 0) && (ammoType == AmmoType.rocket || ammoType == AmmoType.hadouken))
             {
                 explosionScale = 0.2f;
                 RocketExplosion = true;
                 characterhit = false;
             }
-            if ((CheckCollisionsCharacters(bulletRec) != new Rectangle(0, 0, 0, 0) || !IsInsideMap(sourcePosition)) && ammoType == AmmoType.rocket)
+            if ((CheckCollisionsCharacters(bulletRec) != new Rectangle(0, 0, 0, 0) || !IsInsideMap(sourcePosition)) && (ammoType == AmmoType.rocket || ammoType == AmmoType.hadouken))
             {
                 explosionScale = 0.2f;
                 RocketExplosion = true;
                 characterhit = true;
             }
-            Console.WriteLine(sourcePosition.X);
         }
 
         public void draw(SpriteBatch spriteBatch)
         {
             if (RocketExplosion)
-                spriteBatch.Draw(explosion[currentFrame1], new Vector2(bulletRec.X -30 , bulletRec.Y -30), null, Color.White, 0f, new Vector2((float)5, (float)5), explosionScale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(explosion[currentFrame1], new Vector2(bulletRec.X - 30, bulletRec.Y - 30), null, Color.White, 0f, new Vector2((float)5, (float)5), explosionScale, SpriteEffects.None, 0f);
             if (RifleExplosion)
                 spriteBatch.Draw(explosion[currentFrame1], new Vector2(bulletRec.X, bulletRec.Y), null, Color.White, 0f, new Vector2((float)5, (float)5), explosionScale, SpriteEffects.None, 0f);
         }
@@ -144,6 +145,20 @@ namespace War_Square.WeaponsAndProjectiles
             }
             return new Rectangle(0, 0, 0, 0);
         }
+        public Rectangle CheckCollisionsProjectilefloor(Rectangle rect)
+        {
+            //List<Rectangle> collidingWith = new List<Rectangle>();
+            Rectangle aux = new Rectangle(rect.X, rect.Y + 3, 15, 15);
+            foreach (Rectangle rectangle in Collisions.tilesCollisions)
+            {
+                if (aux.Intersects(rectangle) && aux != rectangle)
+                {
+                    rec = new Vector2(rectangle.X, rectangle.Y);
+                    return rectangle;
+                }
+            }
+            return new Rectangle(0, 0, 0, 0);
+        }
 
         public Rectangle CheckCollisionsCharacters(Rectangle rect)
         {
@@ -152,10 +167,10 @@ namespace War_Square.WeaponsAndProjectiles
                 if (rect.Intersects(Character.getCharRec()) && rect != Character.getCharRec() && !Character.isActive())
                 {
                     if (!Collisions.bulletsTagged.Contains(this))
-                                {
-                                    Character.changeHp(-this.damage);
-                                    Collisions.bulletsTagged.Add(this);
-                                }
+                    {
+                        Character.changeHp(-this.damage);
+                        Collisions.bulletsTagged.Add(this);
+                    }
                     rec = new Vector2(Character.getCharRec().X, Character.getCharRec().Y);
                     return Character.getCharRec();
                 }
@@ -201,7 +216,7 @@ namespace War_Square.WeaponsAndProjectiles
                     if (comparison == vector)
                     {
                         Collisions.tilesCollisions.RemoveAt(i);
-                    }   
+                    }
                 }
             }
         }
@@ -221,8 +236,8 @@ namespace War_Square.WeaponsAndProjectiles
                 return 0.3f;
             if (ammo == AmmoType.rocket)
                 return 0.6f;
-            if (ammo == AmmoType.nade)
-                return 0.9f;
+            if (ammo == AmmoType.hadouken)
+                return 0.1f;
             else return 0;
         }
 

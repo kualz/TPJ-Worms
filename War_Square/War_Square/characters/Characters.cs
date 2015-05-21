@@ -14,7 +14,7 @@ namespace War_Square.characters
     class Characters : IFocusable
     {
         private Texture2D textura, Hitbox;
-        protected bool SpecialWeapon, CharacterInPlay, hasjumped, isAlive = true;
+        protected bool SpecialWeapon, CharacterInPlay, hasjumped, isAlive = true, HasSpecial = true;
         protected string CharacterName;
         public Vector2 CharacterPos, pos, velocity, nextpos, DeadPos;
         private float speed = 0, intervalo = 0.08f, timer;
@@ -54,17 +54,10 @@ namespace War_Square.characters
         {
             textura = content.Load<Texture2D>("character");
             font = content.Load<SpriteFont>("MyFont");
-            Hitbox = content.Load<Texture2D>("DeadCross");
-            /// <summary>
-            /// esta parte aqui nao sei mesmo sera a melhor forma assim?
-            /// :o
-            /// </summary>
+            Hitbox = content.Load<Texture2D>("DeadCross");          
             Arsenal[0].Load(content, "gunn");
             Arsenal[1].Load(content, "gunn");
-            Arsenal[2].Load(content, "gunn");
-            /// <summary>
-            /// aqui so te diz que a arma inicial 'e a AR556 mas se quiseres podes mudar
-            /// </summary>
+            Arsenal[2].Load(content, "gunn");          
             getAndActivateWeapon(0);
         }
 
@@ -75,7 +68,7 @@ namespace War_Square.characters
                 Vector2 Gravityaux = new Vector2(CharacterPos.X, CharacterPos.Y + 2f);
                 float deltaTime1 = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                if (isActive()) Arsenal[weaponCodeChosen].Update(gameTime, this);
+                if (isActive()) Arsenal[weaponCodeChosen].Update(gameTime, this, flip);
                 if (isActive() && hud.roundTime >= 0)
                 {
                     float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -108,7 +101,7 @@ namespace War_Square.characters
                         getAndActivateWeapon(weaponCodeChosen);
                         previousWeapon = 1;
                     }
-                    if (Keyboard.GetState().IsKeyDown(Keys.D3))
+                    if (Keyboard.GetState().IsKeyDown(Keys.D3) && HasSpecial)
                     {
                         weaponCodeChosen = 2;
                         getAndActivateWeapon(weaponCodeChosen);
@@ -119,7 +112,10 @@ namespace War_Square.characters
                     /// se fores ao codigo da weapon aquilo ja nem usa a weapons handler
                     /// simplesmente carrega direto as variaveis
                     /// </summary>
-
+                    if (weaponCodeChosen == 2 && Input.IsPressed(Keys.Space))
+                    {
+                        HasSpecial = false;
+                    }
                     if (Keyboard.GetState().IsKeyDown(Keys.W) && hasjumped == false)
                     {
                         CharacterPos.Y -= 5f;
@@ -181,6 +177,10 @@ namespace War_Square.characters
                 }
                 else
                 {
+                    weaponCodeChosen = 0;
+                    getAndActivateWeapon(weaponCodeChosen);
+                    previousWeapon = 0;
+
                     if (CheckCollisionsTile(Gravityaux).Count != 0) hasjumped = false;
                     else hasjumped = true;
 
@@ -197,6 +197,10 @@ namespace War_Square.characters
                 }
                 DeadPos = CharacterPos;
             }
+            if (!IsInsideMap(CharacterPos))
+            {
+                Hp = -1;
+            }
             if (this.Hp < 0){
                 this.isAlive = false;
                 Collisions.characterCollisions.Remove(this);
@@ -205,7 +209,7 @@ namespace War_Square.characters
             {
                 if (hasjumped == false && AuxDead == 0)
                 {
-                    DeadPos.Y -= 5f;
+                    DeadPos.Y -= 10f;
                     velocity.Y = -3f;
                     hasjumped = true;
                     AuxDead = 1;
@@ -292,7 +296,12 @@ namespace War_Square.characters
         {
             Arsenal.Add(new Weapons("AR556", this, Weapons.WeaponType.MachineGun, true, magzzz.getmagAt(0).getMag()));
             Arsenal.Add(new Weapons("Bazooka", this, Weapons.WeaponType.Rocket, false, magzzz.getmagAt(1).getMag()));
-            Arsenal.Add(new Weapons("nade Launcher", this, Weapons.WeaponType.GrenadeLauncher, false, magzzz.getmagAt(2).getMag()));
+            if (this.CharacterName == "Kualz") Arsenal.Add(new Weapons("AirStrike", this, Weapons.WeaponType.AirStrike, false, magzzz.getmagAt(2).getMag()));
+            else if (this.CharacterName == "Phaktumn") Arsenal.Add(new Weapons("Hadouken", this, Weapons.WeaponType.Hadouken, false, magzzz.getmagAt(2).getMag()));
+            else if (this.CharacterName == "Klipper") Arsenal.Add(new Weapons("HailOfArrows", this, Weapons.WeaponType.HailOfArrows, false, magzzz.getmagAt(2).getMag()));
+            else if (this.CharacterName == "Zjeh") Arsenal.Add(new Weapons("Bombardement", this, Weapons.WeaponType.Bombardement, false, magzzz.getmagAt(3).getMag()));
+            else if (this.CharacterName == "Saber") Arsenal.Add(new Weapons("NoblePhantom", this, Weapons.WeaponType.NoblePhantom, false, magzzz.getmagAt(3).getMag()));
+            else Arsenal.Add(new Weapons("vazio", this, Weapons.WeaponType.Rocket, false, magzzz.getmagAt(1).getMag()));
         }
 
         public void getAndActivateWeapon(int weapon)
@@ -315,7 +324,8 @@ namespace War_Square.characters
         {
             if (this.ActiveWeapon.getName() == "AR556") return 0;
             if (this.ActiveWeapon.getName() == "Bazooka") return 1;
-            if (this.ActiveWeapon.getName() == "nade Launcher") return 2;
+            if (this.ActiveWeapon.getName() == "HailOfArrows" || this.ActiveWeapon.getName() == "AirStrike" || this.ActiveWeapon.getName() == "Hadouken") return 2;
+            if (this.ActiveWeapon.getName() == "NoblePhantom" || this.ActiveWeapon.getName() == "Bombardement") return 3;
             else return -1;
         }
 
@@ -354,6 +364,14 @@ namespace War_Square.characters
         public Vector2 Position
         {
             get { return this.CharacterPos; }
+        }
+
+        public bool IsInsideMap(Vector2 position)
+        {
+            int MapSizeMaxY = 900;
+
+            if (position.Y > MapSizeMaxY - 100) return false;
+            else return true;
         }
     }
 }

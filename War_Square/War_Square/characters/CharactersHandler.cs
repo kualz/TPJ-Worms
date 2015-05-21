@@ -141,7 +141,7 @@ namespace War_Square.characters
                 if (cha.returnName() != "GhostCharacter"){
                     cha.Update(gameTime);
                     if (cha.isActive() && cha.getHp() > 0){
-                        cha.GetActiveWeapon().Update(gameTime, cha);
+                        cha.GetActiveWeapon().Update(gameTime, cha, cha.flip);
                     }
                 }
             }

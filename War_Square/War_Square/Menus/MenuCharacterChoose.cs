@@ -13,13 +13,14 @@ namespace War_Square.Menus
     class MenuCharacterChoose
     {
         private List<String> options = new List<string>();
+        private List<Vector2> MapPositions = new List<Vector2>();
         private SpriteFont font;
         private Texture2D textura,squareSelected, backGround, caixaDeTexto, outerGlow;
         private float timer = 0, deltaTime, opacity;
         private int playerCount = 2;
         static private int characterChoosen = 0, chooseOption = 0;
         static private Characters[] Player;
-        static private bool[] lelitos = new bool[5];
+        static private bool[] lelitos = new bool[5], VectorsUsed = new bool[5];
         static private Color[] corolelitos = new Color[5];
 
 
@@ -45,6 +46,11 @@ namespace War_Square.Menus
             for (int i = 0; i < 5; i++) corolelitos[i] = Color.White;
             font = content.Load<SpriteFont>("MyFont");
             LoadPlayers(content);
+            MapPositions.Add(new Vector2(300, -100));
+            MapPositions.Add(new Vector2(700, -100));
+            MapPositions.Add(new Vector2(1300, -100));
+            MapPositions.Add(new Vector2(1800, -100));
+            MapPositions.Add(new Vector2(2200, -100));  
             options.Add("Phaktumn");
             options.Add("Kualz");
             options.Add("Klipper");
@@ -229,14 +235,28 @@ namespace War_Square.Menus
 
         private void insertNewPlayer(Characters player, bool isFirst)
         {
-            if(isFirst) player.SetCharacterInPlay();
-            player.SetCharacterPosition(new Vector2(600, 200));
+            if (isFirst) player.SetCharacterInPlay();
+            player.SetCharacterPosition(getPosition());
             Collisions.characterCollisions.Add(player);
             CharactersHandler.AddPlayer(player);
             lelitos[chooseOption] = true;
             corolelitos[chooseOption] = Color.Red;
             Game1.charactersInPlay++;
             characterChoosen++;
+        }
+
+        public Vector2 getPosition()
+        {
+            Random rnd = new Random();
+            while (true)
+            {
+                int aux = rnd.Next(0, 5);
+                if (VectorsUsed[aux] == false)
+                {
+                    VectorsUsed[aux] = true;
+                    return MapPositions[aux];
+                }
+            }
         }
     }
 }
