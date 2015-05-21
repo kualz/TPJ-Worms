@@ -17,10 +17,10 @@ namespace War_Square.characters
         protected bool SpecialWeapon, CharacterInPlay, hasjumped, isAlive = true;
         protected string CharacterName;
         public Vector2 CharacterPos, pos, velocity, nextpos, DeadPos;
-        private float speed, intervalo = 0.08f, timer;
+        private float speed = 0, intervalo = 0.08f, timer;
         public CharacterState WormState;
         public SpriteEffects flip = SpriteEffects.FlipHorizontally;
-        private int currentFrame = 0, Hp, PLAYER_MAXIMUM_HP = 1000;
+        private int currentFrame = 0, Hp, PLAYER_MAXIMUM_HP = 100;
         private SpriteFont font;
         public List<Weapons> Arsenal = new List<Weapons>();
         public Weapons ActiveWeapon;

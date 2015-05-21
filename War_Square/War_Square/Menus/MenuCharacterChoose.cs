@@ -14,8 +14,8 @@ namespace War_Square.Menus
     {
         private List<String> options = new List<string>();
         private SpriteFont font;
-        private Texture2D textura,squareSelected, backGround, caixaDeTexto;
-        private float timer = 0;
+        private Texture2D textura,squareSelected, backGround, caixaDeTexto, outerGlow;
+        private float timer = 0, deltaTime, opacity;
         private int playerCount = 2;
         static private int characterChoosen = 0, chooseOption = 0;
         static private Characters[] Player;
@@ -55,10 +55,23 @@ namespace War_Square.Menus
             squareSelected = content.Load<Texture2D>("CharacterSelected");
             textura = content.Load<Texture2D>("character");
             backGround = content.Load<Texture2D>("MenuTest");
+            outerGlow = content.Load<Texture2D>("CharacterSelectedOuterGlow");
         }
 
         public void Update(GameTime gametime, Game1 game, ContentManager content)
         {
+            deltaTime += (float)gametime.ElapsedGameTime.TotalSeconds;
+            if (deltaTime < 0.5f)
+            {
+                opacity -= 0.04f;
+                if (opacity < 0.1f)
+                    opacity = 0.1f;
+            }
+            if (deltaTime > 0.5f && deltaTime < 1f)
+            {
+                opacity += 0.035f;
+            }
+            if (deltaTime > 1f) deltaTime = 0f;
             timer += (float)gametime.ElapsedGameTime.TotalSeconds;
             if(Input.IsPressed(Keys.Right))
             {
@@ -192,6 +205,7 @@ namespace War_Square.Menus
                 else
                 {
                     spriteBatch.Draw(squareSelected, new Rectangle(90 + i * 100 - 75, 55, 85, 75), Color.White);
+                    spriteBatch.Draw(outerGlow, new Rectangle(90 + i * 100 - 75, 55, 85, 75), Color.White * opacity);
                     spriteBatch.Draw(textura, new Vector2(90 + i * 100 - 75, 49), new Rectangle(0, 0, 50, 70), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                 }
             }
@@ -208,7 +222,7 @@ namespace War_Square.Menus
             LoadPlayers(content);
         }
 
-        private void resetPlayerInserted()
+        static  public void resetPlayerInserted()
         {
             CharactersHandler.Players.Clear();
         }
@@ -221,6 +235,7 @@ namespace War_Square.Menus
             CharactersHandler.AddPlayer(player);
             lelitos[chooseOption] = true;
             corolelitos[chooseOption] = Color.Red;
+            Game1.charactersInPlay++;
             characterChoosen++;
         }
     }

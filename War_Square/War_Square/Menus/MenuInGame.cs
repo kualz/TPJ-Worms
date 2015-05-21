@@ -16,7 +16,6 @@ namespace War_Square.Menus
         private SpriteFont font;
         private int escolha = 0;
         private List<string> options = new List<string>();
-        private Characters GhostCharacter;
 
 
         public void load(ContentManager content)

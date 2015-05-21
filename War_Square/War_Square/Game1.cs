@@ -1,9 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using War_Square.characters;
 using War_Square.WeaponsAndProjectiles;
+using War_Square.Sounds;
 
 namespace War_Square
 {
@@ -17,12 +19,12 @@ namespace War_Square
         private SpriteFont spriteFont;
         //private Characters Player1, Player2;
         private Crosshair MIRA;
-        static public int SelectedMap;
+        static public int SelectedMap, charactersInPlay = 0;
         private Map TesteMapa;
         private Camera2D Camera;
         public int CameraFocusAux = 1;
         private Characters GhostCharacter;
-        private int cameraX = 400;
+        public int cameraX {get; set;}
         private hud Interface = new hud();
         private bool auxMapa = false;
         private Background background = new Background();
@@ -36,9 +38,12 @@ namespace War_Square
             Options,
             MapChoose,
             CharacterChoose,
-            OpeningCutScene
+            OpeningCutScene,
+            CharacterChangeScene,
+            Win
         }
         public GameState gameState = GameState.OpeningCutScene;
+        static private SoundLoader globalSounds = new SoundLoader();
 
         public Game1()
             : base()
@@ -63,12 +68,14 @@ namespace War_Square
         protected override void LoadContent()
         {
             background.Load(Content);
+            cameraX = 400;
             Camera.Scale = 1f;
+            globalSounds.load(Content);
             magzzz.initializeAmmo();
             spriteBatch = new SpriteBatch(GraphicsDevice);
             spriteFont = Content.Load<SpriteFont>("MyFont");
             CharactersHandler.InitList();
-            MenusHandler.load(Content, this);
+            MenusHandler.load(Content, this, Camera);
             TesteMapa = new Map();
             TesteMapa.Load(Content);
             MIRA = new Crosshair();
@@ -93,50 +100,58 @@ namespace War_Square
         {
             Input.Update();
             background.Update(gameTime);
-            if (gameState != GameState.running)
+
+            //desenha os menus que nao sao ingame
+            //se nao esta in game ou nao existe vencedor 
+            if (gameState != GameState.running && gameState != GameState.Win && gameState != GameState.CharacterChangeScene)
             {
-                MenusHandler.Update(gameTime, this, Content);
-                if (gameState != GameState.Paused)
-                {
+                MenusHandler.Update(gameTime, this, Content, Camera, Interface);
+                if (gameState != GameState.Paused){
                     cameraX = 400;
                     Camera.Position = new Vector2(cameraX, 350);
                     Camera.Scale = 1f;
                 }
             }
+
+            //se tiver in game!!!
             else
             {
-                if (auxMapa == false)
+                if (gameState == GameState.Win || gameState == GameState.CharacterChangeScene){
+                    MenusHandler.Update(gameTime, this, Content, Camera, Interface);
+                }
+                else
                 {
-                    TesteMapa.InitRectMap();
-                    auxMapa = true;
+                    if (auxMapa == false){
+                        TesteMapa.InitRectMap();
+                        auxMapa = true;
+                    }
+                    Interface.update(gameTime);
+                    Camera.Scale = 0.7f;
+                    TesteMapa.update(gameTime);
+
+                    if (Keyboard.GetState().IsKeyDown(Keys.Escape) && gameState == GameState.running)
+                        gameState = GameState.Paused;
+
+                    if (Input.IsPressed(Keys.K) && Collisions.bulletsOnScreen.Count == 0){
+                        gameState = GameState.CharacterChangeScene;
+                    }
+
+                    if (hud.roundTime <= 0 && Collisions.bulletsOnScreen.Count == 0)
+                    {
+                        gameState = GameState.CharacterChangeScene;
+                        if (CharactersHandler.isWinner()){
+                            gameState = GameState.Win;
+                            MenusHandler.winMenu.loadInGame(Camera);
+                        }
+                    }
+
+                    if (Input.IsDown(Keys.Right) && cameraX < 2210 && gameState == GameState.running) cameraX += 10;
+                    if (Input.IsDown(Keys.Left) && cameraX > 370 && gameState == GameState.running) cameraX -= 10;
+
+
+                    GhostCharacter.SetCharacterPosition(new Vector2(cameraX, 350));
+                    CharactersHandler.updatePlayers(gameTime);
                 }
-                Interface.update(gameTime);
-                Camera.Scale = 0.7f;            
-                TesteMapa.update(gameTime);
-
-                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                    gameState = GameState.Paused;
-
-                if (Input.IsPressed(Keys.K) && Collisions.bulletsOnScreen.Count == 0){
-                    CharactersHandler.ChangeActive();
-                    magzzz.setAllMag();
-                    Interface.ResetlRoundTime();
-                    Collisions.bulletsTagged.Clear();
-                }
-
-                if (hud.roundTime <= 0 && Collisions.bulletsOnScreen.Count == 0){                 
-                    CharactersHandler.ChangeActive();
-                    magzzz.setAllMag();
-                    Interface.ResetlRoundTime();
-                    Collisions.bulletsTagged.Clear();
-                }
-
-                if (Input.IsDown(Keys.Right) && cameraX < 2210) cameraX += 10;
-                if (Input.IsDown(Keys.Left) && cameraX > 370) cameraX -= 10;
-
-                
-                GhostCharacter.SetCharacterPosition(new Vector2(cameraX, 350));
-                CharactersHandler.updatePlayers(gameTime);
             }
             //Console.WriteLine("X:{0}   Y:{1}", CharactersHandler.getActiveCharacterRectangle().X, CharactersHandler.getActiveCharacterRectangle().Y);
             base.Update(gameTime);
@@ -148,8 +163,7 @@ namespace War_Square
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Camera.Transform);
 
-            if (gameState != GameState.running && gameState != GameState.Paused)
-            {
+            if (gameState != GameState.running && gameState != GameState.Paused && gameState != GameState.Win && gameState != GameState.CharacterChangeScene){
                 MenusHandler.draw(spriteBatch, this, GhostCharacter, Camera);
             }
             else
@@ -158,7 +172,7 @@ namespace War_Square
                 TesteMapa.secondDraw(spriteBatch);
                 CharactersHandler.DrawPlayers(spriteBatch);
                 Interface.draw(spriteBatch, Camera, CharactersHandler.getActiveCharacter());
-                if (gameState == GameState.Paused){
+                if (gameState == GameState.Paused || gameState == GameState.Win || gameState == GameState.CharacterChangeScene){
                     MenusHandler.draw(spriteBatch, this, CharactersHandler.getActiveCharacter(), Camera);
                 }
             }

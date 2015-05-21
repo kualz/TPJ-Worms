@@ -17,6 +17,7 @@ namespace War_Square.characters
         static public int JogadorActivo = 1;
         static public int initialPlayer = 1;
 
+
         static public void InitList()
         {
             Barracks.Add(new Characters("Kualz"));
@@ -39,13 +40,29 @@ namespace War_Square.characters
 
         static public Characters getPlayerIN_GAME(int player)
         {
-            return Players[player];
+            if (Players[player].returnName() == "GhostCharacter")
+                return Players[player + 1];
+            else return Players[player];
         }
 
         static public Characters getActiveCharacter()
         {
             foreach (Characters cha in Players){
                 if (cha.isActive()){ return cha; } 
+            }
+            return null;
+        }
+
+        static public Characters getNextPlayer()
+        {
+            int aux = 0;
+            foreach (Characters ch in Players){
+                if (ch.isActive() && ch.returnName() != "GhostCharacter"){
+                    if (aux + 1 >= Players.Count) return getPlayerIN_GAME(0);
+                    else return Players[aux + 1];
+                }
+                aux++;
+                if (aux >= Players.Count) aux = 0;
             }
             return null;
         }
@@ -64,13 +81,17 @@ namespace War_Square.characters
 
         static public Weapons getActiveWeapon()
         {
-            foreach (Characters cha in Players)
-            {
+            foreach (Characters cha in Players){
                 if (cha.isActive()) { return cha.GetActiveWeapon(); }
             }
             return null;
         }
 
+
+        /// <summary>
+        /// this one makes the game!! really really good! you won bitch
+        /// </summary>
+        /// <returns></returns>
         static public bool isWinner(){
             int aux = 0;
             foreach (Characters Char in Players){
@@ -78,10 +99,20 @@ namespace War_Square.characters
                     aux++;
                 }
             }
-            if (aux == Players.Count - 2){
+            if (aux == Game1.charactersInPlay - 1){
                 return true;
             }
             else return false;
+        }
+
+        static public Characters getWinner()
+        {
+            foreach (Characters character  in Players){
+                if (character.getHp() >= 0 && character.returnName() != "GhostCharacter"){
+                    return character;
+                }
+            }
+            return null;
         }
 
         static public void ChangeActive()
@@ -143,7 +174,8 @@ namespace War_Square.characters
         {
             Barracks.Clear();
             InitList();
-            if(isFirst ==  false)
+            Game1.charactersInPlay = 0;
+            if(isFirst == false)
                 JogadorActivo = 0;
         }
     }

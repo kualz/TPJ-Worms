@@ -15,7 +15,6 @@ namespace War_Square
         private SpriteFont font;
         private List<string> assets = new List<string>();
         static public float roundTime = 7;
-        private float deltaTime, speed = 50;
         private Color color;
         private Texture2D HpBar;
 
@@ -50,8 +49,10 @@ namespace War_Square
         public void draw(SpriteBatch batch, Camera2D cam, Characters Char)
         {
             foreach (Characters CHARACTER in CharactersHandler.Players){
-                if (CHARACTER.returnName() != "GhostCharacter") 
-                    batch.Draw(HpBar, new Rectangle((int)CHARACTER.CharacterPos.X, (int)CHARACTER.CharacterPos.Y - 15, (50 - ((CHARACTER.getMaximumHp() - CHARACTER.getHp())/2)), 5), Color.Green);   
+                if (CHARACTER.returnName() != "GhostCharacter"){
+
+                    batch.Draw(HpBar, new Rectangle((int)CHARACTER.CharacterPos.X, (int)CHARACTER.CharacterPos.Y - 15, (50 - ((CHARACTER.getMaximumHp() - CHARACTER.getHp()) / 2)), 5), setHpColor(CHARACTER));
+                }
             }
             batch.DrawString(font, assets[0] + Char.returnName(), new Vector2(cam.Position.X - 700, cam.Position.Y- 500), Color.White);
             batch.DrawString(font, assets[1] + Char.getHp(), new Vector2(cam.Position.X - 480, cam.Position.Y - 500), Color.White);
@@ -61,6 +62,14 @@ namespace War_Square
 
         public void ResetlRoundTime(){
             roundTime = 7;
+        }
+
+        private Color setHpColor(Characters Char)
+        {
+            if (Char.getHp() > 50) return Color.Green;
+            if (Char.getHp() <= 50 && Char.getHp() > 20) return Color.Yellow;
+            if (Char.getHp() <= 20) return Color.Red;
+            else return Color.White;
         }
     }
 }
