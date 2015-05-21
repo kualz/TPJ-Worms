@@ -181,6 +181,7 @@ namespace War_Square.Menus
                             break;
                     }
                     if (characterChoosen >= playerCount && characterChoosen >= 2){
+                        resetPosicoesMapa();
                         Console.WriteLine(CharactersHandler.Players.Count);
                         game.gameState = Game1.GameState.MapChoose;
                     }
@@ -258,5 +259,15 @@ namespace War_Square.Menus
                 }
             }
         }
+
+        public void resetPosicoesMapa()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                VectorsUsed[i] = false;
+            }
+        
+        }
+
     }
 }
