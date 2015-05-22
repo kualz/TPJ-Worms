@@ -14,7 +14,7 @@ namespace War_Square.WeaponsAndProjectiles
         private Rectangle bulletRec;
         static public Vector2 rec;
         private Texture2D[] explosion;
-        private int currentFrame1 = 0, damage, bounces = 0;
+        private int currentFrame1 = 0, damage;
         private float deltatime = 0;
         private bool RocketExplosion = false, RifleExplosion = false, characterhit = false;
         static public int DMGdAtRETA;

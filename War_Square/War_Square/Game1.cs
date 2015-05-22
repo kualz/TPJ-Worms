@@ -2,10 +2,12 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System;
 using War_Square.characters;
 using War_Square.WeaponsAndProjectiles;
 using War_Square.Sounds;
+
 
 namespace War_Square
 {
@@ -43,8 +45,8 @@ namespace War_Square
             Win
         }
         public GameState gameState = GameState.OpeningCutScene;
-        static private SoundLoader globalSounds = new SoundLoader();
-
+        private SoundLoader globalSounds = new SoundLoader();
+        
         public Game1()
             : base()
         {
@@ -67,6 +69,7 @@ namespace War_Square
 
         protected override void LoadContent()
         {
+            SoundManager.InitSoundLists();
             background.Load(Content);
             cameraX = 400;
             Camera.Scale = 1f;
@@ -121,7 +124,7 @@ namespace War_Square
                 }
                 else
                 {
-                    
+                    SoundManager.playMusic("ingameMusic");   
                     if (auxMapa == false){
                         TesteMapa.InitRectMap();
                         auxMapa = true;

@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using War_Square.WeaponsAndProjectiles;
 using War_Square.characters;
+using War_Square.Sounds;
 
 namespace War_Square.WeaponsAndProjectiles
 {
@@ -174,6 +175,7 @@ namespace War_Square.WeaponsAndProjectiles
 
             if (Input.IsDown(Keys.Space))
             {
+                SoundManager.playSound("peidoteste");
                 if (fireRateTime >= Bullet.getFireRate(Bullet.AmmoType.cal32) && WeaponTypes == WeaponType.MachineGun)
                 {
                     if (magzzz.getmagAt(0).getMag() > 0)

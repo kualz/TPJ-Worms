@@ -6,20 +6,20 @@ using System.Text;
 
 namespace War_Square.Sounds
 {
-    class SoundLoader : SoundManager
+    class SoundLoader 
     {
-        public SoundLoader() : base(){ }
+        public SoundLoader(){ }
 
-        private void addNewSound(ContentManager content, string asset, string name, float volume)
+        public void addNewSound(ContentManager content, string asset, string name, float volume)
         {
-            base.addSound(new Sound(asset, name, 1f));
-            base.getSound(name).Load(content);
+            SoundManager.addSound(new Sound(asset, name, 1f));
+            SoundManager.getSound(name).Load(content);
         }
 
-        private void addNewMusic(ContentManager content, string asset, string name)
+        public void addNewMusic(ContentManager content, string asset, string name)
         {
-            base.addMusic(new Music(asset, name));
-            base.getMusic(name).load(content);
+            SoundManager.addMusic(new Music(asset, name));
+            SoundManager.getMusic(name).load(content);
         }
 
 
@@ -28,6 +28,8 @@ namespace War_Square.Sounds
             //addNewMusic(content, "musicAssetTest", "musicNametest");
             //addNewSound(content, "SoundAssetTest", "soundNameTest", 1f);
 
+            addNewMusic(content, "Radau", "ingameMusic");
+            addNewSound(content, "Fart1", "peidoteste", 1f);
             //addNewMusic(content, "musicAssetTest1", "musicNametest1");
             //addNewSound(content, "SoundAssetTest1", "soundNameTest1", 1f);
 

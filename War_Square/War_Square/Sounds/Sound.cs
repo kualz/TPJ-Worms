@@ -30,7 +30,7 @@ namespace War_Square.Sounds
         }
 
         public void Load(ContentManager content){
-            content.Load<SoundEffect>(asset);
+            sound = content.Load<SoundEffect>(asset);
         }
 
         public void play(){
