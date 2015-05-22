@@ -10,6 +10,7 @@ using War_Square.WeaponsAndProjectiles;
 using War_Square.characters;
 using War_Square.Menus;
 using Microsoft.Xna.Framework.Audio;
+using War_Square.Sounds;
 
 
 namespace War_Square.Menus
@@ -56,18 +57,21 @@ namespace War_Square.Menus
 
             if (Input.IsPressed(Keys.Down))
             {
+                SoundManager.playSound("menuswitch");
                 selectedOption++;
                 if (selectedOption >= Options.Count)
                     selectedOption = 0;
             }
             if (Input.IsPressed(Keys.Up))
             {
+                SoundManager.playSound("menuswitch");
                 selectedOption--;
                 if (selectedOption < 0)
                     selectedOption = Options.Count - 1;
             }
             if (Input.IsPressed(Keys.Enter))
             {
+                SoundManager.playSound("enterselect");
                 switch (selectedOption)
                 {
                         //'e importante nao dar reset aqui logo da lista de players

@@ -28,8 +28,11 @@ namespace War_Square.Sounds
             //addNewMusic(content, "musicAssetTest", "musicNametest");
             //addNewSound(content, "SoundAssetTest", "soundNameTest", 1f);
 
-            addNewMusic(content, "Radau", "ingameMusic");
+            addNewMusic(content, "Equalizer", "ingameMusic");
+            addNewMusic(content, "Spine", "menuMusic");
             addNewSound(content, "Fart1", "peidoteste", 1f);
+            addNewSound(content, "StartSelectzippy", "enterselect", 1f);
+            addNewSound(content, "menuswitch", "menuswitch", 1f);
             //addNewMusic(content, "musicAssetTest1", "musicNametest1");
             //addNewSound(content, "SoundAssetTest1", "soundNameTest1", 1f);
 

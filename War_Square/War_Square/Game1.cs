@@ -28,7 +28,7 @@ namespace War_Square
         private Characters GhostCharacter;
         public int cameraX {get; set;}
         private hud Interface = new hud();
-        private bool auxMapa = false;
+        private bool auxMapa = false, playonce = false, playonce2 = false;
         private Background background = new Background();
         static public bool firstEntry = true;
         public enum GameState
@@ -103,11 +103,17 @@ namespace War_Square
         {
             Input.Update();
             background.Update(gameTime);
-
+            
             //desenha os menus que nao sao ingame
             //se nao esta in game ou nao existe vencedor 
             if (gameState != GameState.running && gameState != GameState.Win && gameState != GameState.CharacterChangeScene)
             {
+                if (playonce2 == false && gameState != GameState.Paused)
+                {
+                    SoundManager.playMusic("menuMusic");
+                    playonce2 = true;
+                    playonce = false;
+                }
                 MenusHandler.Update(gameTime, this, Content, Camera, Interface);
                 if (gameState != GameState.Paused){
                     cameraX = 400;
@@ -117,14 +123,21 @@ namespace War_Square
             }
 
             //se tiver in game!!!
+            
             else
             {
+                
                 if (gameState == GameState.Win || gameState == GameState.CharacterChangeScene){
                     MenusHandler.Update(gameTime, this, Content, Camera, Interface);
                 }
                 else
                 {
-                    SoundManager.playMusic("ingameMusic");   
+                    if (playonce == false)
+                    {
+                        SoundManager.playMusic("ingameMusic");
+                        playonce = true;
+                        playonce2 = false;
+                    }
                     if (auxMapa == false){
                         TesteMapa.InitRectMap();
                         auxMapa = true;
@@ -156,7 +169,7 @@ namespace War_Square
                     if (Input.IsDown(Keys.Right) && cameraX < 2210 && gameState == GameState.running && !CharactersHandler.isWinner()) cameraX += 10;
                     if (Input.IsDown(Keys.Left) && cameraX > 370 && gameState == GameState.running && !CharactersHandler.isWinner()) cameraX -= 10;
 
-
+                    
                     GhostCharacter.SetCharacterPosition(new Vector2(cameraX, 350));
                     CharactersHandler.updatePlayers(gameTime);
                 }

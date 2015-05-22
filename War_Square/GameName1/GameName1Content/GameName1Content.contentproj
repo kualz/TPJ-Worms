@@ -48,19 +48,39 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Radau.mp3">
-      <Name>Radau</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Fart1.wav">
       <Name>Fart1</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
       <ProcessorParameters_Quality>Low</ProcessorParameters_Quality>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Equalizer.mp3">
+      <Name>Equalizer</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Spine.mp3">
+      <Name>Spine</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="StartSelectzippy.wav">
+      <Name>StartSelectzippy</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="menuswitch.mp3">
+      <Name>menuswitch</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using War_Square.characters;
+using War_Square.Sounds;
 
 namespace War_Square.Menus
 {
@@ -81,30 +82,35 @@ namespace War_Square.Menus
             timer += (float)gametime.ElapsedGameTime.TotalSeconds;
             if(Input.IsPressed(Keys.Right))
             {
+                SoundManager.playSound("menuswitch");
                 chooseOption++;
                 if (chooseOption >= options.Count)
                     chooseOption = chooseOption - options.Count;
             }
             if(Input.IsPressed(Keys.Left))
             {
+                SoundManager.playSound("menuswitch");
                 chooseOption--;
                 if (chooseOption < 0)
                     chooseOption = options.Count - 1;
             }
             if (Input.IsPressed(Keys.Up))
             {
+                SoundManager.playSound("menuswitch");
                 playerCount++;
                 if (playerCount > 5)
                     playerCount = 5;
             }
             if (Input.IsPressed(Keys.Down))
             {
+                SoundManager.playSound("menuswitch");
                 playerCount--;
                 if (playerCount < 2)
                     playerCount = 2;
             }
             if (Input.IsPressed(Keys.Back))
             {
+                SoundManager.playSound("menuswitch");
                 resetArrays(content);
                 resetPlayerInserted();
                 CharactersHandler.JogadorActivo = 0;
@@ -115,6 +121,7 @@ namespace War_Square.Menus
             {
                 if (Input.IsPressed(Keys.Enter))
                 {
+                    SoundManager.playSound("enterselect");
                     switch (chooseOption)
                     {
                         case 0:

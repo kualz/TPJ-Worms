@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using War_Square.characters;
+using War_Square.Sounds;
 
 namespace War_Square.Menus
 {
@@ -32,18 +33,21 @@ namespace War_Square.Menus
         {
             if(Input.IsPressed(Keys.Up))
             {
+                SoundManager.playSound("menuswitch");
                 escolha--;
                 if (escolha < 0)
                     escolha = options.Count - 1;
             }
             if (Input.IsPressed(Keys.Down))
             {
+                SoundManager.playSound("menuswitch");
                 escolha++;
                 if (escolha >= options.Count)
                     escolha = 0;
             }
             if(Input.IsPressed(Keys.Enter))
             {
+                SoundManager.playSound("enterselect");
                 switch(escolha)
                 {
                     case 0:
