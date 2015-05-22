@@ -109,6 +109,8 @@ namespace War_Square.WeaponsAndProjectiles
                 timer = 0;
             }
 
+
+            if (Input.IsPressed(Keys.Space) && !Characters.weaponUsed) Characters.weaponUsed = true;
             if (Input.IsPressed(Keys.Space) && WeaponTypes == WeaponType.NoblePhantom) NoblePhantomAux = true;
             if (Input.IsPressed(Keys.Space) && WeaponTypes == WeaponType.Bombardement) BombardementAux = true;
 
@@ -194,8 +196,13 @@ namespace War_Square.WeaponsAndProjectiles
                 if (fireRateTime >= Bullet.getFireRate(Bullet.AmmoType.hadouken) && WeaponTypes == WeaponType.Hadouken)
                 {
                     if (magzzz.getmagAt(2).getMag() > 0)
-                        Collisions.bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.hadouken, 2000, 50, explosion, 35));
-                    magzzz.decMag(2);
+                    {
+                        Vector2 lelvector = new Vector2(10, 0);
+                        if (flip == SpriteEffects.FlipHorizontally)
+                            Collisions.bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector + lelvector, (rotation + (getRandom())), Bullet.AmmoType.hadouken, 2000, 50, explosion, 35));
+                        else Collisions.bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector - lelvector, (rotation + (getRandom())), Bullet.AmmoType.hadouken, 2000, 50, explosion, 35));
+                    }
+                        magzzz.decMag(2);
                     fireRateTime = 0;
                 }
                 if (fireRateTime >= Bullet.getFireRate(Bullet.AmmoType.rocket) && WeaponTypes == WeaponType.AirStrike)
