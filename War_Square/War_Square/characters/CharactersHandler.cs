@@ -135,13 +135,13 @@ namespace War_Square.characters
             Players[JogadorActivo].SetCharacterInPlay();
         }
 
-        static public void updatePlayers(GameTime gameTime)
+        static public void updatePlayers(GameTime gameTime, Map map)
         {
             foreach (Characters cha in Players){
                 if (cha.returnName() != "GhostCharacter"){
-                    cha.Update(gameTime);
+                    cha.Update(gameTime, map);
                     if (cha.isActive() && cha.getHp() > 0){
-                        cha.GetActiveWeapon().Update(gameTime, cha, cha.flip);
+                        cha.GetActiveWeapon().Update(gameTime, cha, cha.flip, map);
                     }
                 }
             }

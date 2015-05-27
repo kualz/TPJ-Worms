@@ -8,7 +8,7 @@ namespace War_Square.WeaponsAndProjectiles
 {
     class Bullet
     {
-        public float range, gravity = 9.8f, rotation, speed, timerExplosion, intervalo = 20f, intervaloRifle = 1f, explosionScale = 0.05f;
+        public float range, gravity = 9.8f, rotation, speed, timerExplosion, intervalo = 0.05f, intervaloRifle = 0.1f, explosionScale = 0.05f;
         public Vector2 sourcePosition, initialpos;
         private Vector2 direction, velocity;
         private Rectangle bulletRec;
@@ -46,17 +46,17 @@ namespace War_Square.WeaponsAndProjectiles
             this.damage = damage;
         }
 
-        public void update(GameTime gameTime, Weapons weapon)
+        public void update(GameTime gameTime, Weapons weapon, Map map)
         {
             deltatime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            timerExplosion += deltatime;
+            timerExplosion += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (timerExplosion > intervaloRifle && RifleExplosion)
             {
                 currentFrame1++;
-                if (currentFrame1 == 4)
+                if (currentFrame1 == 1)
                 {
-                    Collisions.tilesCollisions.Remove(CheckCollisionsProjectile(bulletRec));
+                    map.DestroySquare(new Vector2(bulletRec.X, bulletRec.Y));
                 }
                 if (currentFrame1 >= (9))
                 {
@@ -74,8 +74,9 @@ namespace War_Square.WeaponsAndProjectiles
                 if (currentFrame1 == 4)
                 {
                     if (characterhit == false)
-                        ExplosionTileRemove(CheckCollisionsProjectile(bulletRec));
-                    Collisions.tilesCollisions.Remove(CheckCollisionsProjectile(bulletRec));
+                    {
+                        ExplosionTileRemove(CheckCollisionsProjectile(bulletRec), map);
+                    }
                 }
                 if (currentFrame1 >= (9))
                 {
@@ -178,47 +179,49 @@ namespace War_Square.WeaponsAndProjectiles
             return new Rectangle(0, 0, 0, 0);
         }
 
-        public void ExplosionTileRemove(Rectangle rect)
+        public void ExplosionTileRemove(Rectangle rect, Map map)
         {
-            List<Vector2> explosionrange = new List<Vector2>();
-            Vector2 comparison;
-            Vector2 aux1 = new Vector2(rect.X - 20, rect.Y);
-            Vector2 aux2 = new Vector2(rect.X - 40, rect.Y);
-            Vector2 aux3 = new Vector2(rect.X + 20, rect.Y);
-            Vector2 aux4 = new Vector2(rect.X + 40, rect.Y);
-            Vector2 aux5 = new Vector2(rect.X, rect.Y + 20);
-            Vector2 aux6 = new Vector2(rect.X, rect.Y - 20);
-            Vector2 aux7 = new Vector2(rect.X, rect.Y + 40);
-            Vector2 aux8 = new Vector2(rect.X, rect.Y - 40);
-            Vector2 aux9 = new Vector2(rect.X + 20, rect.Y + 20);
-            Vector2 aux10 = new Vector2(rect.X - 20, rect.Y - 20);
-            Vector2 aux11 = new Vector2(rect.X - 20, rect.Y + 20);
-            Vector2 aux12 = new Vector2(rect.X + 20, rect.Y - 20);
+            //List<Vector2> explosionrange = new List<Vector2>();
+            //Vector2 comparison;
+            map.DestroySquare(new Vector2(rect.X, rect.Y));
+            map.DestroySquare(new Vector2(rect.X - 20, rect.Y));
+            map.DestroySquare(new Vector2(rect.X - 40, rect.Y));
+            map.DestroySquare(new Vector2(rect.X + 20, rect.Y));
+            map.DestroySquare(new Vector2(rect.X + 40, rect.Y));
+            map.DestroySquare(new Vector2(rect.X, rect.Y + 20));
+            map.DestroySquare(new Vector2(rect.X, rect.Y - 20));
+            map.DestroySquare(new Vector2(rect.X, rect.Y + 40));
+            map.DestroySquare(new Vector2(rect.X, rect.Y - 40));
+            map.DestroySquare(new Vector2(rect.X + 20, rect.Y + 20));
+            map.DestroySquare(new Vector2(rect.X - 20, rect.Y - 20));
+            map.DestroySquare(new Vector2(rect.X - 20, rect.Y + 20));
+            map.DestroySquare(new Vector2(rect.X + 20, rect.Y - 20));
 
-            explosionrange.Add(aux1);
-            explosionrange.Add(aux2);
-            explosionrange.Add(aux3);
-            explosionrange.Add(aux4);
-            explosionrange.Add(aux5);
-            explosionrange.Add(aux6);
-            explosionrange.Add(aux7);
-            explosionrange.Add(aux8);
-            explosionrange.Add(aux9);
-            explosionrange.Add(aux10);
-            explosionrange.Add(aux11);
-            explosionrange.Add(aux12);
+            //explosionrange.Add(aux1);
+            //explosionrange.Add(aux2);
+            //explosionrange.Add(aux3);
+            //explosionrange.Add(aux4);
+            //explosionrange.Add(aux5);
+            //explosionrange.Add(aux6);
+            //explosionrange.Add(aux7);
+            //explosionrange.Add(aux8);
+            //explosionrange.Add(aux9);
+            //explosionrange.Add(aux10);
+            //explosionrange.Add(aux11);
+            //explosionrange.Add(aux12);
 
-            for (int i = Collisions.tilesCollisions.Count - 1; i >= 0; i--)
-            {
-                comparison = new Vector2(Collisions.tilesCollisions[i].X, Collisions.tilesCollisions[i].Y);
-                foreach (Vector2 vector in explosionrange)
-                {
-                    if (comparison == vector)
-                    {
-                        Collisions.tilesCollisions.RemoveAt(i);
-                    }
-                }
-            }
+            //for (int i = Collisions.tilesCollisions.Count - 1; i >= 0; i--)
+            //{
+            //    comparison = new Vector2(Collisions.tilesCollisions[i].X, Collisions.tilesCollisions[i].Y);
+            //    foreach (Vector2 vector in explosionrange)
+            //    {
+            //        if (comparison == vector)
+            //        {
+            //            //Map.alive[(int)vector.X, (int)vector.Y] = false;
+            //            //Collisions.tilesCollisions.RemoveAt(i);
+            //        }   
+            //    }
+            //}
         }
         public Rectangle getRectangle()
         {

@@ -61,14 +61,14 @@ namespace War_Square.characters
             getAndActivateWeapon(0);
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, Map map)
         {
             if (isAlive)
             {
                 Vector2 Gravityaux = new Vector2(CharacterPos.X, CharacterPos.Y + 2f);
                 float deltaTime1 = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                if (isActive()) Arsenal[weaponCodeChosen].Update(gameTime, this, flip);
+                if (isActive()) Arsenal[weaponCodeChosen].Update(gameTime, this, flip, map);
                 if (isActive() && hud.roundTime >= 0)
                 {
                     float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -368,7 +368,7 @@ namespace War_Square.characters
 
         public bool IsInsideMap(Vector2 position)
         {
-            int MapSizeMaxY = 900;
+            int MapSizeMaxY = 10000;
 
             if (position.Y > MapSizeMaxY - 100) return false;
             else return true;

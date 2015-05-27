@@ -33,7 +33,7 @@ namespace War_Square
             characterChanged.load(content);
         }
 
-        static public void Update(GameTime gameTime, Game1 game, ContentManager content, Camera2D cam, hud Interface)
+        static public void Update(GameTime gameTime,Map map, Game1 game, ContentManager content, Camera2D cam, hud Interface)
         {
             if (game.gameState == Game1.GameState.Menu){
                 menuPrincipal.update(gameTime, game);
@@ -52,7 +52,7 @@ namespace War_Square
                 return;
             }
             if (game.gameState == Game1.GameState.MapChoose){
-                mapChooser.update(gameTime, game);
+                mapChooser.update(gameTime, game, map);
                 return;
             }
             if (game.gameState == Game1.GameState.OpeningCutScene){

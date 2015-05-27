@@ -91,7 +91,7 @@ namespace War_Square.WeaponsAndProjectiles
             font = content.Load<SpriteFont>("MyFont");
         }
 
-        public void Update(GameTime gameTime, Characters Char, SpriteEffects flip)
+        public void Update(GameTime gameTime, Characters Char, SpriteEffects flip, Map map)
         {
             MouseState mState = Mouse.GetState();
             PositionRelativeToCharacter = new Vector2(Char.CharacterPosition().X, Char.CharacterPosition().Y);
@@ -253,13 +253,13 @@ namespace War_Square.WeaponsAndProjectiles
                         if (magzzz.getmagAt(1).getMag() > 0)
                         {
 
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux2, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux3, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux4, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux6, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux7, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux8, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux9, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux2, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux3, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux4, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux6, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux7, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux8, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux9, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
                         }
                         magzzz.decMag(1);
                         fireRateTime = 0;
@@ -279,14 +279,13 @@ namespace War_Square.WeaponsAndProjectiles
                         if (magzzz.getmagAt(1).getMag() > 0)
                         {
 
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux2, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux3, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux4, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
-
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux6, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux7, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux8, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux9, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux2, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux3, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux4, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux6, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux7, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux8, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux9, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
 
 
                         }
@@ -335,7 +334,7 @@ namespace War_Square.WeaponsAndProjectiles
             else mira = false;
             rotation = rot;
             rec = new Rectangle((int)PositionRelativeToCharacter.X, (int)PositionRelativeToCharacter.Y, 10, 15);
-            updateBullets(gameTime);
+            updateBullets(gameTime, map);
             updateDeleteBullets(gameTime);
 
         }
@@ -472,11 +471,11 @@ namespace War_Square.WeaponsAndProjectiles
             return rotation;
         }
 
-        public void updateBullets(GameTime gameTime)
+        public void updateBullets(GameTime gameTime, Map map)
         {
             for (int i = Collisions.bulletsOnScreen.Count - 1; i >= 0; i--)
             {
-                Collisions.bulletsOnScreen[i].update(gameTime, this);
+                Collisions.bulletsOnScreen[i].update(gameTime, this, map);
             }
         }
 

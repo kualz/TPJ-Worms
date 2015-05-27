@@ -20,15 +20,15 @@ namespace War_Square
         private SpriteBatch spriteBatch;
         private SpriteFont spriteFont;
         //private Characters Player1, Player2;
-        private Crosshair MIRA;
         static public int SelectedMap, charactersInPlay = 0;
         private Map TesteMapa;
         private Camera2D Camera;
         public int CameraFocusAux = 1;
         private Characters GhostCharacter;
         public int cameraX {get; set;}
+        public int cameraY { get; set; }
         private hud Interface = new hud();
-        private bool auxMapa = false, playonce = false, playonce2 = false;
+        private bool playonce = false, playonce2 = false;
         private Background background = new Background();
         static public bool firstEntry = true;
         public enum GameState
@@ -56,7 +56,7 @@ namespace War_Square
             graphics.PreferredBackBufferWidth = 1000;
             Content.RootDirectory = "Content";
             Camera = new Camera2D(this);
-            Camera.Position = (new Vector2(cameraX, 350));
+            Camera.Position = (new Vector2(cameraX, cameraY));
             Components.Add(Camera);
         }
 
@@ -72,6 +72,7 @@ namespace War_Square
             SoundManager.InitSoundLists();
             background.Load(Content);
             cameraX = 400;
+            cameraY = 350;
             Camera.Scale = 1f;
             globalSounds.load(Content);
             magzzz.initializeAmmo();
@@ -81,11 +82,9 @@ namespace War_Square
             MenusHandler.load(Content, this, Camera);
             TesteMapa = new Map();
             TesteMapa.Load(Content);
-            MIRA = new Crosshair();
-            MIRA.Load(Content);
             GhostCharacter = CharactersHandler.getCharacter(5);
             //////mudar esta posicao para a posicao do menu!\\\\\\\\\\\\\\\\\
-            GhostCharacter.SetCharacterPosition(new Vector2(cameraX, 350));
+            GhostCharacter.SetCharacterPosition(new Vector2(cameraX, cameraY));
             CharactersHandler.AddPlayer(GhostCharacter);
             Camera.Focus = CharactersHandler.Players[0];
             GhostCharacter.Load(Content);
@@ -114,10 +113,11 @@ namespace War_Square
                     playonce2 = true;
                     playonce = false;
                 }
-                MenusHandler.Update(gameTime, this, Content, Camera, Interface);
+                MenusHandler.Update(gameTime,TesteMapa , this, Content, Camera, Interface);
                 if (gameState != GameState.Paused){
                     cameraX = 400;
-                    Camera.Position = new Vector2(cameraX, 350);
+                    cameraY = 350;
+                    Camera.Position = new Vector2(cameraX, cameraY);
                     Camera.Scale = 1f;
                 }
             }
@@ -128,7 +128,7 @@ namespace War_Square
             {
                 
                 if (gameState == GameState.Win || gameState == GameState.CharacterChangeScene){
-                    MenusHandler.Update(gameTime, this, Content, Camera, Interface);
+                    MenusHandler.Update(gameTime,TesteMapa , this, Content, Camera, Interface);
                 }
                 else
                 {
@@ -137,10 +137,6 @@ namespace War_Square
                         SoundManager.playMusic("ingameMusic");
                         playonce = true;
                         playonce2 = false;
-                    }
-                    if (auxMapa == false){
-                        TesteMapa.InitRectMap();
-                        auxMapa = true;
                     }
                     Interface.update(gameTime);
                     Camera.Scale = 0.7f;
@@ -170,10 +166,11 @@ namespace War_Square
 
                     if (Input.IsDown(Keys.Right) && cameraX < 2210 && gameState == GameState.running && !CharactersHandler.isWinner()) cameraX += 10;
                     if (Input.IsDown(Keys.Left) && cameraX > 370 && gameState == GameState.running && !CharactersHandler.isWinner()) cameraX -= 10;
+                    Camera.Position = new Vector2((float)cameraX ,CharactersHandler.getActiveCharacter().CharacterPosition().Y);
 
                     
                     GhostCharacter.SetCharacterPosition(new Vector2(cameraX, 350));
-                    CharactersHandler.updatePlayers(gameTime);
+                    CharactersHandler.updatePlayers(gameTime,TesteMapa);
                 }
             }
             

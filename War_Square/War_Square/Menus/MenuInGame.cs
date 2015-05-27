@@ -59,7 +59,6 @@ namespace War_Square.Menus
                             CharactersHandler.Players.Clear();
                             MenuCharacterChoose.resetArrays(content);
                             Collisions.reset();
-                            game.getMap().InitRectMap();
                             Game1.firstEntry = false;
                         }
                         break;

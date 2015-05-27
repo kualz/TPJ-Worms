@@ -35,7 +35,7 @@ namespace War_Square.Menus
             option.Add("Map3");
         }
 
-        public void update(GameTime gametime, Game1 game)
+        public void update(GameTime gametime, Game1 game, Map map)
         {
             if (Input.IsPressed(Keys.Down))
             {
@@ -58,12 +58,14 @@ namespace War_Square.Menus
                         {
                             Game1.SelectedMap = 0;
                             game.gameState = Game1.GameState.running;
+                            map.LoadTiles(0);
                         }
                         break;
                     case 1:
                         {
                             Game1.SelectedMap = 1;
                             game.gameState = Game1.GameState.running;
+                            map.LoadTiles(1);
                         }
                         break;
                     case 2:

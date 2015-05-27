@@ -60,7 +60,6 @@ namespace War_Square.Menus
             {
                 CharactersHandler.Players.Clear();
                 Collisions.reset();
-                game.getMap().InitRectMap();
                 Game1.firstEntry = true;
                 MenuCharacterChoose.resetArrays(content);
                 MenuCharacterChoose.resetPlayerInserted();
