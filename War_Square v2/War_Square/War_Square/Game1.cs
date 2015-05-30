@@ -69,6 +69,7 @@ namespace War_Square
 
         protected override void LoadContent()
         {
+            MediaPlayer.Volume = 0.5f;
             SoundManager.InitSoundLists();
             background.Load(Content);
             cameraX = 400;

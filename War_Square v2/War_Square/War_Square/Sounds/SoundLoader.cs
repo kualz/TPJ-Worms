@@ -12,7 +12,7 @@ namespace War_Square.Sounds
 
         public void addNewSound(ContentManager content, string asset, string name, float volume)
         {
-            SoundManager.addSound(new Sound(asset, name, 1f));
+            SoundManager.addSound(new Sound(asset, name, volume));
             SoundManager.getSound(name).Load(content);
         }
 

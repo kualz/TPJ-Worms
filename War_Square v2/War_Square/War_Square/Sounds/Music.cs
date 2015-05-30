@@ -14,7 +14,6 @@ namespace War_Square.Sounds
         private string asset;
         public string musicName{ get; set;}
 
-
         public Music(string asset, string musicName)
         {
             this.asset = asset;
