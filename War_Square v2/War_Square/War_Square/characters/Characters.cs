@@ -52,12 +52,12 @@ namespace War_Square.characters
 
         public void Load(ContentManager content)
         {
-            textura = content.Load<Texture2D>("character");
+            textura = content.Load<Texture2D>("WalkingLight");
             font = content.Load<SpriteFont>("MyFont");
             Hitbox = content.Load<Texture2D>("DeadCross");          
-            Arsenal[0].Load(content, "gunn");
-            Arsenal[1].Load(content, "gunn");
-            Arsenal[2].Load(content, "gunn");          
+            Arsenal[0].Load(content, "arm weapon");
+            Arsenal[1].Load(content, "arm weapon");
+            Arsenal[2].Load(content, "arm weapon");          
             getAndActivateWeapon(0);
         }
 
@@ -78,8 +78,8 @@ namespace War_Square.characters
 
                     if (timer >= intervalo)
                     {
-                        currentFrame = currentFrame + 58;
-                        if (currentFrame >= 290)
+                        currentFrame = currentFrame + 47;
+                        if (currentFrame >= 800)
                         {
                             currentFrame = 0;
                         }
@@ -231,7 +231,7 @@ namespace War_Square.characters
             if (this.isAlive)
             {
                 Vector2 Gravityaux = new Vector2(CharacterPos.X, CharacterPos.Y + 4f);
-                spritebatch.Draw(textura, new Vector2((int)CharacterPos.X, (int)CharacterPos.Y), new Rectangle(currentFrame, 0, 50, 70), Color.White, 0f, Vector2.Zero, 1f, flip, 0f);
+                spritebatch.Draw(textura, new Vector2((int)CharacterPos.X, (int)CharacterPos.Y), new Rectangle(currentFrame, 0, 48, 70), Color.White, 0f, Vector2.Zero, 1f, flip, 0f);
                 if (this.isActive())
                     spritebatch.DrawString(font, "0/" + magzzz.getmagAt(GetActiveWeaponCODE()).getMag(), new Vector2(this.CharacterPos.X - 45, this.CharacterPos.Y), Color.Red);
                 spritebatch.DrawString(font, "" + CharacterName, new Vector2((int)CharacterPos.X, (int)CharacterPos.Y - 40), Color.White);
