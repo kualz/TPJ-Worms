@@ -246,13 +246,13 @@ namespace War_Square.WeaponsAndProjectiles
                         if (magzzz.getmagAt(1).getMag() > 0)
                         {
 
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux2, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux3, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux4, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux6, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux7, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux8, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux9, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux2, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux3, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux4, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux6, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux7, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux8, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux9, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
                         }
                         magzzz.decMag(1);
                         fireRateTime = 0;

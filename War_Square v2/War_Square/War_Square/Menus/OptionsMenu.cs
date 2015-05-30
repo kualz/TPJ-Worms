@@ -10,6 +10,7 @@ using War_Square.WeaponsAndProjectiles;
 using War_Square.characters;
 using War_Square.Menus;
 using War_Square.Sounds;
+using Microsoft.Xna.Framework.Media;
 
 namespace War_Square.Menus
 {
@@ -71,13 +72,26 @@ namespace War_Square.Menus
                 if (selectedOption < 0)
                     selectedOption = Options.Count - 1;
             }
+            if (selectedOption == 0 && Input.IsPressed(Keys.Left))
+            {
+                MediaPlayer.Volume -= 0.1f;
+                if (MediaPlayer.Volume <= 0f)
+                    MediaPlayer.Volume = 0;
+            }
+            if (selectedOption == 0 && Input.IsPressed(Keys.Right))
+            {
+                MediaPlayer.Volume += 0.1f;
+                if (MediaPlayer.Volume >= 1f)
+                    MediaPlayer.Volume = 1f;
+            }
+
             if (Input.IsPressed(Keys.Enter))
             {
                 SoundManager.playSound("enterselect");
                 //numero de casos necessarios!
                 switch (selectedOption)
                 {
-                    case 0: 
+                    case 0:
                         break;
                     case 1:
                         game.gameState = Game1.GameState.Menu;
@@ -88,13 +102,19 @@ namespace War_Square.Menus
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(backGround, new Vector2(-350, 0), null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0f);           
+            spriteBatch.Draw(backGround, new Vector2(-350, 0), null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
             for (int i = 0; i < Options.Count; i++)
             {
                 if (selectedOption != i)
                     spriteBatch.DrawString(spriteFont, Options[i], new Vector2(100, 100 + i * 40), Color.DarkGray);
                 else
                 {
+                    if (selectedOption == 0)
+                    {
+                        spriteBatch.Draw(texture, new Rectangle(450, 100, (int)(MediaPlayer.Volume * 150), 25), Color.White);
+                        spriteBatch.DrawString(spriteFont, "-", new Vector2(70, 100), Color.White, 0f, Vector2.Zero, 1.2f, SpriteEffects.None, 0f);
+                        spriteBatch.DrawString(spriteFont, "+", new Vector2(325, 100), Color.White, 0f, Vector2.Zero, 1.2f, SpriteEffects.None, 0f);
+                    }
                     spriteBatch.Draw(selected, new Rectangle(80, 90 + i * 40, 250, 45), null, Color.White * opacity, 0f, Vector2.Zero, SpriteEffects.None, 0f);
                     spriteBatch.DrawString(spriteFont, Options[i], new Vector2(100, 100 + i * 40), Color.White);
                 }
@@ -102,3 +122,4 @@ namespace War_Square.Menus
         }
     }
 }
+
