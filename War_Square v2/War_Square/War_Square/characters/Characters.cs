@@ -26,6 +26,7 @@ namespace War_Square.characters
         public Weapons ActiveWeapon;
         private Rectangle rec;
         private int AuxDead = 0;
+        public static bool weaponUsed = false;
         public enum CharacterState
         {
             GoingRight,
@@ -88,19 +89,19 @@ namespace War_Square.characters
                     /// <summary>
                     /// aqui o input para trocar de arma a funcionar...
                     /// </summary>
-                    if (Keyboard.GetState().IsKeyDown(Keys.D1))
+                    if (Keyboard.GetState().IsKeyDown(Keys.D1) && weaponUsed == false)
                     {
                         weaponCodeChosen = 0;
                         getAndActivateWeapon(weaponCodeChosen);
                         previousWeapon = 0;
                     }
-                    if (Keyboard.GetState().IsKeyDown(Keys.D2))
+                    if (Keyboard.GetState().IsKeyDown(Keys.D2) && weaponUsed == false)
                     {
                         weaponCodeChosen = 1;
                         getAndActivateWeapon(weaponCodeChosen);
                         previousWeapon = 1;
                     }
-                    if (Keyboard.GetState().IsKeyDown(Keys.D3) && HasSpecial)
+                    if (Keyboard.GetState().IsKeyDown(Keys.D3) && HasSpecial && weaponUsed == false)
                     {
                         weaponCodeChosen = 2;
                         getAndActivateWeapon(weaponCodeChosen);
@@ -148,7 +149,7 @@ namespace War_Square.characters
 
                     if (Keyboard.GetState().IsKeyDown(Keys.A))
                     {
-                        nextpos = new Vector2(CharacterPos.X - 3f, CharacterPos.Y);
+                        nextpos = new Vector2(CharacterPos.X - 2f, CharacterPos.Y);
                         flip = SpriteEffects.None;
                         if (CheckCollisionsTile(nextpos).Count == 0)
                             CharacterPos = nextpos;
@@ -156,7 +157,7 @@ namespace War_Square.characters
 
                     if (Keyboard.GetState().IsKeyDown(Keys.D))
                     {
-                        nextpos = new Vector2(CharacterPos.X + 3f, CharacterPos.Y);
+                        nextpos = new Vector2(CharacterPos.X + 2f, CharacterPos.Y);
                         flip = SpriteEffects.FlipHorizontally;
                         if (CheckCollisionsTile(nextpos).Count == 0)
                             CharacterPos = nextpos;
@@ -200,7 +201,7 @@ namespace War_Square.characters
             {
                 Hp = -1;
             }
-            if (this.Hp < 0){
+            if (this.Hp <= 0){
                 this.isAlive = false;
                 Collisions.characterCollisions.Remove(this);
             }
