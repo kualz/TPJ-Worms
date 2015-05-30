@@ -83,6 +83,86 @@
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FX71.mp3">
+      <Name>FX71</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>MGSoundEffectProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FX110.mp3">
+      <Name>FX110</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>MGSoundEffectProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FX002.mp3">
+      <Name>FX002</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>MGSoundEffectProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FX003.mp3">
+      <Name>FX003</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>MGSoundEffectProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FX025.mp3">
+      <Name>FX025</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>MGSoundEffectProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FX033.mp3">
+      <Name>FX033</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>MGSoundEffectProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FX088.mp3">
+      <Name>FX088</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>MGSoundEffectProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FX028.mp3">
+      <Name>FX028</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>MGSoundEffectProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FX001.mp3">
+      <Name>FX001</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>MGSoundEffectProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FX052.mp3">
+      <Name>FX052</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>MGSoundEffectProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--
       To modify your build process, add your task inside one of the targets below and uncomment it. 

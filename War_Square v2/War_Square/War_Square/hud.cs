@@ -14,7 +14,7 @@ namespace War_Square
     {
         private SpriteFont font;
         private List<string> assets = new List<string>();
-        static public float roundTime = 7;
+        static public float roundTime = 15;
         private Color color;
         private Texture2D HpBar;
 
@@ -61,7 +61,7 @@ namespace War_Square
         }
 
         public void ResetlRoundTime(){
-            roundTime = 7;
+            roundTime = 15;
         }
 
         private Color setHpColor(Characters Char)

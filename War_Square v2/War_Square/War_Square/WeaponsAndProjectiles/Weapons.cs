@@ -108,7 +108,7 @@ namespace War_Square.WeaponsAndProjectiles
                     currentFrame = 0;
                 timer = 0;
             }
-
+            if (Input.IsPressed(Keys.Space) && !Characters.weaponUsed) Characters.weaponUsed = true;
             if (Input.IsPressed(Keys.Space) && WeaponTypes == WeaponType.NoblePhantom) NoblePhantomAux = true;
             if (Input.IsPressed(Keys.Space) && WeaponTypes == WeaponType.Bombardement) BombardementAux = true;
 
@@ -117,7 +117,7 @@ namespace War_Square.WeaponsAndProjectiles
                 Vector2 aux1 = new Vector2(PositionRelativeToCharacter.X, PositionRelativeToCharacter.Y - 10);
                 Vector2 aux2 = new Vector2(PositionRelativeToCharacter.X, PositionRelativeToCharacter.Y - 0);
                 Vector2 aux3 = new Vector2(PositionRelativeToCharacter.X, PositionRelativeToCharacter.Y + 10);
-
+                SoundManager.playSound("FX003");
                 if (magzzz.getmagAt(3).getMag() > 0)
                 {
                     Collisions.bulletsOnScreen.Add(new Bullet(aux1 + auxVector, (rotation + (getRandom())), Bullet.AmmoType.cal32, 2000, 50, explosion, 7));
@@ -132,6 +132,7 @@ namespace War_Square.WeaponsAndProjectiles
 
             if (deltatimeNoble >= 0.6f && WeaponTypes == WeaponType.Bombardement && BombardementAux == true)
             {
+                SoundManager.playSound("FX025");
                 if (flip == SpriteEffects.FlipHorizontally)
                 {
                     Vector2 aux1 = new Vector2(PositionRelativeToCharacter.X + 100, -135);
@@ -175,18 +176,23 @@ namespace War_Square.WeaponsAndProjectiles
 
             if (Input.IsDown(Keys.Space))
             {
-                SoundManager.playSound("peidoteste");
                 if (fireRateTime >= Bullet.getFireRate(Bullet.AmmoType.cal32) && WeaponTypes == WeaponType.MachineGun)
                 {
                     if (magzzz.getmagAt(0).getMag() > 0)
+                    {
+                        SoundManager.playSound("FX71");
                         Collisions.bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.cal32, 300, 800, explosion, 7));
+                    }
                     magzzz.decMag(0);
                     fireRateTime = 0;
                 }
                 if (fireRateTime >= Bullet.getFireRate(Bullet.AmmoType.rocket) && WeaponTypes == WeaponType.Rocket)
                 {
                     if (magzzz.getmagAt(1).getMag() > 0)
+                    {
+                        SoundManager.playSound("FX110");
                         Collisions.bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.rocket, 2000, 500, explosion, 30));
+                    }
                     magzzz.decMag(1);
                     fireRateTime = 0;
                 }
@@ -194,12 +200,19 @@ namespace War_Square.WeaponsAndProjectiles
                 if (fireRateTime >= Bullet.getFireRate(Bullet.AmmoType.hadouken) && WeaponTypes == WeaponType.Hadouken)
                 {
                     if (magzzz.getmagAt(2).getMag() > 0)
-                        Collisions.bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector, (rotation + (getRandom())), Bullet.AmmoType.hadouken, 2000, 50, explosion, 35));
+                    {
+                        SoundManager.playSound("FX002");
+                        Vector2 lelvector = new Vector2(10, 0);
+                        if (flip == SpriteEffects.FlipHorizontally)
+                            Collisions.bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector + lelvector, (rotation + (getRandom())), Bullet.AmmoType.hadouken, 2000, 50, explosion, 40));
+                        else Collisions.bulletsOnScreen.Add(new Bullet(this.PositionRelativeToCharacter + auxVector - lelvector, (rotation + (getRandom())), Bullet.AmmoType.hadouken, 2000, 50, explosion, 40));
+                    }
                     magzzz.decMag(2);
                     fireRateTime = 0;
                 }
                 if (fireRateTime >= Bullet.getFireRate(Bullet.AmmoType.rocket) && WeaponTypes == WeaponType.AirStrike)
                 {
+                    SoundManager.playSound("FX088");
                     if (flip == SpriteEffects.FlipHorizontally)
                     {
                         Vector2 aux1 = new Vector2(PositionRelativeToCharacter.X + 100, -150);
@@ -231,6 +244,7 @@ namespace War_Square.WeaponsAndProjectiles
                 }
                 if (fireRateTime >= Bullet.getFireRate(Bullet.AmmoType.rocket) && WeaponTypes == WeaponType.HailOfArrows)
                 {
+                    SoundManager.playSound("FX033");
                     if (flip == SpriteEffects.FlipHorizontally)
                     {
 
@@ -245,7 +259,7 @@ namespace War_Square.WeaponsAndProjectiles
 
                         if (magzzz.getmagAt(1).getMag() > 0)
                         {
-
+                            
                             Collisions.bulletsOnScreen.Add(new Bullet(aux2, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
                             Collisions.bulletsOnScreen.Add(new Bullet(aux3, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
                             Collisions.bulletsOnScreen.Add(new Bullet(aux4, (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
@@ -271,15 +285,14 @@ namespace War_Square.WeaponsAndProjectiles
 
                         if (magzzz.getmagAt(1).getMag() > 0)
                         {
-
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux2, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux3, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux4, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
-
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux6, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux7, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux8, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
-                            Collisions.bulletsOnScreen.Add(new Bullet(aux9, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 30));
+                            
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux2, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux3, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux4, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux6, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux7, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux8, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
+                            Collisions.bulletsOnScreen.Add(new Bullet(aux9, 3 * (float)Math.PI / 4, Bullet.AmmoType.cal32, 2000, 100, explosion, 10));
 
 
                         }

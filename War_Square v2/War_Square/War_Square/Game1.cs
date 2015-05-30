@@ -149,14 +149,20 @@ namespace War_Square
                     if (Keyboard.GetState().IsKeyDown(Keys.Escape) && gameState == GameState.running)
                         gameState = GameState.Paused;
 
-                    if (Input.IsPressed(Keys.K) && Collisions.bulletsOnScreen.Count == 0){
+                    if (Input.IsPressed(Keys.K) && Collisions.bulletsOnScreen.Count == 0 && !CharactersHandler.isWinner())
+                    {
                         gameState = GameState.CharacterChangeScene;
+                        Characters.weaponUsed = false;
+                        SoundManager.playSound("FX001");
                     }
 
                     if (hud.roundTime <= 0 && Collisions.bulletsOnScreen.Count == 0)
                     {
                         gameState = GameState.CharacterChangeScene;
-                        if (CharactersHandler.isWinner()){                          
+                        Characters.weaponUsed = false;
+                        SoundManager.playSound("FX001");
+                        if (CharactersHandler.isWinner()){
+                            SoundManager.playSound("FX052");
                             gameState = GameState.Win;
                             MenusHandler.winMenu.loadInGame(Camera);
                         }

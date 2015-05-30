@@ -30,9 +30,20 @@ namespace War_Square.Sounds
 
             addNewMusic(content, "Equalizer", "ingameMusic");
             addNewMusic(content, "Spine", "menuMusic");
-            addNewSound(content, "Fart1", "peidoteste", 1f);
             addNewSound(content, "StartSelectzippy", "enterselect", 1f);
             addNewSound(content, "menuswitch", "menuswitch", 1f);
+            addNewSound(content, "FX71", "FX71", 1f);
+            addNewSound(content, "FX110", "FX110", 1f);
+            addNewSound(content, "FX002", "FX002", 1f);
+            addNewSound(content, "FX003", "FX003", 1f);
+            addNewSound(content, "FX025", "FX025", 1f);
+            addNewSound(content, "FX033", "FX033", 1f);
+            addNewSound(content, "FX088", "FX088", 1f);
+            addNewSound(content, "FX028", "FX028", 1f);
+            addNewSound(content, "FX001", "FX001", 1f);
+            addNewSound(content, "FX052", "FX052", 1f);
+
+
             //addNewMusic(content, "musicAssetTest1", "musicNametest1");
             //addNewSound(content, "SoundAssetTest1", "soundNameTest1", 1f);
 

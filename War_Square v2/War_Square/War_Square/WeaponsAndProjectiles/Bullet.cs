@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using War_Square.characters;
+using War_Square.Sounds;
 
 namespace War_Square.WeaponsAndProjectiles
 {
     class Bullet
     {
-        public float range, gravity = 9.8f, rotation, speed, timerExplosion, intervalo = 0.05f, intervaloRifle = 0.1f, explosionScale = 0.05f;
+        public float range, gravity = 9.8f, rotation, speed, timerExplosion, intervalo = 0.3f, intervaloRifle = 0.3f, explosionScale = 0.05f;
         public Vector2 sourcePosition, initialpos;
         private Vector2 direction, velocity;
         private Rectangle bulletRec;
@@ -53,6 +54,7 @@ namespace War_Square.WeaponsAndProjectiles
 
             if (timerExplosion > intervaloRifle && RifleExplosion)
             {
+                if (currentFrame1 == 0) SoundManager.playSound("FX028");
                 currentFrame1++;
                 if (currentFrame1 == 4)
                 {
@@ -70,6 +72,7 @@ namespace War_Square.WeaponsAndProjectiles
 
             if (timerExplosion > intervalo && RocketExplosion)
             {
+                if (currentFrame1 == 0) SoundManager.playSound("FX028");
                 currentFrame1++;
                 if (currentFrame1 == 4)
                 {
