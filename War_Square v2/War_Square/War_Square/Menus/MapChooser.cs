@@ -16,7 +16,7 @@ namespace War_Square.Menus
         private Texture2D backGround;
         private SpriteFont font;
         private int chosen = 0;
-        private int MAP_COUNT = 3;
+        private int MAP_COUNT = 2;
         private List<String> option;
 
         public MapChoose() { }
@@ -27,23 +27,21 @@ namespace War_Square.Menus
             texture = new Texture2D[MAP_COUNT];
             texture[0] = content.Load<Texture2D>("map1");
             texture[1] = content.Load<Texture2D>("map1");
-            texture[2] = content.Load<Texture2D>("map1");
             backGround = content.Load<Texture2D>("backgroundtest1");
             font = content.Load<SpriteFont>("MyFont");
-            option.Add("Map1");
-            option.Add("Map2");
-            option.Add("Map3");
+            option.Add("THE VOID");
+            option.Add("ASTRAL BRIDGE");
         }
 
         public void update(GameTime gametime, Game1 game)
         {
-            if (Input.IsPressed(Keys.Down))
+            if (Input.IsPressed(Keys.Right))
             {
                 SoundManager.playSound("menuswitch");
                 chosen++;
                 if (chosen >= option.Count) chosen = chosen - option.Count;
             }
-            if (Input.IsPressed(Keys.Up))
+            if (Input.IsPressed(Keys.Left))
             {
                 SoundManager.playSound("menuswitch");
                 chosen--;
@@ -76,18 +74,18 @@ namespace War_Square.Menus
         {
             spriteBatch.Draw(backGround, new Vector2(-350, 0), Color.White);
 
-            for (int i = 0; i < option.Count; i++){
-                spriteBatch.DrawString(font, option[i], new Vector2(90, 250 + (i * 150)), Color.White);
-            }
-
             for (int o = 0; o < MAP_COUNT; o++)
             {
                 if (o != chosen){
-                    spriteBatch.Draw(texture[o], new Vector2(90, 150 + (o * 150)), null, Color.White, 0f, Vector2.Zero, 0.1f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(texture[o], new Vector2(5 + (o * 400), 300), null, Color.White * 0.6f, 0f, Vector2.Zero, 0.3f, SpriteEffects.None, 0f);
                 }
-                else{
-                    spriteBatch.Draw(texture[o], new Vector2(90, 150 + (o * 150)), null, Color.White, 0f, Vector2.Zero, 0.12f, SpriteEffects.None, 0f);
+                else { 
+                    spriteBatch.Draw(texture[o], new Vector2(5 + (o * 400), 300), null, Color.White, 0f, Vector2.Zero, 0.3f, SpriteEffects.None, 0f);
                 }
+            }
+
+            for (int i = 0; i < option.Count; i++){
+                spriteBatch.DrawString(font, option[i], new Vector2(10 + (i * 400), 400), Color.White * 0.8f, 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0f);
             }
         }
     }
