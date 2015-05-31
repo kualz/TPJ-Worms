@@ -79,11 +79,9 @@ namespace War_Square.Menus
                         //caso isso aconteca aqui basicamente ao correr o draw do menu inicial da erro
                         //o reset dos players escolhidos acontece quando das input do enter
                         //para passar do menu principal para o menu de escolheres as personagens
-                    case 0:
-                        {
+                    case 0:{
                             game.gameState = Game1.GameState.CharacterChoose;
-                            CharactersHandler.resetPlayersList(Game1.firstEntry);
-                        
+                            CharactersHandler.resetPlayersList(Game1.firstEntry);                        
                         }
                         break;
                     case 1:

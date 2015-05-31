@@ -55,6 +55,8 @@ namespace War_Square
                             break;
                         case 56: map[x, y] = 8;
                             break;
+                        case 57: map[x, y] = 9;
+                            break;
                         default:
                             break;
                     }
@@ -133,7 +135,10 @@ namespace War_Square
 
         public void DestroySquare(Vector2 pos)
         {
-            mapa1[(int)Math.Round(pos.Y / 20), (int)Math.Round(pos.X / 20)] = 0;
+            if(Game1.SelectedMap == 1)
+                mapa1[(int)Math.Round(pos.Y / 20), (int)Math.Round(pos.X / 20)] = 0;
+            if (Game1.SelectedMap == 2)
+                mapa2[(int)Math.Round(pos.Y / 20), (int)Math.Round(pos.X / 20)] = 0;
             UpdateMapRect();
         }
     }

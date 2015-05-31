@@ -56,12 +56,14 @@ namespace War_Square.Menus
                         {
                             Game1.SelectedMap = 0;
                             game.gameState = Game1.GameState.running;
+                            game.getMap().InitRectMap();
                         }
                         break;
                     case 1:
                         {
                             Game1.SelectedMap = 1;
                             game.gameState = Game1.GameState.running;
+                            game.getMap().InitRectMap();
                         }
                         break;
                     case 2:

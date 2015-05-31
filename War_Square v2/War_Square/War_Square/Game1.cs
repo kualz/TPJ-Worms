@@ -19,8 +19,6 @@ namespace War_Square
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         private SpriteFont spriteFont;
-        //private Characters Player1, Player2;
-        private Crosshair MIRA;
         static public int SelectedMap, charactersInPlay = 0;
         private Map TesteMapa;
         private Camera2D Camera;
@@ -82,8 +80,6 @@ namespace War_Square
             MenusHandler.load(Content, this, Camera);
             TesteMapa = new Map();
             TesteMapa.Load(Content);
-            MIRA = new Crosshair();
-            MIRA.Load(Content);
             GhostCharacter = CharactersHandler.getCharacter(5);
             //////mudar esta posicao para a posicao do menu!\\\\\\\\\\\\\\\\\
             GhostCharacter.SetCharacterPosition(new Vector2(cameraX, 350));
@@ -166,6 +162,7 @@ namespace War_Square
                             SoundManager.playSound("FX052");
                             gameState = GameState.Win;
                             MenusHandler.winMenu.loadInGame(Camera);
+                            auxMapa = false;
                         }
                     }
                     if (CharactersHandler.isWinner())
