@@ -37,11 +37,9 @@ namespace War_Square
                     int converted = Convert.ToInt32(fileData[x][y]);
                     switch (converted)
                     {
-                        case 48:
-                            map[x,y] = 0;
+                        case 48: map[x,y] = 0;
                             break;
-                        case 49:
-                            map[x,y] = 1;
+                        case 49: map[x,y] = 1;
                             break;
                         case 50: map[x, y] = 2;
                             break;
@@ -62,7 +60,6 @@ namespace War_Square
                     }
                 }
 			}
-            Console.Write("");
             return map;
         }
 
