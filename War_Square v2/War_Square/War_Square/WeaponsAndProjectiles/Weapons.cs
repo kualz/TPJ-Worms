@@ -86,7 +86,7 @@ namespace War_Square.WeaponsAndProjectiles
             names.Add("teste_Projetil1");
             names.Add("teste_Projetil2");
             texturax = content.Load<Texture2D>(names[0]);
-            texturasRocket = content.Load<Texture2D>(names[1]);
+            texturasRocket = content.Load<Texture2D>("airdrop");
             textura = content.Load<Texture2D>(asset);
             font = content.Load<SpriteFont>("MyFont");
         }

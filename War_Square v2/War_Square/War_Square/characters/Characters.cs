@@ -52,7 +52,25 @@ namespace War_Square.characters
 
         public void Load(ContentManager content)
         {
-            textura = content.Load<Texture2D>("WalkingLight");
+            switch (this.CharacterName)
+            {
+                case "Kualz": 
+                    textura = content.Load<Texture2D>("WalkingSoldier");
+                    break;
+                case "Phaktumn":
+                    textura = content.Load<Texture2D>("WalkingLight");
+                    break;
+                case "Klipper":
+                    textura = content.Load<Texture2D>("KaminaWalking");
+                    break;
+                case "Saber":
+                    textura = content.Load<Texture2D>("WalkingSaber");
+                    break;
+                default:
+                    textura = content.Load<Texture2D>("WalkingSoldier");
+                    break;             
+            }
+           
             font = content.Load<SpriteFont>("MyFont");
             Hitbox = content.Load<Texture2D>("DeadCross");          
             Arsenal[0].Load(content, "arm weapon");
