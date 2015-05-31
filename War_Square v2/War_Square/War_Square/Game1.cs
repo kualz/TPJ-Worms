@@ -135,10 +135,6 @@ namespace War_Square
                         playonce = true;
                         playonce2 = false;
                     }
-                    if (auxMapa == false){
-                        TesteMapa.InitRectMap();
-                        auxMapa = true;
-                    }
                     Interface.update(gameTime);
                     Camera.Scale = 0.7f;
                     TesteMapa.update(gameTime);

@@ -135,7 +135,7 @@ namespace War_Square
 
         public void DestroySquare(Vector2 pos)
         {
-            if(Game1.SelectedMap == 1)
+            if (Game1.SelectedMap == 1)
                 mapa1[(int)Math.Round(pos.Y / 20), (int)Math.Round(pos.X / 20)] = 0;
             if (Game1.SelectedMap == 2)
                 mapa2[(int)Math.Round(pos.Y / 20), (int)Math.Round(pos.X / 20)] = 0;
