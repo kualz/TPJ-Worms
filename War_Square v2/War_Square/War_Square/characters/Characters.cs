@@ -13,7 +13,7 @@ namespace War_Square.characters
 {
     class Characters : IFocusable
     {
-        private Texture2D textura, Hitbox;
+        private Texture2D textura, Hitbox, weaponTexture;
         protected bool SpecialWeapon, CharacterInPlay, hasjumped, isAlive = true, HasSpecial = true;
         protected string CharacterName;
         public Vector2 CharacterPos, pos, velocity, nextpos, DeadPos;
@@ -54,20 +54,35 @@ namespace War_Square.characters
         {
             switch (this.CharacterName)
             {
-                case "Kualz": 
-                    textura = content.Load<Texture2D>("WalkingSoldier");
+                case "Kualz":
+                    {
+                        textura = content.Load<Texture2D>("characterKualz");
+                        weaponTexture = content.Load<Texture2D>("gunnnnnn");
+                    }
                     break;
                 case "Phaktumn":
-                    textura = content.Load<Texture2D>("WalkingLight");
+                    {
+                        textura = content.Load<Texture2D>("characterPhak");
+                        weaponTexture = content.Load<Texture2D>("gunnnn");
+                    }
                     break;
                 case "Klipper":
-                    textura = content.Load<Texture2D>("KaminaWalking");
+                    {
+                        textura = content.Load<Texture2D>("characterKlip");
+                        weaponTexture = content.Load<Texture2D>("gunnnnnnnnnnn");
+                    }
                     break;
                 case "Saber":
-                    textura = content.Load<Texture2D>("WalkingSaber");
+                    {
+                        textura = content.Load<Texture2D>("characterSab");
+                        weaponTexture = content.Load<Texture2D>("gunnn");
+                    }
                     break;
                 default:
-                    textura = content.Load<Texture2D>("WalkingSoldier");
+                    {
+                        textura = content.Load<Texture2D>("character");
+                        weaponTexture = content.Load<Texture2D>("gunn");
+                    }
                     break;             
             }
            
@@ -96,8 +111,8 @@ namespace War_Square.characters
 
                     if (timer >= intervalo)
                     {
-                        currentFrame = currentFrame + 47;
-                        if (currentFrame >= 800)
+                        currentFrame = currentFrame + 58;
+                        if (currentFrame >= 290)
                         {
                             currentFrame = 0;
                         }
@@ -258,7 +273,7 @@ namespace War_Square.characters
                 /// tipo aqui so tens a weapon selecionada a fazer draw...nao sei se queres optimizar isto!!!
                 /// </summary>
                 if (this.isActive())
-                    Arsenal[weaponCodeChosen].Draw(spritebatch, this, flip);
+                    Arsenal[weaponCodeChosen].Draw(spritebatch, this, flip, weaponTexture);
             }
             else spritebatch.Draw(Hitbox, DeadPos,null, Color.White,0, Vector2.Zero,0.05f,SpriteEffects.None,0);
         }

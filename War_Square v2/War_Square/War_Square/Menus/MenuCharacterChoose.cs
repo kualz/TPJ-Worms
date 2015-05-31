@@ -16,7 +16,7 @@ namespace War_Square.Menus
         private List<String> options = new List<string>();
         private List<Vector2> MapPositions = new List<Vector2>();
         private SpriteFont font;
-        private Texture2D textura,squareSelected, backGround, caixaDeTexto, outerGlow;
+        private Texture2D textura, squareSelected, backGround, caixaDeTexto, outerGlow, textura2, textura3, textura4, textura5;
         private float timer = 0, deltaTime, opacity;
         private int playerCount = 2;
         static private int characterChoosen = 0, chooseOption = 0;
@@ -60,7 +60,11 @@ namespace War_Square.Menus
             //imagens dos characters!
             caixaDeTexto = content.Load<Texture2D>("caixadeTexto");
             squareSelected = content.Load<Texture2D>("CharacterSelected");
-            textura = content.Load<Texture2D>("character");
+            textura = content.Load<Texture2D>("character"); //zjeh
+            textura2 = content.Load<Texture2D>("character2"); // kualz
+            textura3 = content.Load<Texture2D>("character3"); // phaktumn
+            textura4 = content.Load<Texture2D>("character4"); // klipper
+            textura5 = content.Load<Texture2D>("character11"); // saber
             backGround = content.Load<Texture2D>("MenuTest");
             outerGlow = content.Load<Texture2D>("CharacterSelectedOuterGlow");
         }

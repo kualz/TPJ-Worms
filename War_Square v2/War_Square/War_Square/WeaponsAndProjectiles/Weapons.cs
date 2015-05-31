@@ -346,10 +346,10 @@ namespace War_Square.WeaponsAndProjectiles
 
         }
 
-        public void Draw(SpriteBatch spriteBatch, Characters ActiveChar, SpriteEffects flip)
+        public void Draw(SpriteBatch spriteBatch, Characters ActiveChar, SpriteEffects flip, Texture2D textura)
         {
             auxVector = new Vector2(helperXCharPos, helperYCharPos);
-            spriteBatch.Draw(this.textura, new Vector2(ActiveChar.CharacterPosition().X + helperXCharPos + 10, ActiveChar.CharacterPosition().Y + 45), null, Color.White, this.rotation + (float)Math.PI / 2, new Vector2((float)45 + helperX, (float)40), 1f, flip, 0f);
+            spriteBatch.Draw(textura, new Vector2(ActiveChar.CharacterPosition().X + helperXCharPos + 10, ActiveChar.CharacterPosition().Y + 45), null, Color.White, this.rotation + (float)Math.PI / 2, new Vector2((float)45 + helperX, (float)40), 1f, flip, 0f);
 
             auxflip = flip;
 
@@ -385,13 +385,13 @@ namespace War_Square.WeaponsAndProjectiles
                 {
                     if ((fireRateTime < Bullet.getFireRate(Bullet.AmmoType.cal32)) && WeaponTypes == WeaponType.MachineGun)
                         spriteBatch.Draw(flashFiring[currentFrame], new Vector2(this.PositionRelativeToCharacter.X + 5 + helperXpos, this.PositionRelativeToCharacter.Y + 45), null, Color.White, rotation, new Vector2((float)0, (float)260), .15f, SpriteEffects.None, 0f);
-                    spriteBatch.Draw(texturax, new Vector2(bullet.sourcePosition.X, bullet.sourcePosition.Y + 10), null, Color.White, rotation, new Vector2((float)5, (float)2.5), 1f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(texturasRocket, new Vector2(bullet.sourcePosition.X, bullet.sourcePosition.Y + 10), null, Color.White, rotation, new Vector2((float)5, (float)2.5), 0.2f, SpriteEffects.None, 0f);
                 }
                 if (bullet.ammoType == Bullet.AmmoType.rocket)
-                    spriteBatch.Draw(texturasRocket, new Vector2(bullet.sourcePosition.X, bullet.sourcePosition.Y + 7), null, Color.White, rotation, new Vector2((float)5, (float)3.5), 1f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(texturasRocket, new Vector2(bullet.sourcePosition.X, bullet.sourcePosition.Y + 7), null, Color.White, rotation, new Vector2((float)5, (float)3.5), 0.8f, SpriteEffects.None, 0f);
 
                 if (bullet.ammoType == Bullet.AmmoType.hadouken)
-                    spriteBatch.Draw(texturax, new Vector2(bullet.sourcePosition.X, bullet.sourcePosition.Y + 10), null, Color.White, rotation, new Vector2((float)5, (float)2.5), 1f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(texturasRocket, new Vector2(bullet.sourcePosition.X, bullet.sourcePosition.Y + 10), null, Color.White, rotation, new Vector2((float)5, (float)2.5), 0.8f, SpriteEffects.None, 0f);
 
                
                 bullet.draw(spriteBatch);
