@@ -74,7 +74,7 @@ namespace War_Square
             Wall[3] = content.Load<Texture2D>("direita");
             Wall[4] = content.Load<Texture2D>("baixoDireitaa");
             Wall[5] = content.Load<Texture2D>("baixo");
-            Wall[6] = content.Load<Texture2D>("baixoEsquerda");
+            Wall[6] = content.Load<Texture2D>("baixoDireita");
             Wall[7] = content.Load<Texture2D>("esquerda");
             Wall[8] = content.Load<Texture2D>("cimaesquerda");
             MapList.Add("maps/map1.dat");
