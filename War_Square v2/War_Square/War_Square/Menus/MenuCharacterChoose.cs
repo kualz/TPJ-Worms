@@ -62,10 +62,10 @@ namespace War_Square.Menus
             caixaDeTexto = content.Load<Texture2D>("caixadeTexto");
             squareSelected = content.Load<Texture2D>("CharacterSelected");
             charTex = new Texture2D[5];
-            charTex[0] = content.Load<Texture2D>("character"); //zjeh
-            charTex[1] = content.Load<Texture2D>("character2"); // kualz
-            charTex[2] = content.Load<Texture2D>("character3"); // phaktumn
-            charTex[3] = content.Load<Texture2D>("character4"); // klipper
+            charTex[3] = content.Load<Texture2D>("character"); //zjeh
+            charTex[0] = content.Load<Texture2D>("character2"); // kualz
+            charTex[1] = content.Load<Texture2D>("character3"); // phaktumn
+            charTex[2] = content.Load<Texture2D>("character4"); // klipper
             charTex[4] = content.Load<Texture2D>("character11"); // saber
             backGround = content.Load<Texture2D>("MenuTest");
             outerGlow = content.Load<Texture2D>("CharacterSelectedOuterGlow");
