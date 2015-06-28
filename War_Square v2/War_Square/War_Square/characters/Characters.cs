@@ -16,7 +16,7 @@ namespace War_Square.characters
         private Texture2D textura, Hitbox, weaponTexture;
         protected bool SpecialWeapon, CharacterInPlay, hasjumped, isAlive = true, HasSpecial = true;
         protected string CharacterName;
-        public Vector2 CharacterPos, pos, velocity, nextpos, DeadPos;
+        public Vector2 CharacterPos, pos, velocity, nextpos, DeadPos, deadNextpos;
         private float intervalo = 0.08f, timer;
         public CharacterState WormState;
         public SpriteEffects flip = SpriteEffects.FlipHorizontally;

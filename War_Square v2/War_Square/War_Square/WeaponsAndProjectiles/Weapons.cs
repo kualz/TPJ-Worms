@@ -108,6 +108,10 @@ namespace War_Square.WeaponsAndProjectiles
                     currentFrame = 0;
                 timer = 0;
             }
+
+           
+
+
             if (Input.IsPressed(Keys.Space) && !Characters.weaponUsed) Characters.weaponUsed = true;
             if (Input.IsPressed(Keys.Space) && WeaponTypes == WeaponType.NoblePhantom) NoblePhantomAux = true;
             if (Input.IsPressed(Keys.Space) && WeaponTypes == WeaponType.Bombardement) BombardementAux = true;
@@ -335,6 +339,8 @@ namespace War_Square.WeaponsAndProjectiles
             if (justflippedright) rot = 0;
             if (justflippedleft) rot = (float)Math.PI;
 
+            if (auxflip == SpriteEffects.None && (rot < (float)Math.PI / 2 || rot > 3 * (float)Math.PI / 2)) rot = (float)Math.PI;
+
             if (rot >= 2 * (float)Math.PI) rot = 0;
 
             if (WeaponTypes == WeaponType.Bombardement || WeaponTypes == WeaponType.HailOfArrows || WeaponTypes == WeaponType.AirStrike) mira = true;
@@ -349,9 +355,6 @@ namespace War_Square.WeaponsAndProjectiles
         public void Draw(SpriteBatch spriteBatch, Characters ActiveChar, SpriteEffects flip, Texture2D textura)
         {
             auxVector = new Vector2(helperXCharPos, helperYCharPos);
-            spriteBatch.Draw(textura, new Vector2(ActiveChar.CharacterPosition().X + helperXCharPos + 10, ActiveChar.CharacterPosition().Y + 45), null, Color.White, this.rotation + (float)Math.PI / 2, new Vector2((float)45 + helperX, (float)40), 1f, flip, 0f);
-
-            auxflip = flip;
 
             if (flip == SpriteEffects.FlipHorizontally)
             {
@@ -379,6 +382,9 @@ namespace War_Square.WeaponsAndProjectiles
                 justflippedleft = true;
                 justflippedright = false;
             }
+            spriteBatch.Draw(textura, new Vector2(ActiveChar.CharacterPosition().X + helperXCharPos + 10, ActiveChar.CharacterPosition().Y + 45), null, Color.White, this.rotation + (float)Math.PI / 2, new Vector2((float)45 + helperX, (float)40), 1f, flip, 0f);
+
+            auxflip = flip;
             foreach (Bullet bullet in Collisions.bulletsOnScreen)
             {
                 if (bullet.ammoType == Bullet.AmmoType.cal32)

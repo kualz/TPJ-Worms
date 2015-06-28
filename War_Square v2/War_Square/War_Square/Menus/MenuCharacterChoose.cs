@@ -223,12 +223,12 @@ namespace War_Square.Menus
                 if (i != chooseOption)
                 {
                     spriteBatch.Draw(squareSelected, new Rectangle(90 + i * 100 - 75, 55, 85, 75), Color.White);
-                    spriteBatch.Draw(charTex[i], new Vector2(90 + i * 100 - 75, 55), new Rectangle(0, 0, 50, 70), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(charTex[i], new Vector2(90 + i * 100 - 75 + 10, 55), new Rectangle(0, 0, 50, 70), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                 }
                 else{
                     spriteBatch.Draw(squareSelected, new Rectangle(90 + i * 100 - 75, 55, 85, 75), Color.White);
                     spriteBatch.Draw(outerGlow, new Rectangle(90 + i * 100 - 75, 55, 85, 75), Color.White * opacity);
-                    spriteBatch.Draw(charTex[i], new Vector2(90 + i * 100 - 75, 49), new Rectangle(0, 0, 50, 70), Color.White*2, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(charTex[i], new Vector2(90 + i * 100 - 75 + 10, 49), new Rectangle(0, 0, 50, 70), Color.White * 2, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                 }
             }
         }
